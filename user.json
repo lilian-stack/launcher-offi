@@ -8,6 +8,15 @@
       "avatar": "",
       "isVip": true,
       "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "1761262978648",
+      "username": "lilianlesieur544",
+      "email": "lilianlesieur544@gmail.com",
+      "password": "Adsl82600@",
+      "avatar": "",
+      "isVip": false,
+      "createdAt": "2025-10-23T23:42:58.648Z"
     }
   ]
 }
