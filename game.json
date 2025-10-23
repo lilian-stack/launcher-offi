@@ -2,125 +2,13 @@
   "games": [
     {
       "id": "1",
-      "title": "Cyberpunk 2077",
-      "description": "Cyberpunk 2077 est un jeu de rôle d'action-aventure en monde ouvert qui se déroule dans la métropole futuriste de Night City.",
-      "coverImage": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2rpf.jpg",
-      "trailerVideo": "https://www.youtube.com/watch?v=8X2kIfS6fb8",
-      "screenshots": [
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc1.jpg",
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc2.jpg",
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc3.jpg"
-      ],
-      "genre": ["RPG", "Action", "Sci-Fi"],
-      "rating": 4.2,
-      "releaseDate": "2020-12-10",
-      "developer": "CD Projekt RED",
-      "publisher": "CD Projekt",
-      "systemRequirements": {
-        "minimum": {
-          "os": "Windows 10 64-bit",
-          "processor": "Intel Core i5-3570K / AMD FX-8310",
-          "memory": "8 GB RAM",
-          "graphics": "NVIDIA GeForce GTX 780 / AMD Radeon RX 470",
-          "storage": "70 GB"
-        },
-        "recommended": {
-          "os": "Windows 10 64-bit",
-          "processor": "Intel Core i7-4790 / AMD Ryzen 3 3200G",
-          "memory": "12 GB RAM",
-          "graphics": "NVIDIA GeForce GTX 1060 / AMD Radeon R9 Fury",
-          "storage": "70 GB SSD"
-        }
-      },
-      "downloadUrl": "https://example.com/cyberpunk2077.zip",
-      "fileSize": "70 GB",
-      "isVipOnly": false,
-      "isInstalled": false,
-      "isFavorite": false
-    },
-    {
-      "id": "2",
-      "title": "The Witcher 3: Wild Hunt",
-      "description": "The Witcher 3: Wild Hunt est un jeu de rôle d'action-aventure développé par CD Projekt RED.",
-      "coverImage": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.jpg",
-      "trailerVideo": "https://www.youtube.com/watch?v=c0i88t0Kacs",
-      "screenshots": [
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc4.jpg",
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc5.jpg"
-      ],
-      "genre": ["RPG", "Fantasy", "Open World"],
-      "rating": 4.8,
-      "releaseDate": "2015-05-19",
-      "developer": "CD Projekt RED",
-      "publisher": "CD Projekt",
-      "systemRequirements": {
-        "minimum": {
-          "os": "Windows 7 64-bit",
-          "processor": "Intel CPU Core i5-2500K 3.3GHz / AMD CPU Phenom II X4 940",
-          "memory": "6 GB RAM",
-          "graphics": "NVIDIA GPU GeForce GTX 660 / AMD GPU Radeon HD 7870",
-          "storage": "35 GB"
-        },
-        "recommended": {
-          "os": "Windows 10 64-bit",
-          "processor": "Intel CPU Core i7 3770 3.4 GHz / AMD CPU AMD FX-8350 4 GHz",
-          "memory": "8 GB RAM",
-          "graphics": "NVIDIA GPU GeForce GTX 770 / AMD GPU Radeon R9 290",
-          "storage": "35 GB SSD"
-        }
-      },
-      "downloadUrl": "https://example.com/witcher3.zip",
-      "fileSize": "35 GB",
-      "isVipOnly": false,
-      "isInstalled": true,
-      "isFavorite": true
-    },
-    {
-      "id": "3",
-      "title": "Elden Ring",
-      "description": "Elden Ring est un jeu d'action-RPG développé par FromSoftware et édité par Bandai Namco Entertainment.",
-      "coverImage": "https://images.igdb.com/igdb/image/upload/t_cover_big/co4a7y.jpg",
-      "trailerVideo": "https://www.youtube.com/watch?v=E3Huy2cdih0",
-      "screenshots": [
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc6.jpg",
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc7.jpg"
-      ],
-      "genre": ["RPG", "Action", "Fantasy"],
-      "rating": 4.9,
-      "releaseDate": "2022-02-25",
-      "developer": "FromSoftware",
-      "publisher": "Bandai Namco Entertainment",
-      "systemRequirements": {
-        "minimum": {
-          "os": "Windows 10",
-          "processor": "INTEL CORE I5-8400 or AMD RYZEN 3 3300X",
-          "memory": "12 GB RAM",
-          "graphics": "NVIDIA GEFORCE GTX 1060 3 GB or AMD RADEON RX 580 4 GB",
-          "storage": "60 GB"
-        },
-        "recommended": {
-          "os": "Windows 10/11",
-          "processor": "INTEL CORE I7-8700K or AMD RYZEN 5 3600X",
-          "memory": "16 GB RAM",
-          "graphics": "NVIDIA GEFORCE GTX 1070 8 GB or AMD RADEON RX VEGA 56 8 GB",
-          "storage": "60 GB SSD"
-        }
-      },
-      "downloadUrl": "https://example.com/eldenring.zip",
-      "fileSize": "60 GB",
-      "isVipOnly": true,
-      "isInstalled": false,
-      "isFavorite": false
-    },
-    {
-      "id": "4",
       "title": "Minecraft",
-      "description": "Minecraft est un jeu de construction et de survie dans un monde en blocs.",
+      "description": "Un jeu de construction et de survie dans un monde en blocs infini.",
       "coverImage": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1xqw.jpg",
       "trailerVideo": "https://www.youtube.com/watch?v=MmB9b5njVbA",
       "screenshots": [
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc8.jpg",
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc9.jpg"
+        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc1.jpg",
+        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc2.jpg"
       ],
       "genre": ["Sandbox", "Survival", "Creative"],
       "rating": 4.5,
@@ -132,7 +20,7 @@
           "os": "Windows 7",
           "processor": "Intel Core i3-3210 3.2 GHz / AMD A8-7600 APU 3.1 GHz",
           "memory": "4 GB RAM",
-          "graphics": "Intel HD Graphics 4000 (Ivy Bridge) or AMD Radeon R5 series",
+          "graphics": "Intel HD Graphics 4000 / AMD Radeon R5 series",
           "storage": "4 GB"
         },
         "recommended": {
@@ -146,54 +34,17 @@
       "downloadUrl": "https://example.com/minecraft.zip",
       "fileSize": "4 GB",
       "isVipOnly": false,
-      "isInstalled": true,
-      "isFavorite": true
-    },
-    {
-      "id": "5",
-      "title": "Valorant",
-      "description": "Valorant est un jeu de tir tactique en équipe développé par Riot Games.",
-      "coverImage": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2l6y.jpg",
-      "trailerVideo": "https://www.youtube.com/watch?v=h7MYJgoRWl0",
-      "screenshots": [
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc10.jpg",
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc11.jpg"
-      ],
-      "genre": ["FPS", "Tactical", "Multiplayer"],
-      "rating": 4.3,
-      "releaseDate": "2020-06-02",
-      "developer": "Riot Games",
-      "publisher": "Riot Games",
-      "systemRequirements": {
-        "minimum": {
-          "os": "Windows 7/8/10 64-bit",
-          "processor": "Intel Core 2 Duo E8400 / AMD Athlon 200GE",
-          "memory": "4 GB RAM",
-          "graphics": "Intel HD 4000 / Radeon R5 200",
-          "storage": "8 GB"
-        },
-        "recommended": {
-          "os": "Windows 10 64-bit",
-          "processor": "Intel Core i3-4150 / AMD FX-6300",
-          "memory": "4 GB RAM",
-          "graphics": "GeForce GT 730 / Radeon R7 240",
-          "storage": "8 GB SSD"
-        }
-      },
-      "downloadUrl": "https://example.com/valorant.zip",
-      "fileSize": "8 GB",
-      "isVipOnly": false,
       "isInstalled": false,
       "isFavorite": false
     },
     {
-      "id": "6",
+      "id": "2",
       "title": "Among Us",
-      "description": "Among Us est un jeu multijoueur en ligne de déduction sociale.",
+      "description": "Un jeu multijoueur de déduction sociale où vous devez identifier l'imposteur.",
       "coverImage": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2l6y.jpg",
       "trailerVideo": "https://www.youtube.com/watch?v=NSJ4cESNUCg",
       "screenshots": [
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc12.jpg"
+        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc3.jpg"
       ],
       "genre": ["Party Game", "Multiplayer", "Social Deduction"],
       "rating": 4.1,
@@ -218,80 +69,6 @@
       },
       "downloadUrl": "https://example.com/amongus.zip",
       "fileSize": "250 MB",
-      "isVipOnly": false,
-      "isInstalled": false,
-      "isFavorite": false
-    },
-    {
-      "id": "7",
-      "title": "Fortnite",
-      "description": "Fortnite est un jeu de battle royale développé par Epic Games.",
-      "coverImage": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1tmu.jpg",
-      "trailerVideo": "https://www.youtube.com/watch?v=2gUtfBmw86Y",
-      "screenshots": [
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13.jpg",
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc14.jpg"
-      ],
-      "genre": ["Battle Royale", "Shooter", "Multiplayer"],
-      "rating": 4.0,
-      "releaseDate": "2017-07-25",
-      "developer": "Epic Games",
-      "publisher": "Epic Games",
-      "systemRequirements": {
-        "minimum": {
-          "os": "Windows 7/8/10 64-bit",
-          "processor": "Intel Core i3-3225 3.3 GHz / AMD FX-4350 4.2 GHz",
-          "memory": "4 GB RAM",
-          "graphics": "Intel HD 4000 / AMD Radeon HD 4600",
-          "storage": "15 GB"
-        },
-        "recommended": {
-          "os": "Windows 10 64-bit",
-          "processor": "Intel Core i5-7300U 3.5 GHz / AMD Ryzen 3 3300U",
-          "memory": "8 GB RAM",
-          "graphics": "NVIDIA GeForce GTX 960 / AMD Radeon R9 280",
-          "storage": "15 GB SSD"
-        }
-      },
-      "downloadUrl": "https://example.com/fortnite.zip",
-      "fileSize": "15 GB",
-      "isVipOnly": false,
-      "isInstalled": false,
-      "isFavorite": false
-    },
-    {
-      "id": "8",
-      "title": "GTA V",
-      "description": "Grand Theft Auto V est un jeu d'action-aventure en monde ouvert développé par Rockstar North.",
-      "coverImage": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1tmu.jpg",
-      "trailerVideo": "https://www.youtube.com/watch?v=QkkoHAzjnUs",
-      "screenshots": [
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc15.jpg",
-        "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc16.jpg"
-      ],
-      "genre": ["Action", "Adventure", "Open World"],
-      "rating": 4.6,
-      "releaseDate": "2013-09-17",
-      "developer": "Rockstar North",
-      "publisher": "Rockstar Games",
-      "systemRequirements": {
-        "minimum": {
-          "os": "Windows 8.1 64-bit",
-          "processor": "Intel Core 2 Quad CPU Q6600 @ 2.40GHz / AMD Phenom 9850 Quad-Core @ 2.5GHz",
-          "memory": "4 GB RAM",
-          "graphics": "NVIDIA 9800 GT 1GB / AMD HD 4870 1GB",
-          "storage": "65 GB"
-        },
-        "recommended": {
-          "os": "Windows 10 64-bit",
-          "processor": "Intel Core i5 3470 @ 3.2GHz / AMD X8 FX-8350 @ 4GHz",
-          "memory": "8 GB RAM",
-          "graphics": "NVIDIA GTX 660 2GB / AMD HD 7870 2GB",
-          "storage": "65 GB SSD"
-        }
-      },
-      "downloadUrl": "https://example.com/gtav.zip",
-      "fileSize": "65 GB",
       "isVipOnly": false,
       "isInstalled": false,
       "isFavorite": false
