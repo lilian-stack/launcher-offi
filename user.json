@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "email": "admin@gamelauncher.com",
+      "password": "admin123",
+      "avatar": "",
+      "isVip": true,
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "username": "testuser",
+      "email": "test@gamelauncher.com",
+      "password": "test123",
+      "avatar": "",
+      "isVip": false,
+      "createdAt": "2024-01-15T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "username": "lilia",
+      "email": "lilia@example.com",
+      "password": "lilia123",
+      "avatar": "",
+      "isVip": true,
+      "createdAt": "2024-01-20T00:00:00.000Z"
+    }
+  ]
+}
