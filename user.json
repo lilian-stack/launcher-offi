@@ -1,3 +1,13 @@
 {
-  "users": []
+  "users": [
+    {
+      "id": "1761688677566",
+      "username": "lili",
+      "email": "lilianlesieur544@gmail.com",
+      "password": "Adsl82600@",
+      "avatar": "",
+      "isVip": false,
+      "createdAt": "2025-10-28T21:57:57.566Z"
+    }
+  ]
 }
