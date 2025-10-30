@@ -224,6 +224,15 @@
       "avatar": "",
       "isVip": false,
       "createdAt": "2025-10-30T22:48:08.057Z"
+    },
+    {
+      "id": "1761867199802",
+      "username": "zizi",
+      "email": "zizicaca@gmail.com",
+      "password": "ziziziz",
+      "avatar": "",
+      "isVip": false,
+      "createdAt": "2025-10-30T23:33:19.802Z"
     }
   ]
 }
