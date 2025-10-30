@@ -71,6 +71,15 @@
       "avatar": "",
       "isVip": false,
       "createdAt": "2025-10-29T23:44:36.965Z"
+    },
+    {
+      "id": "1761783222202",
+      "username": "Emix_0508",
+      "email": "emix.050809@gmail.com",
+      "password": "donuts05008",
+      "avatar": "",
+      "isVip": false,
+      "createdAt": "2025-10-30T00:13:42.202Z"
     }
   ]
 }
