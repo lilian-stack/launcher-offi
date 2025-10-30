@@ -20,7 +20,9 @@
       "video": "https://video.akamai.steamstatic.com/store_trailers/256900369/movie_max_vp9.webm?t=1672791651",
       "releaseDate": "12 Aug, 2022",
       "rating": 4.5,
-      "isVipOnly": false
+      "isVipOnly": false,
+      "isFavorite": true,
+      "isInstalled": false
     },
     {
       "id": "2651280",
