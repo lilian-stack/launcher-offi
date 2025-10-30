@@ -2,8 +2,8 @@
   "games": [
     {
       "id": "1817070",
-      "title": "Marvel’s Spider-Man Remastered",
-      "description": "In Marvel’s Spider-Man Remastered, the worlds of Peter Parker and Spider-Man collide in an original action-packed story. Play as an experienced Peter Parker, fighting big crime and iconic villains in Marvel’s New York. Web-swing through vibrant neighborhoods and defeat villains with epic takedowns.",
+      "title": "Marvelâs Spider-Man Remastered",
+      "description": "In Marvelâs Spider-Man Remastered, the worlds of Peter Parker and Spider-Man collide in an original action-packed story. Play as an experienced Peter Parker, fighting big crime and iconic villains in Marvelâs New York. Web-swing through vibrant neighborhoods and defeat villains with epic takedowns.",
       "genre": [
         "Action",
         "Adventure",
@@ -19,6 +19,27 @@
       ],
       "video": "https://video.akamai.steamstatic.com/store_trailers/256900369/movie_max_vp9.webm?t=1672791651",
       "releaseDate": "12 Aug, 2022",
+      "rating": 4.5,
+      "isVipOnly": false
+    },
+    {
+      "id": "2651280",
+      "title": "Marvel's Spider-Man 2",
+      "description": "Be Greater. Together. The incredible power of the symbiote forces Peter Parker and Miles Morales into a desperate fight as they balance their lives, friendships, and their duty to protect in an exciting chapter of the critically acclaimed Spider-Man franchise on PC.",
+      "genre": [
+        "Action",
+        "Adventure"
+      ],
+      "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2651280/header.jpg?t=1750954033",
+      "screenshots": [
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2651280/ss_e4b67059ddedaeebd91fce113745f3eb99736f56.1920x1080.jpg?t=1750954033",
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2651280/ss_b4be948946130b7e140be82f24f1f9ccefae9117.1920x1080.jpg?t=1750954033",
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2651280/ss_f4140ba12158b812d9c1adc86c484d8e84b92e92.1920x1080.jpg?t=1750954033",
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2651280/ss_7ef8bc176702470fdc73f62f8e537c3912e70444.1920x1080.jpg?t=1750954033",
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2651280/ss_474a7ffe98998719c22025cc99da1f45dfca025e.1920x1080.jpg?t=1750954033"
+      ],
+      "video": "https://video.akamai.steamstatic.com/store_trailers/257093509/movie_max_vp9.webm?t=1738262051",
+      "releaseDate": "30 Jan, 2025",
       "rating": 4.5,
       "isVipOnly": false
     }
