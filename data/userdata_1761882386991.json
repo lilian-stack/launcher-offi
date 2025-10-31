@@ -18,6 +18,14 @@
   "notifications": [
     {
       "type": "general",
+      "title": "Demande acceptée",
+      "message": "NalRyof a accepté votre demande d'amitié",
+      "id": "1761953838861",
+      "createdAt": "2025-10-31T23:37:18.861Z",
+      "read": false
+    },
+    {
+      "type": "general",
       "title": "Demande d'amitié",
       "message": "gggg veut être votre ami",
       "metadata": {
