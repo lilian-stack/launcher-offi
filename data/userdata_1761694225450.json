@@ -6,78 +6,10 @@
     "favoriteGenre": "",
     "gamesPlayedThisWeek": 0
   },
-  "settings": {
-    "theme": "dark",
-    "language": "fr",
-    "notifications": true,
-    "autoStart": true,
-    "downloadPath": "C:\\Games",
-    "maxConcurrent": 3
-  },
-  "notifications": [
-    {
-      "type": "general",
-      "title": "Demande d'amitié",
-      "message": "cwxwxcKK veut être votre ami",
-      "metadata": {
-        "friendRequestId": "1761934467075"
-      },
-      "id": "1761934467865",
-      "createdAt": "2025-10-31T18:14:27.865Z",
-      "read": false
-    },
-    {
-      "type": "general",
-      "title": "Demande d'amitié",
-      "message": "cwxwxcKK veut être votre ami",
-      "metadata": {
-        "friendRequestId": "1761883752395"
-      },
-      "id": "1761883753381",
-      "createdAt": "2025-10-31T04:09:13.381Z",
-      "read": true
-    }
-  ],
-  "friends": [
-    {
-      "userId": "1761882386991",
-      "username": "cwxwxcKK",
-      "email": "wxccxwwxck@gmail.com",
-      "avatar": "",
-      "status": "offline",
-      "lastSeen": "2025-10-31T13:51:40.124Z",
-      "addedAt": "2025-10-31T13:51:40.124Z",
-      "favoriteGames": [],
-      "totalPlayTime": 0,
-      "isVip": false,
-      "isAdmin": false
-    }
-  ],
-  "friendRequests": [
-    {
-      "id": "1761883752395",
-      "fromUserId": "1761882386991",
-      "fromUsername": "cwxwxcKK",
-      "fromEmail": "wxccxwwxck@gmail.com",
-      "toUserId": "1761694225450",
-      "createdAt": "2025-10-31T04:09:12.395Z",
-      "status": "accepted"
-    },
-    {
-      "id": "1761934467075",
-      "fromUserId": "1761882386991",
-      "fromUsername": "cwxwxcKK",
-      "fromEmail": "wxccxwwxck@gmail.com",
-      "toUserId": "1761694225450",
-      "createdAt": "2025-10-31T18:14:27.075Z",
-      "status": "accepted"
-    }
-  ],
+  "settings": {},
+  "notifications": [],
+  "friends": [],
+  "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-10-31T18:21:49.393Z",
-  "lastKnownGameIds": [
-    "1817070",
-    "2651280",
-    "2625420"
-  ]
+  "lastSeen": "2025-10-31T18:21:58.395Z"
 }
