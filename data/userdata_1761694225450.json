@@ -7,18 +7,14 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {},
-  "notifications": [
-    {
-      "type": "new_game",
-      "title": "Nouveau jeu disponible !",
-      "message": "Drive Beyond Horizons vient d'être ajouté au catalogue",
-      "id": "1761934957703",
-      "createdAt": "2025-10-31T18:22:37.703Z",
-      "read": false
-    }
-  ],
+  "notifications": [],
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": null
+  "lastSeen": null,
+  "lastKnownGameIds": [
+    "1817070",
+    "2651280",
+    "2625420"
+  ]
 }
