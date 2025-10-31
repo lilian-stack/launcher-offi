@@ -7,9 +7,18 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {},
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "new_game",
+      "title": "Nouveau jeu disponible !",
+      "message": "Marvelâs Spider-Man Remastered vient d'être ajouté au catalogue",
+      "id": "1761934919566",
+      "createdAt": "2025-10-31T18:21:59.566Z",
+      "read": false
+    }
+  ],
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-10-31T18:21:58.399Z"
+  "lastSeen": null
 }
