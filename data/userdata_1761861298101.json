@@ -14,23 +14,13 @@
     "downloadPath": "C:\\Games",
     "maxConcurrent": 3
   },
-  "notifications": [
-    {
-      "type": "new_game",
-      "title": "Nouveau jeu disponible !",
-      "message": "LEGO® Batman™: The Videogame vient d'être ajouté au catalogue",
-      "id": "1761950702509",
-      "createdAt": "2025-10-31T22:45:02.509Z",
-      "read": false
-    }
-  ],
+  "notifications": [],
   "friends": [],
   "friendRequests": [],
   "favorites": [],
   "lastSeen": "2025-10-31T22:45:01.025Z",
   "lastKnownGameIds": [
-    "1817070",
-    "2651280",
-    "2625420"
+    "2625420",
+    "21000"
   ]
 }
