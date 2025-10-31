@@ -11,6 +11,14 @@
     {
       "type": "new_game",
       "title": "Nouveau jeu disponible !",
+      "message": "Drive Beyond Horizons vient d'être ajouté au catalogue",
+      "id": "1761883575159",
+      "createdAt": "2025-10-31T04:06:15.159Z",
+      "read": false
+    },
+    {
+      "type": "new_game",
+      "title": "Nouveau jeu disponible !",
       "message": "Marvel's Spider-Man 2 vient d'être ajouté au catalogue",
       "id": "1761883574226",
       "createdAt": "2025-10-31T04:06:14.226Z",
