@@ -9,30 +9,6 @@
   "settings": {},
   "notifications": [
     {
-      "type": "new_game",
-      "title": "Nouveau jeu disponible !",
-      "message": "Drive Beyond Horizons vient d'être ajouté au catalogue",
-      "id": "1761919608241",
-      "createdAt": "2025-10-31T14:06:48.241Z",
-      "read": false
-    },
-    {
-      "type": "new_game",
-      "title": "Nouveau jeu disponible !",
-      "message": "Marvel's Spider-Man 2 vient d'être ajouté au catalogue",
-      "id": "1761919607330",
-      "createdAt": "2025-10-31T14:06:47.330Z",
-      "read": false
-    },
-    {
-      "type": "new_game",
-      "title": "Nouveau jeu disponible !",
-      "message": "Marvelâs Spider-Man Remastered vient d'être ajouté au catalogue",
-      "id": "1761919606168",
-      "createdAt": "2025-10-31T14:06:46.168Z",
-      "read": false
-    },
-    {
       "type": "general",
       "title": "Demande acceptée",
       "message": "gggg a accepté votre demande d'amitié",
@@ -58,5 +34,10 @@
   ],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-10-31T13:54:31.283Z"
+  "lastSeen": "2025-10-31T13:54:31.283Z",
+  "lastKnownGameIds": [
+    "1817070",
+    "2651280",
+    "2625420"
+  ]
 }
