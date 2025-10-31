@@ -7,23 +7,9 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {},
-  "notifications": [
-    {
-      "type": "general",
-      "title": "Demande acceptée",
-      "message": "gggg a accepté votre demande d'amitié",
-      "id": "1761918701950",
-      "createdAt": "2025-10-31T13:51:41.950Z",
-      "read": false
-    }
-  ],
+  "notifications": [],
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-10-31T18:22:21.571Z",
-  "lastKnownGameIds": [
-    "1817070",
-    "2651280",
-    "2625420"
-  ]
+  "lastSeen": "2025-10-31T18:22:30.476Z"
 }
