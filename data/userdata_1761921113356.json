@@ -27,21 +27,7 @@
       "read": true
     }
   ],
-  "friends": [
-    {
-      "userId": "1761861298101",
-      "username": "NalRyof",
-      "email": "pyolfort2@gmail.com",
-      "avatar": "",
-      "status": "offline",
-      "lastSeen": "2025-10-31T15:29:00.724Z",
-      "addedAt": "2025-10-31T15:29:00.724Z",
-      "favoriteGames": [],
-      "totalPlayTime": 0,
-      "isVip": false,
-      "isAdmin": false
-    }
-  ],
+  "friends": [],
   "friendRequests": [
     {
       "id": "1761924540428",
