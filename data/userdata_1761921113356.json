@@ -16,7 +16,17 @@
   },
   "notifications": [],
   "friends": [],
-  "friendRequests": [],
+  "friendRequests": [
+    {
+      "id": "1761924540428",
+      "fromUserId": "1761861298101",
+      "fromUsername": "NalRyof",
+      "fromEmail": "pyolfort2@gmail.com",
+      "toUserId": "1761921113356",
+      "createdAt": "2025-10-31T15:29:00.428Z",
+      "status": "pending"
+    }
+  ],
   "favorites": [],
   "lastSeen": "2025-10-31T15:27:52.364Z",
   "lastKnownGameIds": [
