@@ -7,7 +7,19 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {},
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
+      "message": "cwxwxcKK veut être votre ami",
+      "metadata": {
+        "friendRequestId": "1761883752395"
+      },
+      "id": "1761883753381",
+      "createdAt": "2025-10-31T04:09:13.381Z",
+      "read": false
+    }
+  ],
   "friends": [],
   "friendRequests": [
     {
