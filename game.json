@@ -1,54 +1,8 @@
 {
   "games": [
     {
-      "id": "2625420",
-      "title": "Drive Beyond Horizons",
-      "description": "Rev up your engines and venture into the unknown with Drive Beyond Horizons! Conquer dynamic landscapes, customize your ride, and unearth hidden treasures. Get ready for heart-pounding challenges and endless excitement. Your adventure starts now !",
-      "genre": [
-        "Action",
-        "Adventure",
-        "Casual",
-        "Indie",
-        "Racing",
-        "Simulation",
-        "Early Access"
-      ],
-      "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2625420/header.jpg?t=1760433117",
-      "screenshots": [
-        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2625420/15f265e08b917fe2744322a0dc26af54c9c6f517/ss_15f265e08b917fe2744322a0dc26af54c9c6f517.1920x1080.jpg?t=1760433117",
-        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2625420/6338dcaf3b9c41a7e8912e1e5ea578b83c35e1bd/ss_6338dcaf3b9c41a7e8912e1e5ea578b83c35e1bd.1920x1080.jpg?t=1760433117",
-        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2625420/9801f6886ea5c60b37ecb555f8ee079e64bf2348/ss_9801f6886ea5c60b37ecb555f8ee079e64bf2348.1920x1080.jpg?t=1760433117",
-        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2625420/443c2aea2b6bfd2d2900fa00ac7b3b90f6f661e3/ss_443c2aea2b6bfd2d2900fa00ac7b3b90f6f661e3.1920x1080.jpg?t=1760433117",
-        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2625420/ce8a54fff9cdaf97f1f66990d6965f130459f1cb/ss_ce8a54fff9cdaf97f1f66990d6965f130459f1cb.1920x1080.jpg?t=1760433117"
-      ],
-      "video": "https://video.akamai.steamstatic.com/store_trailers/257120623/movie_max_vp9.webm?t=1755214318",
-      "releaseDate": "24 Mar, 2025",
-      "rating": 4.5,
-      "isVipOnly": false,
-      "systemRequirements": {
-        "minimum": {
-          "os": "Windows 10",
-          "processor": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
-          "memory": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
-          "graphics": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
-          "storage": "Non spÃÂÃÂ©cifiÃÂÃÂ©"
-        },
-        "recommended": {
-          "os": "Windows 10",
-          "processor": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
-          "memory": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
-          "graphics": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
-          "storage": "Non spÃÂÃÂ©cifiÃÂÃÂ©"
-        }
-      },
-      "developer": "Drive Beyond Horizons",
-      "publisher": "Tacty Studio",
-      "downloadUrl": "",
-      "fileSize": "Non spÃÂÃÂ©cifiÃÂÃÂ©"
-    },
-    {
       "id": "21000",
-      "title": "LEGO® Batman™: The Videogame",
+      "title": "LEGOÂ® Batmanâ¢: The Videogame",
       "description": "When all the villains in Arkham Asylum team up and break loose, only the dynamic duo is bold enough to take them on to save Gotham City. The fun of LEGO, the drama of Batman and the uniqueness of the combination makes for a comical and exciting adventure in LEGO Batman: The Videogame.",
       "genre": [
         "Action",
@@ -69,23 +23,23 @@
       "systemRequirements": {
         "minimum": {
           "os": "Windows 10",
-          "processor": "Non spécifié",
-          "memory": "Non spécifié",
-          "graphics": "Non spécifié",
-          "storage": "Non spécifié"
+          "processor": "Non spÃ©cifiÃ©",
+          "memory": "Non spÃ©cifiÃ©",
+          "graphics": "Non spÃ©cifiÃ©",
+          "storage": "Non spÃ©cifiÃ©"
         },
         "recommended": {
           "os": "Windows 10",
-          "processor": "Non spécifié",
-          "memory": "Non spécifié",
-          "graphics": "Non spécifié",
-          "storage": "Non spécifié"
+          "processor": "Non spÃ©cifiÃ©",
+          "memory": "Non spÃ©cifiÃ©",
+          "graphics": "Non spÃ©cifiÃ©",
+          "storage": "Non spÃ©cifiÃ©"
         }
       },
       "developer": "Traveller's Tales",
       "publisher": "Warner Bros. Interactive Entertainment",
       "downloadUrl": "",
-      "fileSize": "Non spécifié"
+      "fileSize": "Non spÃ©cifiÃ©"
     }
   ]
 }
