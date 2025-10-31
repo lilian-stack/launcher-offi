@@ -28,23 +28,64 @@
       "systemRequirements": {
         "minimum": {
           "os": "Windows 10",
-          "processor": "Non spÃÂ©cifiÃÂ©",
-          "memory": "Non spÃÂ©cifiÃÂ©",
-          "graphics": "Non spÃÂ©cifiÃÂ©",
-          "storage": "Non spÃÂ©cifiÃÂ©"
+          "processor": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
+          "memory": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
+          "graphics": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
+          "storage": "Non spÃÂÃÂ©cifiÃÂÃÂ©"
         },
         "recommended": {
           "os": "Windows 10",
-          "processor": "Non spÃÂ©cifiÃÂ©",
-          "memory": "Non spÃÂ©cifiÃÂ©",
-          "graphics": "Non spÃÂ©cifiÃÂ©",
-          "storage": "Non spÃÂ©cifiÃÂ©"
+          "processor": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
+          "memory": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
+          "graphics": "Non spÃÂÃÂ©cifiÃÂÃÂ©",
+          "storage": "Non spÃÂÃÂ©cifiÃÂÃÂ©"
         }
       },
       "developer": "Drive Beyond Horizons",
       "publisher": "Tacty Studio",
       "downloadUrl": "",
-      "fileSize": "Non spÃÂ©cifiÃÂ©"
+      "fileSize": "Non spÃÂÃÂ©cifiÃÂÃÂ©"
+    },
+    {
+      "id": "21000",
+      "title": "LEGO® Batman™: The Videogame",
+      "description": "When all the villains in Arkham Asylum team up and break loose, only the dynamic duo is bold enough to take them on to save Gotham City. The fun of LEGO, the drama of Batman and the uniqueness of the combination makes for a comical and exciting adventure in LEGO Batman: The Videogame.",
+      "genre": [
+        "Action",
+        "Adventure"
+      ],
+      "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/21000/header.jpg?t=1752107972",
+      "screenshots": [
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/21000/0000005467.1920x1080.jpg?t=1752107972",
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/21000/0000005468.1920x1080.jpg?t=1752107972",
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/21000/0000005473.1920x1080.jpg?t=1752107972",
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/21000/0000005472.1920x1080.jpg?t=1752107972",
+        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/21000/0000005474.1920x1080.jpg?t=1752107972"
+      ],
+      "video": "https://video.akamai.steamstatic.com/store_trailers/900647/movie_max.webm?t=1447351472",
+      "releaseDate": "29 Sep, 2008",
+      "rating": 4.5,
+      "isVipOnly": false,
+      "systemRequirements": {
+        "minimum": {
+          "os": "Windows 10",
+          "processor": "Non spécifié",
+          "memory": "Non spécifié",
+          "graphics": "Non spécifié",
+          "storage": "Non spécifié"
+        },
+        "recommended": {
+          "os": "Windows 10",
+          "processor": "Non spécifié",
+          "memory": "Non spécifié",
+          "graphics": "Non spécifié",
+          "storage": "Non spécifié"
+        }
+      },
+      "developer": "Traveller's Tales",
+      "publisher": "Warner Bros. Interactive Entertainment",
+      "downloadUrl": "",
+      "fileSize": "Non spécifié"
     }
   ]
 }
