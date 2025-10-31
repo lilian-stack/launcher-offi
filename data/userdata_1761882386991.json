@@ -1,10 +1,18 @@
 {
-  "history": [],
+  "history": [
+    {
+      "gameId": "1817070",
+      "gameTitle": "Marvelâs Spider-Man Remastered",
+      "lastPlayed": "2025-10-31T20:59:46.963Z",
+      "playCount": 1,
+      "totalTime": 0
+    }
+  ],
   "stats": {
-    "totalGamesPlayed": 0,
+    "totalGamesPlayed": 1,
     "totalPlayTime": 0,
     "favoriteGenre": "",
-    "gamesPlayedThisWeek": 0
+    "gamesPlayedThisWeek": 1
   },
   "settings": {},
   "notifications": [
