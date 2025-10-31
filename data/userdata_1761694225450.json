@@ -7,7 +7,7 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {
-    "theme": "dark",
+    "theme": "light",
     "language": "fr",
     "notifications": true,
     "autoStart": true,
