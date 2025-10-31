@@ -14,7 +14,19 @@
     "downloadPath": "C:\\Games",
     "maxConcurrent": 3
   },
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
+      "message": "cwxwxcKK veut être votre ami",
+      "metadata": {
+        "friendRequestId": "1761953826213"
+      },
+      "id": "1761953827360",
+      "createdAt": "2025-10-31T23:37:07.360Z",
+      "read": false
+    }
+  ],
   "friends": [],
   "friendRequests": [
     {
