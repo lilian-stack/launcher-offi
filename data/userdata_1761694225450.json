@@ -20,7 +20,21 @@
       "read": true
     }
   ],
-  "friends": [],
+  "friends": [
+    {
+      "userId": "1761882386991",
+      "username": "cwxwxcKK",
+      "email": "wxccxwwxck@gmail.com",
+      "avatar": "",
+      "status": "offline",
+      "lastSeen": "2025-10-31T13:51:40.124Z",
+      "addedAt": "2025-10-31T13:51:40.124Z",
+      "favoriteGames": [],
+      "totalPlayTime": 0,
+      "isVip": false,
+      "isAdmin": false
+    }
+  ],
   "friendRequests": [
     {
       "id": "1761883752395",
@@ -29,7 +43,7 @@
       "fromEmail": "wxccxwwxck@gmail.com",
       "toUserId": "1761694225450",
       "createdAt": "2025-10-31T04:09:12.395Z",
-      "status": "pending"
+      "status": "accepted"
     }
   ],
   "favorites": [],
