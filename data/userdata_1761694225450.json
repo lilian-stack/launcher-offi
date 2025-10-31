@@ -9,7 +9,17 @@
   "settings": {},
   "notifications": [],
   "friends": [],
-  "friendRequests": [],
+  "friendRequests": [
+    {
+      "id": "1761883752395",
+      "fromUserId": "1761882386991",
+      "fromUsername": "cwxwxcKK",
+      "fromEmail": "wxccxwwxck@gmail.com",
+      "toUserId": "1761694225450",
+      "createdAt": "2025-10-31T04:09:12.395Z",
+      "status": "pending"
+    }
+  ],
   "favorites": [],
   "lastSeen": "2025-10-31T04:06:20.961Z",
   "lastKnownGameIds": [
