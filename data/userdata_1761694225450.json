@@ -51,6 +51,15 @@
       "toUserId": "1761694225450",
       "createdAt": "2025-10-31T04:09:12.395Z",
       "status": "accepted"
+    },
+    {
+      "id": "1761934467075",
+      "fromUserId": "1761882386991",
+      "fromUsername": "cwxwxcKK",
+      "fromEmail": "wxccxwwxck@gmail.com",
+      "toUserId": "1761694225450",
+      "createdAt": "2025-10-31T18:14:27.075Z",
+      "status": "pending"
     }
   ],
   "favorites": [],
