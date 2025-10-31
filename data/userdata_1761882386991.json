@@ -22,7 +22,7 @@
       "message": "NalRyof a accepté votre demande d'amitié",
       "id": "1761953838861",
       "createdAt": "2025-10-31T23:37:18.861Z",
-      "read": true
+      "read": false
     },
     {
       "type": "general",
@@ -83,7 +83,7 @@
     }
   ],
   "favorites": [],
-  "lastSeen": "2025-10-31T23:58:50.530Z",
+  "lastSeen": "2025-10-31T23:59:23.822Z",
   "lastKnownGameIds": [
     "1817070",
     "2651280",
