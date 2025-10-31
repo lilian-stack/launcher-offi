@@ -7,26 +7,14 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {},
-  "notifications": [
-    {
-      "type": "new_game",
-      "title": "Nouveau jeu disponible !",
-      "message": "Drive Beyond Horizons vient d'être ajouté au catalogue",
-      "id": "1761883575159",
-      "createdAt": "2025-10-31T04:06:15.159Z",
-      "read": false
-    },
-    {
-      "type": "new_game",
-      "title": "Nouveau jeu disponible !",
-      "message": "Marvel's Spider-Man 2 vient d'être ajouté au catalogue",
-      "id": "1761883574226",
-      "createdAt": "2025-10-31T04:06:14.226Z",
-      "read": false
-    }
-  ],
+  "notifications": [],
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-10-31T04:06:11.858Z"
+  "lastSeen": "2025-10-31T04:06:11.676Z",
+  "lastKnownGameIds": [
+    "1817070",
+    "2651280",
+    "2625420"
+  ]
 }
