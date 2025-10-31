@@ -9,7 +9,17 @@
   "settings": {},
   "notifications": [],
   "friends": [],
-  "friendRequests": [],
+  "friendRequests": [
+    {
+      "id": "1761935199347",
+      "fromUserId": "1761694225450",
+      "fromUsername": "gggg",
+      "fromEmail": "fdfdfdfd@gmail.com",
+      "toUserId": "1761882386991",
+      "createdAt": "2025-10-31T18:26:39.347Z",
+      "status": "pending"
+    }
+  ],
   "favorites": [],
   "lastSeen": "2025-10-31T18:26:32.627Z"
 }
