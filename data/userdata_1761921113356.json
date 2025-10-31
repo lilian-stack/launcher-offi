@@ -11,6 +11,14 @@
     {
       "type": "new_game",
       "title": "Nouveau jeu disponible !",
+      "message": "Marvel's Spider-Man 2 vient d'être ajouté au catalogue",
+      "id": "1761924233293",
+      "createdAt": "2025-10-31T15:23:53.293Z",
+      "read": false
+    },
+    {
+      "type": "new_game",
+      "title": "Nouveau jeu disponible !",
       "message": "Marvelâs Spider-Man Remastered vient d'être ajouté au catalogue",
       "id": "1761924232288",
       "createdAt": "2025-10-31T15:23:52.288Z",
