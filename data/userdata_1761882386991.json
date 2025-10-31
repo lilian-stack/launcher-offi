@@ -13,6 +13,17 @@
       "title": "Demande d'amitié",
       "message": "gggg veut être votre ami",
       "metadata": {
+        "friendRequestId": "1761943043996"
+      },
+      "id": "1761943044835",
+      "createdAt": "2025-10-31T20:37:24.835Z",
+      "read": false
+    },
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
+      "message": "gggg veut être votre ami",
+      "metadata": {
         "friendRequestId": "1761935199347"
       },
       "id": "1761935200232",
