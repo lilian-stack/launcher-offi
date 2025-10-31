@@ -14,7 +14,19 @@
     "downloadPath": "C:\\Games",
     "maxConcurrent": 3
   },
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
+      "message": "NalRyof veut être votre ami",
+      "metadata": {
+        "friendRequestId": "1761924540428"
+      },
+      "id": "1761924541214",
+      "createdAt": "2025-10-31T15:29:01.214Z",
+      "read": false
+    }
+  ],
   "friends": [],
   "friendRequests": [
     {
