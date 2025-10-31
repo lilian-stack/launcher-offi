@@ -9,6 +9,14 @@
   "settings": {},
   "notifications": [
     {
+      "type": "new_game",
+      "title": "Nouveau jeu disponible !",
+      "message": "Marvelâs Spider-Man Remastered vient d'être ajouté au catalogue",
+      "id": "1761943015938",
+      "createdAt": "2025-10-31T20:36:55.938Z",
+      "read": false
+    },
+    {
       "type": "general",
       "title": "Demande acceptée",
       "message": "cwxwxcKK a accepté votre demande d'amitié",
