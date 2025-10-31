@@ -20,6 +20,17 @@
       "title": "Demande d'amitié",
       "message": "cwxwxcKK veut être votre ami",
       "metadata": {
+        "friendRequestId": "1761934467075"
+      },
+      "id": "1761934467865",
+      "createdAt": "2025-10-31T18:14:27.865Z",
+      "read": false
+    },
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
+      "message": "cwxwxcKK veut être votre ami",
+      "metadata": {
         "friendRequestId": "1761883752395"
       },
       "id": "1761883753381",
