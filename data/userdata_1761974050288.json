@@ -20,7 +20,21 @@
       "read": true
     }
   ],
-  "friends": [],
+  "friends": [
+    {
+      "userId": "1761963630507",
+      "username": "actoris",
+      "email": "sfsfsf@gmail.com",
+      "avatar": "",
+      "status": "offline",
+      "lastSeen": "2025-11-01T05:16:12.257Z",
+      "addedAt": "2025-11-01T05:16:12.257Z",
+      "favoriteGames": [],
+      "totalPlayTime": 0,
+      "isVip": false,
+      "isAdmin": false
+    }
+  ],
   "friendRequests": [
     {
       "id": "1761974111010",
@@ -29,7 +43,7 @@
       "fromEmail": "sfsfsf@gmail.com",
       "toUserId": "1761974050288",
       "createdAt": "2025-11-01T05:15:11.010Z",
-      "status": "pending"
+      "status": "accepted"
     }
   ],
   "favorites": [],
