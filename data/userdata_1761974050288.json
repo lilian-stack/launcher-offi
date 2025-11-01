@@ -7,7 +7,19 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {},
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
+      "message": "actoris veut être votre ami",
+      "metadata": {
+        "friendRequestId": "1761974111010"
+      },
+      "id": "1761974111709",
+      "createdAt": "2025-11-01T05:15:11.709Z",
+      "read": false
+    }
+  ],
   "friends": [],
   "friendRequests": [
     {
