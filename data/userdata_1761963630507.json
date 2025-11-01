@@ -50,7 +50,7 @@
   ],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T05:31:37.056Z",
+  "lastSeen": "2025-11-01T05:31:39.616Z",
   "chatHistory": {
     "1761974050288": [
       {
@@ -67,14 +67,6 @@
         "toUserId": "1761974050288",
         "message": "Salut moi je suis caca au cul tu veux mon caca dans ton cul BB",
         "timestamp": 1761974249378,
-        "read": false
-      },
-      {
-        "id": "msg_1761975094382_kkhtfsnvu",
-        "fromUserId": "1761963630507",
-        "toUserId": "1761974050288",
-        "message": "bb",
-        "timestamp": 1761975094382,
         "read": false
       }
     ]
