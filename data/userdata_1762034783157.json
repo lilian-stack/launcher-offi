@@ -7,7 +7,7 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {
-    "theme": "light",
+    "theme": "dark",
     "language": "fr",
     "notifications": true,
     "autoStart": true,
@@ -18,7 +18,7 @@
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T22:21:31.898Z",
+  "lastSeen": "2025-11-01T22:21:29.853Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": [],
