@@ -16,6 +16,14 @@
   },
   "notifications": [
     {
+      "type": "new_game",
+      "title": "Nouveau jeu disponible !",
+      "message": "Hollow Knight vient d'être ajouté au catalogue",
+      "id": "1761968900679",
+      "createdAt": "2025-11-01T03:48:20.679Z",
+      "read": false
+    },
+    {
       "type": "general",
       "title": "Demande acceptée",
       "message": "NalRyof a accepté votre demande d'amitié",
