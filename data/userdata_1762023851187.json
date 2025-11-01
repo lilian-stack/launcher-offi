@@ -26,6 +26,17 @@
     {
       "type": "general",
       "title": "Demande d'amitié",
+      "message": "Dragon_KnYghT veut être votre ami",
+      "metadata": {
+        "friendRequestId": "1762035747086"
+      },
+      "read": false,
+      "id": "1762035748067",
+      "createdAt": "2025-11-01T22:22:28.067Z"
+    },
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
       "message": "qzdqdqzd veut être votre ami",
       "metadata": {
         "friendRequestId": "1762024176388"
