@@ -74,8 +74,8 @@
       "email": "rodrigoduarteferreira2009@gmail.com",
       "avatar": "",
       "status": "offline",
-      "lastSeen": "2025-11-01T22:23:41.436Z",
-      "addedAt": "2025-11-01T22:23:41.436Z",
+      "lastSeen": "2025-11-01T22:23:41.432Z",
+      "addedAt": "2025-11-01T22:23:41.432Z",
       "favoriteGames": [],
       "totalPlayTime": 0,
       "isVip": false,
@@ -99,11 +99,11 @@
       "fromEmail": "rodrigoduarteferreira2009@gmail.com",
       "toUserId": "1762023851187",
       "createdAt": "2025-11-01T22:22:27.086Z",
-      "status": "pending"
+      "status": "accepted"
     }
   ],
   "favorites": [],
-  "lastSeen": "2025-11-01T22:23:46.929Z",
+  "lastSeen": "2025-11-01T22:22:22.095Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": [],
