@@ -67,6 +67,15 @@
       "toUserId": "1762023851187",
       "createdAt": "2025-11-01T19:09:36.388Z",
       "status": "pending"
+    },
+    {
+      "id": "1762035747086",
+      "fromUserId": "1762034783157",
+      "fromUsername": "Dragon_KnYghT",
+      "fromEmail": "rodrigoduarteferreira2009@gmail.com",
+      "toUserId": "1762023851187",
+      "createdAt": "2025-11-01T22:22:27.086Z",
+      "status": "pending"
     }
   ],
   "favorites": [],
