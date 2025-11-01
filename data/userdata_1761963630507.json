@@ -12,6 +12,14 @@
       "type": "general",
       "title": "Demande acceptée",
       "message": "caca au cul a accepté votre demande d'amitié",
+      "id": "1761974229605",
+      "createdAt": "2025-11-01T05:17:09.605Z",
+      "read": false
+    },
+    {
+      "type": "general",
+      "title": "Demande acceptée",
+      "message": "caca au cul a accepté votre demande d'amitié",
       "id": "1761974173963",
       "createdAt": "2025-11-01T05:16:13.963Z",
       "read": false
