@@ -9,7 +9,17 @@
   "settings": {},
   "notifications": [],
   "friends": [],
-  "friendRequests": [],
+  "friendRequests": [
+    {
+      "id": "1761974111010",
+      "fromUserId": "1761963630507",
+      "fromUsername": "actoris",
+      "fromEmail": "sfsfsf@gmail.com",
+      "toUserId": "1761974050288",
+      "createdAt": "2025-11-01T05:15:11.010Z",
+      "status": "pending"
+    }
+  ],
   "favorites": [],
   "lastSeen": "2025-11-01T05:14:12.237Z",
   "chatHistory": {},
