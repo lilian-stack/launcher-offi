@@ -6,16 +6,20 @@
     "favoriteGenre": "",
     "gamesPlayedThisWeek": 0
   },
-  "settings": {},
+  "settings": {
+    "theme": "dark",
+    "language": "fr",
+    "notifications": true,
+    "autoStart": true,
+    "downloadPath": "C:\\Games",
+    "maxConcurrent": 3
+  },
   "notifications": [],
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T19:05:43.604Z",
+  "lastSeen": null,
   "chatHistory": {},
   "avatar": null,
-  "avatarHistory": [],
-  "lastKnownGameIds": [
-    "367520"
-  ]
+  "avatarHistory": []
 }
