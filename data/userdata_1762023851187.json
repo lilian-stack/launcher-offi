@@ -9,10 +9,10 @@
     }
   ],
   "stats": {
-    "totalGamesPlayed": 1,
+    "totalGamesPlayed": 0,
     "totalPlayTime": 0,
     "favoriteGenre": "",
-    "gamesPlayedThisWeek": 1
+    "gamesPlayedThisWeek": 0
   },
   "settings": {
     "theme": "dark",
@@ -35,7 +35,7 @@
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T19:06:40.436Z",
+  "lastSeen": "2025-11-01T19:06:43.189Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": [],
