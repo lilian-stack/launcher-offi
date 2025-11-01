@@ -7,7 +7,16 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {},
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "general",
+      "title": "Demande acceptée",
+      "message": "NekuraX a accepté votre demande d'amitié",
+      "read": false,
+      "id": "1762027644378",
+      "createdAt": "2025-11-01T20:07:24.378Z"
+    }
+  ],
   "friends": [
     {
       "userId": "1762023851187",
