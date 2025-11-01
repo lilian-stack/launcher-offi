@@ -9,10 +9,10 @@
     }
   ],
   "stats": {
-    "totalGamesPlayed": 0,
+    "totalGamesPlayed": 1,
     "totalPlayTime": 0,
     "favoriteGenre": "",
-    "gamesPlayedThisWeek": 0
+    "gamesPlayedThisWeek": 1
   },
   "settings": {
     "theme": "dark",
@@ -27,7 +27,7 @@
       "type": "new_game",
       "title": "Nouveau jeu disponible !",
       "message": "Hollow Knight vient d'être ajouté au catalogue",
-      "read": false,
+      "read": true,
       "id": "1762023949026",
       "createdAt": "2025-11-01T19:05:49.026Z"
     }
@@ -35,7 +35,7 @@
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T19:06:46.924Z",
+  "lastSeen": "2025-11-01T19:06:59.635Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": [],
