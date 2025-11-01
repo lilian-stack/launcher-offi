@@ -51,6 +51,15 @@
       "toUserId": "1761861298101",
       "createdAt": "2025-10-31T23:37:06.213Z",
       "status": "accepted"
+    },
+    {
+      "id": "1761958891684",
+      "fromUserId": "1761958726994",
+      "fromUsername": "liichy",
+      "fromEmail": "mlefranc82@gmail.com",
+      "toUserId": "1761861298101",
+      "createdAt": "2025-11-01T01:01:31.684Z",
+      "status": "pending"
     }
   ],
   "favorites": [],
