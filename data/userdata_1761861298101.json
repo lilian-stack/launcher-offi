@@ -35,21 +35,7 @@
       "read": true
     }
   ],
-  "friends": [
-    {
-      "userId": "1761882386991",
-      "username": "cwxwxcKK",
-      "email": "wxccxwwxck@gmail.com",
-      "avatar": "",
-      "status": "offline",
-      "lastSeen": "2025-10-31T23:37:17.241Z",
-      "addedAt": "2025-10-31T23:37:17.241Z",
-      "favoriteGames": [],
-      "totalPlayTime": 0,
-      "isVip": false,
-      "isAdmin": false
-    }
-  ],
+  "friends": [],
   "friendRequests": [
     {
       "id": "1761953826213",
