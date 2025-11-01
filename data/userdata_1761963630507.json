@@ -7,7 +7,16 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {},
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "general",
+      "title": "Demande acceptée",
+      "message": "admin a accepté votre demande d'amitié",
+      "id": "1761963877432",
+      "createdAt": "2025-11-01T02:24:37.432Z",
+      "read": false
+    }
+  ],
   "friends": [
     {
       "userId": "1761963847206",
