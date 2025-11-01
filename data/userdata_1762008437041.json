@@ -14,11 +14,33 @@
     "downloadPath": "C:\\Games",
     "maxConcurrent": 3
   },
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
+      "message": "qzdqdqzd veut être votre ami",
+      "metadata": {
+        "friendRequestId": "1762008623373"
+      },
+      "read": false,
+      "id": "1762008624090",
+      "createdAt": "2025-11-01T14:50:24.090Z"
+    }
+  ],
   "friends": [],
-  "friendRequests": [],
+  "friendRequests": [
+    {
+      "id": "1762008623373",
+      "fromUserId": "1762007851791",
+      "fromUsername": "qzdqdqzd",
+      "fromEmail": "qzdqghjgh@gmail.com",
+      "toUserId": "1762008437041",
+      "createdAt": "2025-11-01T14:50:23.373Z",
+      "status": "pending"
+    }
+  ],
   "favorites": [],
-  "lastSeen": "2025-11-01T14:49:49.450Z",
+  "lastSeen": "2025-11-01T14:50:36.529Z",
   "chatHistory": {},
   "lastKnownGameIds": [
     "367520"
