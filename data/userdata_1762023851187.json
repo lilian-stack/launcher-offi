@@ -67,6 +67,19 @@
       "totalPlayTime": 0,
       "isVip": false,
       "isAdmin": false
+    },
+    {
+      "userId": "1762034783157",
+      "username": "Dragon_KnYghT",
+      "email": "rodrigoduarteferreira2009@gmail.com",
+      "avatar": "",
+      "status": "offline",
+      "lastSeen": "2025-11-01T22:23:42.110Z",
+      "addedAt": "2025-11-01T22:23:42.110Z",
+      "favoriteGames": [],
+      "totalPlayTime": 0,
+      "isVip": false,
+      "isAdmin": false
     }
   ],
   "friendRequests": [
@@ -86,11 +99,11 @@
       "fromEmail": "rodrigoduarteferreira2009@gmail.com",
       "toUserId": "1762023851187",
       "createdAt": "2025-11-01T22:22:27.086Z",
-      "status": "pending"
+      "status": "accepted"
     }
   ],
   "favorites": [],
-  "lastSeen": "2025-11-01T22:23:42.074Z",
+  "lastSeen": "2025-11-01T22:22:22.095Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": [],
