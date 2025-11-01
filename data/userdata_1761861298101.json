@@ -7,8 +7,8 @@
     "gamesPlayedThisWeek": 0
   },
   "settings": {
-    "theme": "dark",
-    "language": "en",
+    "theme": "light",
+    "language": "fr",
     "notifications": true,
     "autoStart": true,
     "downloadPath": "C:\\Games",
