@@ -33,7 +33,18 @@
   "friendRequests": [],
   "favorites": [],
   "lastSeen": "2025-11-01T15:57:42.023Z",
-  "chatHistory": {},
+  "chatHistory": {
+    "1762008437041": [
+      {
+        "id": "msg_1762012664409_cm7gxxqyp",
+        "fromUserId": "1762007851791",
+        "toUserId": "1762008437041",
+        "message": "cc",
+        "timestamp": 1762012664409,
+        "read": false
+      }
+    ]
+  },
   "lastKnownGameIds": [
     "367520"
   ],
