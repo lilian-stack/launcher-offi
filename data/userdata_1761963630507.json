@@ -56,7 +56,18 @@
   "friendRequests": [],
   "favorites": [],
   "lastSeen": "2025-11-01T05:16:07.571Z",
-  "chatHistory": {},
+  "chatHistory": {
+    "1761974050288": [
+      {
+        "id": "msg_1761974195586_0.5200539225134624",
+        "fromUserId": "1761974050288",
+        "toUserId": "1761963630507",
+        "message": "Salut moi je suis caca au cul tu veux mon caca dans ton cul BB",
+        "timestamp": 1761974195586,
+        "read": false
+      }
+    ]
+  },
   "lastKnownGameIds": [
     "367520"
   ]
