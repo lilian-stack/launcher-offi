@@ -1,10 +1,18 @@
 {
-  "history": [],
+  "history": [
+    {
+      "gameId": "367520",
+      "gameTitle": "Hollow Knight",
+      "lastPlayed": "2025-11-01T19:11:56.718Z",
+      "playCount": 1,
+      "totalTime": 0
+    }
+  ],
   "stats": {
-    "totalGamesPlayed": 0,
+    "totalGamesPlayed": 1,
     "totalPlayTime": 0,
     "favoriteGenre": "",
-    "gamesPlayedThisWeek": 0
+    "gamesPlayedThisWeek": 1
   },
   "settings": {},
   "notifications": [],
