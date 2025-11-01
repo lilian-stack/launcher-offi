@@ -57,7 +57,7 @@
   ],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T05:51:56.068Z",
+  "lastSeen": "2025-11-01T05:52:55.983Z",
   "chatHistory": {
     "1761974050288": [
       {
@@ -87,11 +87,11 @@
     ],
     "1761963847206": [
       {
-        "id": "msg_1761976374415_lxuy060t2",
+        "id": "msg_1761976377819_v4piiv29p",
         "fromUserId": "1761963847206",
         "toUserId": "1761963630507",
-        "message": "RR",
-        "timestamp": 1761976374415,
+        "message": "R",
+        "timestamp": 1761976377819,
         "read": false
       }
     ]
