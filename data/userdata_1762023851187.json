@@ -24,6 +24,17 @@
   },
   "notifications": [
     {
+      "type": "general",
+      "title": "Demande d'amitié",
+      "message": "qzdqdqzd veut être votre ami",
+      "metadata": {
+        "friendRequestId": "1762024176388"
+      },
+      "read": false,
+      "id": "1762024177011",
+      "createdAt": "2025-11-01T19:09:37.011Z"
+    },
+    {
       "type": "new_game",
       "title": "Nouveau jeu disponible !",
       "message": "Hollow Knight vient d'être ajouté au catalogue",
