@@ -18,6 +18,17 @@
     {
       "type": "general",
       "title": "Demande d'amitié",
+      "message": "liichy veut être votre ami",
+      "metadata": {
+        "friendRequestId": "1761958891684"
+      },
+      "id": "1761958892886",
+      "createdAt": "2025-11-01T01:01:32.886Z",
+      "read": false
+    },
+    {
+      "type": "general",
+      "title": "Demande d'amitié",
       "message": "cwxwxcKK veut être votre ami",
       "metadata": {
         "friendRequestId": "1761953826213"
