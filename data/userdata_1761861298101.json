@@ -10,7 +10,7 @@
     "theme": "dark",
     "language": "fr",
     "notifications": true,
-    "autoStart": false,
+    "autoStart": true,
     "downloadPath": "C:\\Games",
     "maxConcurrent": 3
   },
