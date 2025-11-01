@@ -24,17 +24,6 @@
   },
   "notifications": [
     {
-      "type": "general",
-      "title": "Demande d'amitié",
-      "message": "qzdqdqzd veut être votre ami",
-      "metadata": {
-        "friendRequestId": "1762024176388"
-      },
-      "read": false,
-      "id": "1762024177011",
-      "createdAt": "2025-11-01T19:09:37.011Z"
-    },
-    {
       "type": "new_game",
       "title": "Nouveau jeu disponible !",
       "message": "Hollow Knight vient d'être ajouté au catalogue",
@@ -44,19 +33,9 @@
     }
   ],
   "friends": [],
-  "friendRequests": [
-    {
-      "id": "1762024176388",
-      "fromUserId": "1762007851791",
-      "fromUsername": "qzdqdqzd",
-      "fromEmail": "qzdqghjgh@gmail.com",
-      "toUserId": "1762023851187",
-      "createdAt": "2025-11-01T19:09:36.388Z",
-      "status": "pending"
-    }
-  ],
+  "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T19:09:34.374Z",
+  "lastSeen": "2025-11-01T19:10:30.667Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": [],
