@@ -32,7 +32,7 @@
   ],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T16:20:56.229Z",
+  "lastSeen": "2025-11-01T16:20:48.800Z",
   "chatHistory": {
     "1762008437041": [
       {
@@ -41,14 +41,6 @@
         "toUserId": "1762008437041",
         "message": "cc",
         "timestamp": 1762012664409,
-        "read": false
-      },
-      {
-        "id": "msg_1762014045779_l944mrqrq",
-        "fromUserId": "1762007851791",
-        "toUserId": "1762008437041",
-        "message": "sava",
-        "timestamp": 1762014045779,
         "read": false
       }
     ]
