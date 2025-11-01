@@ -57,35 +57,8 @@
   ],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T05:56:16.911Z",
-  "chatHistory": {
-    "1761974050288": [
-      {
-        "id": "msg_1761974195586_0.5200539225134624",
-        "fromUserId": "1761974050288",
-        "toUserId": "1761963630507",
-        "message": "Salut moi je suis caca au cul tu veux mon caca dans ton cul BB",
-        "timestamp": 1761974195586,
-        "read": false
-      },
-      {
-        "id": "msg_1761974249378_0.7804562962012982",
-        "fromUserId": "1761963630507",
-        "toUserId": "1761974050288",
-        "message": "Salut moi je suis caca au cul tu veux mon caca dans ton cul BB",
-        "timestamp": 1761974249378,
-        "read": false
-      },
-      {
-        "id": "msg_1761975094382_kkhtfsnvu",
-        "fromUserId": "1761963630507",
-        "toUserId": "1761974050288",
-        "message": "bb",
-        "timestamp": 1761975094382,
-        "read": false
-      }
-    ]
-  },
+  "lastSeen": "2025-11-01T05:55:50.490Z",
+  "chatHistory": {},
   "lastKnownGameIds": [
     "367520"
   ],
