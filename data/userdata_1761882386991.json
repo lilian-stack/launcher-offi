@@ -84,6 +84,18 @@
   ],
   "favorites": [],
   "lastSeen": "2025-11-01T01:15:55.587Z",
+  "chatHistory": {
+    "1761861298101": [
+      {
+        "id": "msg_1761973760424_0.9581350969217066",
+        "fromUserId": "1761861298101",
+        "toUserId": "1761882386991",
+        "message": "caca",
+        "timestamp": 1761973760424,
+        "read": false
+      }
+    ]
+  },
   "lastKnownGameIds": [
     "1817070",
     "2651280",
