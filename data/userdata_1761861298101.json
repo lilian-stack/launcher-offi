@@ -73,6 +73,16 @@
         "timestamp": 1761973760424,
         "read": false
       }
+    ],
+    "1761958726994": [
+      {
+        "id": "msg_1761973818052_0.6277764297642794",
+        "fromUserId": "1761958726994",
+        "toUserId": "1761861298101",
+        "message": "Salut FDP",
+        "timestamp": 1761973818052,
+        "read": false
+      }
     ]
   },
   "lastKnownGameIds": [
