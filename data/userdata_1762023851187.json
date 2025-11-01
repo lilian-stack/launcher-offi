@@ -26,17 +26,6 @@
     {
       "type": "general",
       "title": "Demande d'amitié",
-      "message": "Dragon_KnYghT veut être votre ami",
-      "metadata": {
-        "friendRequestId": "1762035747086"
-      },
-      "read": false,
-      "id": "1762035748067",
-      "createdAt": "2025-11-01T22:22:28.067Z"
-    },
-    {
-      "type": "general",
-      "title": "Demande d'amitié",
       "message": "qzdqdqzd veut être votre ami",
       "metadata": {
         "friendRequestId": "1762024176388"
@@ -78,19 +67,10 @@
       "toUserId": "1762023851187",
       "createdAt": "2025-11-01T19:09:36.388Z",
       "status": "pending"
-    },
-    {
-      "id": "1762035747086",
-      "fromUserId": "1762034783157",
-      "fromUsername": "Dragon_KnYghT",
-      "fromEmail": "rodrigoduarteferreira2009@gmail.com",
-      "toUserId": "1762023851187",
-      "createdAt": "2025-11-01T22:22:27.086Z",
-      "status": "pending"
     }
   ],
   "favorites": [],
-  "lastSeen": "2025-11-01T22:22:22.095Z",
+  "lastSeen": "2025-11-01T22:23:16.946Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": [],
