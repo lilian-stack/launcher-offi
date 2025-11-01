@@ -15,10 +15,24 @@
     "maxConcurrent": 3
   },
   "notifications": [],
-  "friends": [],
+  "friends": [
+    {
+      "userId": "1762008437041",
+      "username": "rikita",
+      "email": "ayadiyakine557@gmail.com",
+      "avatar": null,
+      "status": "offline",
+      "lastSeen": "2025-11-01T14:52:51.298Z",
+      "addedAt": "2025-11-01T14:52:51.298Z",
+      "favoriteGames": [],
+      "totalPlayTime": 0,
+      "isVip": false,
+      "isAdmin": false
+    }
+  ],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T14:52:50.783Z",
+  "lastSeen": "2025-11-01T14:51:50.943Z",
   "chatHistory": {},
   "lastKnownGameIds": [
     "367520"
