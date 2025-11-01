@@ -8,7 +8,21 @@
   },
   "settings": {},
   "notifications": [],
-  "friends": [],
+  "friends": [
+    {
+      "userId": "1761963847206",
+      "username": "admin",
+      "email": "fdfdfdfd@gmail.com",
+      "avatar": "",
+      "status": "offline",
+      "lastSeen": "2025-11-01T02:24:36.282Z",
+      "addedAt": "2025-11-01T02:24:36.282Z",
+      "favoriteGames": [],
+      "totalPlayTime": 0,
+      "isVip": false,
+      "isAdmin": false
+    }
+  ],
   "friendRequests": [],
   "favorites": [],
   "lastSeen": "2025-11-01T02:24:30.571Z",
