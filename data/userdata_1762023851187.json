@@ -14,11 +14,20 @@
     "downloadPath": "C:\\Games",
     "maxConcurrent": 3
   },
-  "notifications": [],
+  "notifications": [
+    {
+      "type": "new_game",
+      "title": "Nouveau jeu disponible !",
+      "message": "Hollow Knight vient d'être ajouté au catalogue",
+      "read": false,
+      "id": "1762023949026",
+      "createdAt": "2025-11-01T19:05:49.026Z"
+    }
+  ],
   "friends": [],
   "friendRequests": [],
   "favorites": [],
-  "lastSeen": "2025-11-01T19:05:46.791Z",
+  "lastSeen": "2025-11-01T19:05:46.496Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": []
