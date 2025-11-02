@@ -21,7 +21,7 @@
       "message": "Hollow Knight vient d'être ajouté au catalogue",
       "id": "1761962814524",
       "createdAt": "2025-11-01T02:06:54.524Z",
-      "read": false
+      "read": true
     },
     {
       "type": "general",
@@ -48,7 +48,7 @@
     }
   ],
   "favorites": [],
-  "lastSeen": "2025-11-02T15:14:35.059Z",
+  "lastSeen": "2025-11-02T15:14:10.732Z",
   "chatHistory": {
     "1761882386991": [
       {
