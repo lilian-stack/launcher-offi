@@ -30,7 +30,7 @@
       "metadata": {
         "friendRequestId": "1762035747086"
       },
-      "read": false,
+      "read": true,
       "id": "1762035748067",
       "createdAt": "2025-11-01T22:22:28.067Z"
     },
@@ -103,7 +103,7 @@
     }
   ],
   "favorites": [],
-  "lastSeen": "2025-11-02T11:37:19.667Z",
+  "lastSeen": "2025-11-02T11:37:27.131Z",
   "chatHistory": {},
   "avatar": null,
   "avatarHistory": [],
