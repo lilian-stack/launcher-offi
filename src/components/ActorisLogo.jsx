@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 export function ActorisLogo({ className = '', size = 'default', showText = true }) {
+  const [logoError, setLogoError] = useState(false)
+  const [logoPath, setLogoPath] = useState('./actoris-logo.png')
+  
   const sizeClasses = {
     small: 'w-8 h-8',
     default: 'w-12 h-12',
@@ -12,6 +16,46 @@ export function ActorisLogo({ className = '', size = 'default', showText = true 
     default: 'text-sm',
     large: 'text-base'
   }
+
+  // Essayer différents chemins pour le logo
+  useEffect(() => {
+    // En production Electron, le logo est dans dist/ (copié depuis public/)
+    // Avec base: './' dans vite.config.js, le chemin relatif devrait fonctionner
+    const basePath = window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '.'
+    const tryPaths = [
+      `${basePath}/actoris-logo.png`,
+      './actoris-logo.png',
+      'actoris-logo.png',
+      '/actoris-logo.png',
+      new URL('./actoris-logo.png', window.location.href).href,
+      new URL('/actoris-logo.png', window.location.href).href
+    ]
+    
+    let currentIndex = 0
+    const img = new Image()
+    
+    const tryNextPath = () => {
+      if (currentIndex < tryPaths.length) {
+        img.src = tryPaths[currentIndex]
+        currentIndex++
+      } else {
+        console.warn('[ActorisLogo] Impossible de charger le logo depuis tous les chemins essayés')
+        setLogoError(true)
+      }
+    }
+    
+    img.onload = () => {
+      console.log('[ActorisLogo] Logo chargé depuis:', img.src)
+      setLogoPath(img.src)
+    }
+    
+    img.onerror = () => {
+      console.warn('[ActorisLogo] Échec du chargement depuis:', img.src)
+      tryNextPath()
+    }
+    
+    tryNextPath()
+  }, [])
   
   return (
     <motion.div
@@ -26,19 +70,29 @@ export function ActorisLogo({ className = '', size = 'default', showText = true 
         whileHover={{ scale: 1.1 }}
         transition={{ duration: 0.2 }}
       >
-        <img 
-          src="/actoris-logo.png" 
-          alt="ACTORIS Logo"
-          className="w-full h-full object-contain rounded-xl"
-          style={{
-            filter: 'drop-shadow(0 0 8px rgba(139, 92, 246, 0.6)) drop-shadow(0 0 16px rgba(139, 92, 246, 0.3))'
-          }}
-          onError={(e) => {
-            // Fallback si l'image ne charge pas
-            console.error('Erreur de chargement du logo ACTORIS')
-            e.target.style.display = 'none'
-          }}
-        />
+        {!logoError ? (
+          <img 
+            src={logoPath} 
+            alt="ACTORIS Logo"
+            className="w-full h-full object-contain rounded-xl"
+            style={{
+              filter: 'drop-shadow(0 0 8px rgba(139, 92, 246, 0.6)) drop-shadow(0 0 16px rgba(139, 92, 246, 0.3))'
+            }}
+            onError={() => {
+              console.error('Erreur de chargement du logo ACTORIS')
+              setLogoError(true)
+            }}
+          />
+        ) : (
+          <div className="logo-fallback w-full h-full rounded-xl bg-gradient-to-br from-purple-600 via-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg"
+            style={{
+              fontSize: size === 'small' ? '0.75rem' : size === 'large' ? '1.5rem' : '1rem',
+              boxShadow: '0 4px 16px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
+            }}
+          >
+            A
+          </div>
+        )}
         {/* Effet de brillance animé */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"

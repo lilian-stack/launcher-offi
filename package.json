@@ -1,6 +1,6 @@
 {
   "name": "actoris-launcher",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Launcher Electron Actoris",
   "type": "module",
   "main": "electron/main.js",
@@ -72,7 +72,13 @@
       "main": "electron/main.js"
     },
     "extraFiles": [],
-    "extraResources": [],
+    "extraResources": [
+      {
+        "from": "public/actoris-logo.png",
+        "to": "actoris-logo.png",
+        "filter": ["**/*"]
+      }
+    ],
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico"
