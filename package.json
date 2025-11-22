@@ -1,0 +1,95 @@
+{
+  "name": "actoris-launcher",
+  "version": "1.0.9",
+  "description": "Launcher Electron Actoris",
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron": "electron .",
+    "electron:dev": "cross-env VITE_DEV_SERVER=true electron .",
+    "start": "concurrently \"npm run dev\" \"npm run bot:start\" \"wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER=true VITE_DEV_SERVER_URL=http://localhost:5173 electron .\"",
+    "bot:start": "node launcher-server.js",
+    "bot:dev": "nodemon launcher-server.js",
+    "make:win": "npm run build && electron-builder --win"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "suggestions",
+    "tickets",
+    "websocket",
+    "express"
+  ],
+  "author": "Actoris",
+  "license": "MIT",
+  "dependencies": {
+    "7zip-bin": "^5.2.0",
+    "axios": "^1.6.2",
+    "decompress": "^4.2.1",
+    "decompress-tarbz2": "^4.0.1",
+    "decompress-targz": "^4.1.1",
+    "decompress-unzip": "^4.0.1",
+    "discord.js": "^14.14.1",
+    "express": "^4.18.2",
+    "framer-motion": "^10.16.16",
+    "node-7z": "^3.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^28.2.0",
+    "electron-builder": "^24.9.1",
+    "lightningcss": "^1.30.2",
+    "nodemon": "^3.0.2",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "terser": "^5.26.0",
+    "vite": "^5.0.11",
+    "wait-on": "^9.0.3"
+  },
+  "build": {
+    "appId": "com.actoris.launcher",
+    "productName": "Actoris Launcher",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "fileAssociations": [],
+    "extraMetadata": {
+      "main": "electron/main.js"
+    },
+    "extraFiles": [],
+    "extraResources": [],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true,
+      "runAfterFinish": true,
+      "differentialPackage": false,
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "shortcutName": "Actoris Launcher"
+    },
+    "asar": true,
+    "asarUnpack": [],
+    "compression": "maximum",
+    "removePackageKeywords": true,
+    "removePackageScripts": true
+  }
+}
