@@ -200,32 +200,6 @@ export async function getGamesFromFirebase() {
         game.id = parts[parts.length - 1]
       }
       
-      // Debug: log les requirements pour chaque jeu
-      console.log(`[firebase-games-service] Game ${game.id} - has systemRequirements:`, !!game.systemRequirements)
-      console.log(`[firebase-games-service] Game ${game.id} - has pc_requirements:`, !!game.pc_requirements)
-      if (game.systemRequirements) {
-        console.log(`[firebase-games-service] Game ${game.id} - systemRequirements:`, JSON.stringify(game.systemRequirements, null, 2))
-      }
-      if (game.pc_requirements) {
-        console.log(`[firebase-games-service] Game ${game.id} - pc_requirements:`, JSON.stringify(game.pc_requirements, null, 2))
-        if (game.pc_requirements.minimum) {
-          console.log(`[firebase-games-service] Game ${game.id} - pc_requirements.minimum type:`, typeof game.pc_requirements.minimum)
-          console.log(`[firebase-games-service] Game ${game.id} - pc_requirements.minimum (first 100 chars):`, 
-            typeof game.pc_requirements.minimum === 'string' 
-              ? game.pc_requirements.minimum.substring(0, 100) 
-              : 'not a string')
-        }
-        if (game.pc_requirements.recommended) {
-          console.log(`[firebase-games-service] Game ${game.id} - pc_requirements.recommended type:`, typeof game.pc_requirements.recommended)
-          console.log(`[firebase-games-service] Game ${game.id} - pc_requirements.recommended (first 100 chars):`, 
-            typeof game.pc_requirements.recommended === 'string' 
-              ? game.pc_requirements.recommended.substring(0, 100) 
-              : 'not a string')
-        }
-      } else {
-        console.log(`[firebase-games-service] Game ${game.id} - NO pc_requirements found!`)
-        console.log(`[firebase-games-service] Game ${game.id} - Available keys:`, Object.keys(game))
-      }
       
       return game
     })
@@ -247,13 +221,6 @@ export async function getGamesFromFirebase() {
  */
 export async function addGameToFirebase(gameData) {
   try {
-    console.log('[firebase-games-service] addGameToFirebase called with game:', gameData)
-    console.log('[firebase-games-service] Has pc_requirements:', !!gameData.pc_requirements)
-    console.log('[firebase-games-service] Has systemRequirements:', !!gameData.systemRequirements)
-    if (gameData.pc_requirements) {
-      console.log('[firebase-games-service] pc_requirements keys:', Object.keys(gameData.pc_requirements))
-      console.log('[firebase-games-service] pc_requirements structure:', JSON.stringify(gameData.pc_requirements, null, 2))
-    }
     
     const gameId = gameData.id || `game_${Date.now()}`
     const path = `/games/${gameId}`
@@ -272,39 +239,7 @@ export async function addGameToFirebase(gameData) {
       firestoreData.pc_requirements = gameData.pc_requirements
     }
     
-    console.log('[firebase-games-service] firestoreData keys:', Object.keys(firestoreData))
-    console.log('[firebase-games-service] firestoreData has pc_requirements:', !!firestoreData.pc_requirements)
-    if (firestoreData.pc_requirements) {
-      console.log('[firebase-games-service] firestoreData.pc_requirements type:', typeof firestoreData.pc_requirements)
-      console.log('[firebase-games-service] firestoreData.pc_requirements keys:', Object.keys(firestoreData.pc_requirements))
-    }
-    
     const document = objectToFirestore(firestoreData)
-    
-    // Vérifier que pc_requirements est bien dans le document
-    if (document.fields && document.fields.pc_requirements) {
-      console.log('[firebase-games-service] ✅ pc_requirements is in Firestore document')
-      console.log('[firebase-games-service] pc_requirements type:', document.fields.pc_requirements.mapValue ? 'mapValue' : 'other')
-      if (document.fields.pc_requirements.mapValue && document.fields.pc_requirements.mapValue.fields) {
-        console.log('[firebase-games-service] pc_requirements.mapValue.fields keys:', Object.keys(document.fields.pc_requirements.mapValue.fields))
-        if (document.fields.pc_requirements.mapValue.fields.minimum) {
-          console.log('[firebase-games-service] pc_requirements.minimum type in document:', 
-            document.fields.pc_requirements.mapValue.fields.minimum.stringValue ? 'stringValue' : 'other')
-        }
-        if (document.fields.pc_requirements.mapValue.fields.recommended) {
-          console.log('[firebase-games-service] pc_requirements.recommended type in document:', 
-            document.fields.pc_requirements.mapValue.fields.recommended.stringValue ? 'stringValue' : 'other')
-        }
-      }
-    } else {
-      console.error('[firebase-games-service] ❌ ERROR: pc_requirements is NOT in Firestore document!')
-      console.log('[firebase-games-service] Available fields:', Object.keys(document.fields || {}))
-      console.log('[firebase-games-service] firestoreData had pc_requirements:', !!firestoreData.pc_requirements)
-      if (firestoreData.pc_requirements) {
-        console.log('[firebase-games-service] firestoreData.pc_requirements type:', typeof firestoreData.pc_requirements)
-        console.log('[firebase-games-service] firestoreData.pc_requirements keys:', Object.keys(firestoreData.pc_requirements))
-      }
-    }
     
     console.log('[firebase-games-service] Updating game in Firestore:', path)
     await firestoreRequest('PATCH', path, document)

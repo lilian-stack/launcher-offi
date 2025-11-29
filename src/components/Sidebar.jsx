@@ -1,11 +1,10 @@
+import { memo, useMemo } from 'react'
 import { motion as Motion } from 'framer-motion'
-import {
-  FiHome,
-  FiGrid,
-  FiBookOpen,
-  FiDownload,
-  FiMessageCircle,
-} from 'react-icons/fi'
+import { FiHome } from 'react-icons/fi'
+import { FiGrid } from 'react-icons/fi'
+import { FiBookOpen } from 'react-icons/fi'
+import { FiDownload } from 'react-icons/fi'
+import { FiMessageCircle } from 'react-icons/fi'
 import { RiVipCrownLine } from 'react-icons/ri'
 import { ActorisLogo } from './ActorisLogo'
 
@@ -17,7 +16,17 @@ const navItems = [
   { id: 'support', label: 'Support', icon: FiMessageCircle },
 ]
 
-export function Sidebar({ activeItem, onNavigate }) {
+export const Sidebar = memo(({ activeItem, onNavigate }) => {
+  const navItems = useMemo(() => [
+    { id: 'home', label: 'Accueil', icon: FiHome },
+    { id: 'catalog', label: 'Catalogue', icon: FiGrid },
+    { id: 'library', label: 'Bibliothèque', icon: FiBookOpen },
+    { id: 'vip', label: 'VIP', icon: RiVipCrownLine },
+    // Temporairement désactivé
+    // { id: 'support', label: 'Support', icon: FiMessageCircle },
+    // { id: 'suggestions', label: 'Suggestions', icon: FiMessageCircle },
+  ], [])
+
   return (
     <aside className="sidebar-shell">
       <div className="space-y-6">
@@ -35,8 +44,7 @@ export function Sidebar({ activeItem, onNavigate }) {
         </Motion.div>
 
         <nav className="flex flex-col gap-2">
-          {navItems.map(({ id, label, icon }, index) => {
-            const Icon = icon
+          {navItems.map(({ id, label, icon: Icon }, index) => {
             const isActive = activeItem === id
             return (
               <Motion.button
@@ -81,4 +89,4 @@ export function Sidebar({ activeItem, onNavigate }) {
       </div>
     </aside>
   )
-}
+})

@@ -25,9 +25,12 @@ contextBridge.exposeInMainWorld('electron', {
     deleteGame: (gameId) => ipcRenderer.invoke('games:deleteGame', gameId),
     updateGame: (gameId, updates) => ipcRenderer.invoke('games:updateGame', gameId, updates),
     findGameExe: (gameFolder, gameName) => ipcRenderer.invoke('games:findGameExe', gameFolder, gameName),
+    checkFileExists: (filePath) => ipcRenderer.invoke('games:checkFileExists', filePath),
     launchGame: (exePath) => ipcRenderer.invoke('games:launchGame', exePath),
+    launchGameWithAds: (exePath, gameName, userStatus) => ipcRenderer.invoke('games:launchGameWithAds', exePath, gameName, userStatus),
     uninstallGame: (gameName) => ipcRenderer.invoke('games:uninstallGame', gameName),
     openGameFolder: (gameName) => ipcRenderer.invoke('games:openGameFolder', gameName),
+    createDesktopShortcut: (gameName, exePath) => ipcRenderer.invoke('games:createDesktopShortcut', gameName, exePath),
   },
   
   // Discord OAuth2 functions
@@ -48,11 +51,18 @@ contextBridge.exposeInMainWorld('electron', {
   // Updates functions
   updates: {
     downloadAsset: (url, filename) => ipcRenderer.invoke('updates:download', url, filename),
+    install: () => ipcRenderer.invoke('updates:install'),
+  },
+
+  // Auto start / app settings
+  autostart: {
+    getStatus: () => ipcRenderer.invoke('app:getAutoLaunch'),
+    setStatus: (enabled) => ipcRenderer.invoke('app:setAutoLaunch', enabled),
   },
   
   // WebSocket functions
   websocket: {
-    connect: () => ipcRenderer.invoke('websocket:connect'),
+    connect: (manualRetry = false) => ipcRenderer.invoke('websocket:connect', manualRetry),
     disconnect: () => ipcRenderer.invoke('websocket:disconnect'),
     send: (message) => ipcRenderer.invoke('websocket:send', message),
     isConnected: () => ipcRenderer.invoke('websocket:isConnected'),
@@ -66,6 +76,7 @@ contextBridge.exposeInMainWorld('electron', {
   // IPC Renderer pour écouter les événements
   ipcRenderer: {
     on: (channel, callback) => ipcRenderer.on(channel, callback),
+    removeListener: (channel, callback) => ipcRenderer.removeListener(channel, callback),
     removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
   },
   
@@ -80,10 +91,20 @@ contextBridge.exposeInMainWorld('electron', {
     selectFolder: () => ipcRenderer.invoke('download:selectFolder'),
     downloadGame: (url, destinationPath, options = {}) => ipcRenderer.invoke('download-game', url, destinationPath, options),
     scanInstalledGames: (gamesFolder, forceRefresh = false) => ipcRenderer.invoke('scan-installed-games', gamesFolder, forceRefresh),
+    pauseDownload: (gameId) => ipcRenderer.invoke('download:pause', gameId),
+    resumeDownload: (gameId) => ipcRenderer.invoke('download:resume', gameId),
+    cancelDownload: (gameId) => ipcRenderer.invoke('download:cancel', gameId),
   },
   
   // App functions
   app: {
     quit: () => ipcRenderer.invoke('app:quit'),
+    getVersion: () => ipcRenderer.invoke('app:getVersion'),
+    restart: () => ipcRenderer.invoke('app:restart'),
+  },
+
+  // Files helpers
+  files: {
+    sha256: (filePath) => ipcRenderer.invoke('file:sha256', filePath),
   },
 })

@@ -4,10 +4,47 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>launcher</title>
+    <title>Actoris</title>
+    <script>
+      console.log('📄 [index.html] HTML chargé!')
+      console.log('📄 [index.html] document.readyState:', document.readyState)
+      console.log('📄 [index.html] window.electron:', typeof window.electron !== 'undefined')
+      
+      // Logs immédiats avant le chargement du module
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('✅ [index.html] DOMContentLoaded déclenché')
+        console.log('✅ [index.html] root element:', !!document.getElementById('root'))
+      })
+      
+      window.addEventListener('load', () => {
+        console.log('✅ [index.html] Window load déclenché')
+      })
+      
+      // Gestionnaire d'erreur global
+      window.addEventListener('error', (event) => {
+        console.error('❌ [index.html] Erreur globale:', event.message, event.filename, event.lineno)
+        console.error('❌ [index.html] Erreur stack:', event.error?.stack)
+      })
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Écouter les erreurs de chargement de modules
+      window.addEventListener('error', (event) => {
+        if (event.target && event.target.tagName === 'SCRIPT') {
+          console.error('❌ [index.html] Erreur de chargement du script:', event.target.src)
+          console.error('❌ [index.html] Erreur:', event.message)
+        }
+      }, true) // true pour capturer les erreurs en phase de capture
+      
+      // Écouter les erreurs de promesses non gérées
+      window.addEventListener('unhandledrejection', (event) => {
+        console.error('❌ [index.html] Promise rejetée:', event.reason)
+      })
+      
+      console.log('📄 [index.html] Script module ajouté')
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -7,7 +7,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Charger la configuration depuis le fichier ou les variables d'environnement
-let WS_URL = process.env.WS_URL || 'ws://localhost:8080'
+// Utiliser 127.0.0.1 au lieu de localhost pour éviter les problèmes IPv6
+let WS_URL = process.env.WS_URL || 'ws://127.0.0.1:20036'
 
 try {
   const configPath = path.join(__dirname, '../websocket-config.json')
@@ -22,17 +23,27 @@ try {
 }
 let ws = null
 let reconnectAttempts = 0
-const MAX_RECONNECT_ATTEMPTS = 5
+const MAX_RECONNECT_ATTEMPTS = 3 // Réduit à 3 tentatives
 let reconnectTimeout = null
 let isConnecting = false
 let isManualDisconnect = false
+let lastError = null
+let consecutiveRefusedErrors = 0
+const MAX_CONSECUTIVE_REFUSED = 2 // Arrêter après 2 erreurs ECONNREFUSED consécutives
+let hasReachedLimit = false // Flag pour indiquer qu'on a atteint la limite
+let isManualRetry = false // Flag pour distinguer les tentatives manuelles des automatiques
 
 let messageHandlers = []
 
 /**
  * Connecte au serveur WebSocket
+ * @param {Function} onMessage - Callback pour les messages reçus
+ * @param {Function} onError - Callback pour les erreurs
+ * @param {Function} onConnect - Callback pour la connexion réussie
+ * @param {Function} onDisconnect - Callback pour la déconnexion
+ * @param {boolean} manualRetry - Indique si c'est une tentative manuelle (depuis l'UI)
  */
-export function connectWebSocket(onMessage, onError, onConnect, onDisconnect) {
+export function connectWebSocket(onMessage, onError, onConnect, onDisconnect, manualRetry = false) {
   // Si déjà connecté, ne rien faire
   if (ws && ws.readyState === WebSocket.OPEN) {
     console.log('[WebSocket] Déjà connecté')
@@ -43,6 +54,28 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect) {
   if (isConnecting) {
     console.log('[WebSocket] Connexion déjà en cours...')
     return
+  }
+
+  // Si c'est une tentative manuelle, réinitialiser les compteurs et flags
+  if (manualRetry) {
+    console.log('[WebSocket] Tentative manuelle de connexion - réinitialisation des compteurs')
+    consecutiveRefusedErrors = 0
+    reconnectAttempts = 0
+    hasReachedLimit = false
+    isManualDisconnect = false
+    isManualRetry = true
+  } else {
+    // Si on a atteint la limite et que ce n'est pas une tentative manuelle, vérifier si c'est une nouvelle connexion
+    // (pas une reconnexion automatique programmée)
+    if (hasReachedLimit && reconnectTimeout !== null) {
+      // C'est une reconnexion automatique programmée, on l'annule
+      console.log('[WebSocket] Limite atteinte, reconnexion automatique désactivée. Utilisez une tentative manuelle.')
+      return
+    }
+    // Si hasReachedLimit est true mais qu'il n'y a pas de reconnexion programmée,
+    // c'est probablement une nouvelle tentative (première connexion ou après un délai)
+    // On permet cette tentative mais on ne réinitialise pas hasReachedLimit
+    isManualRetry = false
   }
 
   // Si une reconnexion est programmée, l'annuler
@@ -75,6 +108,10 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect) {
       console.log('[WebSocket] ✅ Connecté au serveur')
       isConnecting = false
       reconnectAttempts = 0
+      consecutiveRefusedErrors = 0 // Réinitialiser le compteur en cas de succès
+      hasReachedLimit = false // Réinitialiser le flag en cas de succès
+      lastError = null
+      isManualRetry = false
       if (onConnect) onConnect()
     })
 
@@ -102,6 +139,26 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect) {
 
     ws.on('error', (error) => {
       console.error('[WebSocket] ❌ Erreur:', error)
+      lastError = error
+      
+      // Détecter les erreurs ECONNREFUSED pour éviter les reconnexions inutiles
+      if (error.code === 'ECONNREFUSED' || (error.message && error.message.includes('ECONNREFUSED'))) {
+        consecutiveRefusedErrors++
+        console.warn(`[WebSocket] Erreur de connexion refusée (${consecutiveRefusedErrors}/${MAX_CONSECUTIVE_REFUSED}). Le serveur n'est probablement pas disponible.`)
+        
+        // Si trop d'erreurs consécutives, arrêter les tentatives de reconnexion automatique
+        // mais permettre les reconnexions manuelles
+        if (consecutiveRefusedErrors >= MAX_CONSECUTIVE_REFUSED) {
+          console.error('[WebSocket] ❌ Trop d\'erreurs de connexion refusée. Arrêt des tentatives de reconnexion automatique.')
+          reconnectAttempts = MAX_RECONNECT_ATTEMPTS // Forcer l'arrêt des reconnexions automatiques
+          hasReachedLimit = true // Marquer qu'on a atteint la limite
+          // Ne pas mettre isManualDisconnect = true ici, pour permettre les reconnexions manuelles
+        }
+      } else {
+        // Réinitialiser le compteur si l'erreur n'est pas ECONNREFUSED
+        consecutiveRefusedErrors = 0
+      }
+      
       if (onError) onError(error)
     })
 
@@ -116,19 +173,27 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect) {
         return
       }
       
-      // Tentative de reconnexion seulement si pas de déconnexion manuelle
-      if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+      // Tentative de reconnexion seulement si pas de déconnexion manuelle, pas trop d'erreurs ECONNREFUSED, et pas de limite atteinte
+      if (!hasReachedLimit && !isManualDisconnect && reconnectAttempts < MAX_RECONNECT_ATTEMPTS && consecutiveRefusedErrors < MAX_CONSECUTIVE_REFUSED) {
         reconnectAttempts++
-        const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000)
+        const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 10000) // Max 10s au lieu de 30s
         console.log(`[WebSocket] Reconnexion dans ${delay}ms (tentative ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})...`)
         
         reconnectTimeout = setTimeout(() => {
-          if (!isManualDisconnect) {
-            connectWebSocket(onMessage, onError, onConnect, onDisconnect)
+          if (!hasReachedLimit && !isManualDisconnect && consecutiveRefusedErrors < MAX_CONSECUTIVE_REFUSED) {
+            connectWebSocket(onMessage, onError, onConnect, onDisconnect, false) // Reconnexion automatique
+          } else {
+            console.warn('[WebSocket] Reconnexion annulée: limite atteinte, déconnexion manuelle ou trop d\'erreurs')
           }
         }, delay)
       } else {
-        console.error('[WebSocket] ❌ Nombre maximum de tentatives de reconnexion atteint')
+        if (hasReachedLimit || consecutiveRefusedErrors >= MAX_CONSECUTIVE_REFUSED) {
+          console.error('[WebSocket] ❌ Arrêt des reconnexions: le serveur n\'est pas disponible (ECONNREFUSED). Utilisez une tentative manuelle.')
+          hasReachedLimit = true
+        } else if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+          console.error('[WebSocket] ❌ Nombre maximum de tentatives de reconnexion atteint')
+          hasReachedLimit = true
+        }
       }
     })
 
@@ -162,6 +227,10 @@ export function disconnectWebSocket() {
   
   isConnecting = false
   reconnectAttempts = 0
+  consecutiveRefusedErrors = 0
+  hasReachedLimit = false
+  lastError = null
+  isManualRetry = false
   messageHandlers = []
 }
 

@@ -1,35 +1,54 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+release/
+build/
+
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment variables
+.env
+.env.local
+.env.*.local
 
-# Build outputs
-release/*.exe
-release/*.exe.blockmap
-release/win-unpacked
-release/builder-*.yml
-release/builder-effective-config.yaml
-release/*.7z
-release/*.zip
-# Keep latest.yml for auto-update
-!release/latest.yml
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Backup files
+*.backup
+*.bak
+*~.json
+
+# Archive (fichiers obsolètes)
+archive/
+
+# Scripts backups
+scripts/backups/*.json
+
+# Test files
+test-*.js
+*test*.js
+
+# Documentation générée
+docs/generated/

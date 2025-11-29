@@ -72,8 +72,9 @@ const discordPerks = [
   },
 ]
 
-export function VipPage() {
+export function VipPage({ currentUser = null }) {
   const [isBoostMode, setIsBoostMode] = useState(false)
+  const isVip = currentUser?.isVip || false
   
   return (
     <div className="flex h-full flex-col gap-6">
@@ -158,79 +159,103 @@ export function VipPage() {
                 </div>
               </div>
             </Motion.div>
-        ) : (
-          <Motion.div
-            key="vip-hero"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            transition={{ duration: 0.3 }}
-            className="col-span-12 lg:col-span-5"
-          >
-            <div className="relative h-full overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-pink-900/20 p-1 backdrop-blur-xl">
-              <div className="relative h-full rounded-3xl bg-gradient-to-br from-zinc-900/95 via-zinc-800/90 to-zinc-900/95 p-6 md:p-8">
-                <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-purple-500/10 blur-3xl" />
-                <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-pink-500/10 blur-3xl" />
-                
-                <div className="relative z-10 flex h-full flex-col justify-between">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 via-yellow-400 to-amber-500 shadow-lg shadow-amber-500/30">
-                        <RiVipCrownFill className="text-xl text-zinc-900" />
+          ) : (
+            <Motion.div
+              key="vip-hero"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+              className="col-span-12 lg:col-span-5"
+            >
+              <div className="relative h-full overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-pink-900/20 p-1 backdrop-blur-xl">
+                <div className="relative h-full rounded-3xl bg-gradient-to-br from-zinc-900/95 via-zinc-800/90 to-zinc-900/95 p-6 md:p-8">
+                  <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-purple-500/10 blur-3xl" />
+                  <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-pink-500/10 blur-3xl" />
+                  
+                  <div className="relative z-10 flex h-full flex-col justify-between">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 via-yellow-400 to-amber-500 shadow-lg shadow-amber-500/30">
+                          <RiVipCrownFill className="text-xl text-zinc-900" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-purple-400">
+                            ACTORIS VIP
+                          </p>
+                          <p className="text-xs text-muted">Expérience premium</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-purple-400">
-                          ACTORIS VIP
+
+                      <div className="space-y-3">
+                        <h1 className="text-3xl font-bold text-white md:text-4xl">
+                          {isVip ? 'Vous êtes VIP' : 'Passez en VIP'}
+                        </h1>
+                        <p className="text-sm text-muted">
+                          {isVip 
+                            ? 'Vous bénéficiez déjà de tous les avantages VIP. Profitez de votre expérience premium au maximum !'
+                            : 'Débloquez une expérience gaming exceptionnelle avec des avantages exclusifs, un support prioritaire et du contenu premium.'
+                          }
                         </p>
-                        <p className="text-xs text-muted">Expérience premium</p>
                       </div>
+
+                      {!isVip && (
+                        <div className="flex flex-wrap items-center gap-3">
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-3xl font-bold text-white">2,99€</span>
+                            <span className="text-sm text-muted">Payer une fois</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {isVip && (
+                        <div className="flex items-center gap-2 text-sm text-emerald-400">
+                          <FiCheck className="text-lg" />
+                          <span className="font-semibold">Statut VIP actif</span>
+                        </div>
+                      )}
                     </div>
 
-                    <div className="space-y-3">
-                      <h1 className="text-3xl font-bold text-white md:text-4xl">
-                        Passez en VIP
-                      </h1>
-                      <p className="text-sm text-muted">
-                        Débloquez une expérience gaming exceptionnelle avec des avantages exclusifs, 
-                        un support prioritaire et du contenu premium.
-                      </p>
-                    </div>
+                    {!isVip && (
+                      <Motion.button
+                        whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(234, 179, 8, 0.3)" }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                        className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 px-6 py-3 text-sm font-semibold text-zinc-900 shadow-lg shadow-amber-500/30 transition-all duration-300"
+                      >
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                          Devenir VIP
+                          <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                        </span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      </Motion.button>
+                    )}
 
-                    <div className="flex flex-wrap items-center gap-3">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-bold text-white">2,99€</span>
-                        <span className="text-sm text-muted">/mois</span>
-                      </div>
-                      <div className="h-5 w-px bg-border" />
-                      <div className="flex items-center gap-2 text-xs text-muted">
-                        <FiCheck className="text-emerald-400" />
-                        <span>Annulation à tout moment</span>
-                      </div>
-                    </div>
+                    {isVip && (
+                      <Motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="w-full rounded-2xl bg-gradient-to-r from-emerald-500/20 via-emerald-500/10 to-emerald-500/20 border border-emerald-500/30 px-6 py-4"
+                      >
+                        <div className="flex items-center gap-3">
+                          <RiVipCrownFill className="text-2xl text-emerald-400" />
+                          <div>
+                            <p className="text-sm font-semibold text-white">Abonnement VIP actif</p>
+                            <p className="text-xs text-muted">Merci de votre confiance !</p>
+                          </div>
+                        </div>
+                      </Motion.div>
+                    )}
                   </div>
-
-                  <Motion.button
-                    whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(234, 179, 8, 0.3)" }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                    className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 px-6 py-3 text-sm font-semibold text-zinc-900 shadow-lg shadow-amber-500/30 transition-all duration-300"
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      Devenir VIP
-                      <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  </Motion.button>
                 </div>
               </div>
-            </div>
-          </Motion.div>
+            </Motion.div>
           )}
         </AnimatePresence>
 
         {/* Right Column - Features and Perks */}
         <div className="col-span-12 lg:col-span-7 flex flex-col gap-4">
-          {/* Features List - Enhanced */}
+          {/* Features List */}
           <AnimatePresence mode="wait">
             {isBoostMode ? (
               <Motion.div
@@ -285,7 +310,7 @@ export function VipPage() {
             )}
           </AnimatePresence>
 
-          {/* Perks Grid - Enhanced */}
+          {/* Perks Grid */}
           <div className="flex-1">
             <Motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -372,5 +397,3 @@ export function VipPage() {
     </div>
   )
 }
-
-

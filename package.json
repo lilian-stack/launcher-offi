@@ -1,7 +1,7 @@
 {
   "name": "actoris-launcher",
-  "version": "1.0.10",
-  "description": "Launcher Electron Actoris",
+  "version": "1.0.28",
+  "description": "Actoris",
   "type": "module",
   "main": "electron/main.js",
   "scripts": {
@@ -13,7 +13,18 @@
     "start": "concurrently \"npm run dev\" \"npm run bot:start\" \"wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER=true VITE_DEV_SERVER_URL=http://localhost:5173 electron .\"",
     "bot:start": "node launcher-server.js",
     "bot:dev": "nodemon launcher-server.js",
-    "make:win": "npm run build && electron-builder --win"
+    "make:win": "npm run build && electron-builder --win",
+    "export:github": "node scripts/utils/export-to-github.js",
+    "migrate:supabase": "node scripts/migrations/migrate-to-supabase.js",
+    "test:supabase": "node scripts/utils/test-supabase-connection.js",
+    "add:test-game": "node scripts/utils/add-test-game.js",
+    "check:supabase": "node scripts/utils/check-supabase-usage.js",
+    "release": "node scripts/deploy/release-update.js",
+    "process:steam": "node scripts/utils/process-steam-links.js",
+    "add:steam-games": "node scripts/utils/add-steam-games-to-supabase.js",
+    "update:category": "node scripts/migrations/update-games-category.js",
+    "add:category-column": "node scripts/migrations/add-category-column.js",
+    "search:download-links": "node scripts/utils/search-download-links.js"
   },
   "keywords": [
     "discord",
@@ -28,11 +39,13 @@
   "dependencies": {
     "7zip-bin": "^5.2.0",
     "axios": "^1.6.2",
+    "cheerio": "^1.1.2",
     "decompress": "^4.2.1",
     "decompress-tarbz2": "^4.0.1",
     "decompress-targz": "^4.1.1",
     "decompress-unzip": "^4.0.1",
     "discord.js": "^14.14.1",
+    "electron-updater": "^6.6.2",
     "express": "^4.18.2",
     "framer-motion": "^10.16.16",
     "node-7z": "^3.0.0",
@@ -58,7 +71,7 @@
   },
   "build": {
     "appId": "com.actoris.launcher",
-    "productName": "Actoris Launcher",
+    "productName": "Actoris",
     "directories": {
       "output": "release"
     },
@@ -68,6 +81,12 @@
       "package.json"
     ],
     "fileAssociations": [],
+    "protocols": [
+      {
+        "name": "Actoris Launcher",
+        "schemes": ["actoris"]
+      }
+    ],
     "extraMetadata": {
       "main": "electron/main.js"
     },
@@ -76,24 +95,37 @@
       {
         "from": "public/actoris-logo.png",
         "to": "actoris-logo.png",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "public/splash.html",
+        "to": "splash.html",
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "win": {
-      "target": "nsis",
-      "icon": "build/icon.ico"
+      "target": "nsis"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "deleteAppDataOnUninstall": true,
-      "runAfterFinish": true,
+      "runAfterFinish": false,
       "differentialPackage": false,
       "artifactName": "${productName}-Setup-${version}.${ext}",
-      "shortcutName": "Actoris Launcher"
+      "shortcutName": "Actoris",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "menuCategory": false
     },
     "asar": true,
-    "asarUnpack": [],
+    "asarUnpack": [
+      "node_modules/7zip-bin/**/*"
+    ],
     "compression": "maximum",
     "removePackageKeywords": true,
     "removePackageScripts": true

@@ -7,10 +7,7 @@ export const DISCORD_CONFIG = {
   
   // Client Secret de votre application Discord
   CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET || "",
-  
-  // Bot Token (optionnel, pour certaines opérations avancées)
-  BOT_TOKEN: process.env.DISCORD_BOT_TOKEN || 'process.env.DISCORD_BOT_TOKEN || ""',
-  
+
   // URL de redirection (doit être configurée dans les paramètres OAuth2 de Discord)
   REDIRECT_URI: process.env.DISCORD_REDIRECT_URI || 'http://localhost:5173',
   

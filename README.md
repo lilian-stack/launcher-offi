@@ -1,16 +1,67 @@
-# React + Vite
+# Actoris
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Launcher de jeux Electron pour la plateforme Actoris.
 
-Currently, two official plugins are available:
+**Version** : 1.0.23  
+**Statut** : 🟢 Production Ready
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📁 Structure du projet
 
-## React Compiler
+```
+launcher/
+├── electron/          # Code Electron (main process)
+├── src/              # Code React (renderer process)
+├── public/           # Assets publics
+├── scripts/          # Scripts utilitaires
+│   ├── deploy/       # Scripts de déploiement
+│   ├── migrations/   # Scripts de migration
+│   ├── utils/        # Scripts utilitaires
+│   └── backups/      # Fichiers de sauvegarde
+├── docs/             # Documentation
+│   ├── patch-notes/  # Notes de version
+│   └── guides/       # Guides de configuration
+├── archive/          # Fichiers obsolètes
+└── release/          # Builds compilés
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Démarrage rapide
 
-## Expanding the ESLint configuration
+### Développement
+```bash
+npm install
+npm start
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Build
+```bash
+npm run build
+npm run make:win
+```
+
+### Déploiement
+```bash
+npm run release
+# ou
+.\scripts\deploy\quick-deploy.ps1 -Version "1.0.23"
+```
+
+## 📚 Documentation
+
+- **Patch Notes** : `docs/patch-notes/` (dernières versions uniquement)
+- **Audit Complet** : `docs/AUDIT_COMPLET.md` (audit complet du projet)
+- **Scripts** : `scripts/README.md`
+- **Guides** : `docs/guides/` (guides essentiels uniquement)
+
+## 🛠️ Technologies
+
+- **Electron** : Framework desktop
+- **React** : Interface utilisateur
+- **Vite** : Build tool
+- **Tailwind CSS** : Styling
+- **Supabase** : Base de données
+
+## 📝 Notes
+
+- Les fichiers de backup sont dans `scripts/backups/`
+- Les fichiers obsolètes sont dans `archive/`
+- La documentation est organisée dans `docs/`

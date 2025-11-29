@@ -1,20 +1,20 @@
-ï»¿/**
+/**
  * Bot Discord complet avec WebSocket et API Express pour la communication avec le launcher
  * 
- * Installation des dÃ©pendances :
+ * Installation des dépendances :
  * npm install ws express discord.js axios cheerio
  * 
  * Lancement :
  * node launcher-server.js
  */
 
-const WebSocket = require("ws");
-const express = require("express");
-const http = require("http");
-const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, PermissionFlagsBits, StringSelectMenuBuilder, ChannelType } = require('discord.js');
-const axios = require('axios');
-const cheerio = require('cheerio');
-const config = require('./config');
+import WebSocket from "ws";
+import express from "express";
+import http from "http";
+import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, PermissionFlagsBits, StringSelectMenuBuilder, ChannelType } from 'discord.js';
+import axios from 'axios';
+import cheerio from 'cheerio';
+import config from './config.js';
 
 // ==================== WEBSOCKET & API EXPRESS ====================
 
@@ -23,10 +23,10 @@ const app = express();
 app.use(express.json());
 
 // Initialiser le serveur WebSocket
-// CrÃƒÂ©er le serveur HTTP avec Express
+// CrÃ©er le serveur HTTP avec Express
 const server = http.createServer(app);
 
-// CrÃƒÂ©er le serveur WebSocket attachÃƒÂ© au serveur HTTP
+// CrÃ©er le serveur WebSocket attachÃ© au serveur HTTP
 const wss = new WebSocket.Server({ server });
 let launchers = [];
 
@@ -41,10 +41,10 @@ const client = new Client({
 
 // ==================== FONCTIONS UTILITAIRES ====================
 
-// Fonction pour rÃ©cupÃ©rer les informations d'un jeu Steam
+// Fonction pour récupérer les informations d'un jeu Steam
 async function getGameInfo(steamUrl) {
     try {
-        // Essayer d'abord la version franÃ§aise
+        // Essayer d'abord la version française
         const frenchUrl = steamUrl.replace('/app/', '/app/').replace('?', '?l=french&');
         let response = await axios.get(frenchUrl);
         let $ = cheerio.load(response.data);
@@ -53,43 +53,43 @@ async function getGameInfo(steamUrl) {
         let description = $('.game_description_snippet').text().trim();
         let image = $('.game_header_image_full').attr('src') || $('.apphub_AppIcon img').attr('src');
         
-        // Si pas de description en franÃ§ais, essayer la version anglaise
+        // Si pas de description en français, essayer la version anglaise
         if (!description || description.length < 10) {
             response = await axios.get(steamUrl);
             $ = cheerio.load(response.data);
             description = $('.game_description_snippet').text().trim();
         }
         
-        // Si toujours pas de description, utiliser une description par dÃ©faut
+        // Si toujours pas de description, utiliser une description par défaut
         if (!description || description.length < 10) {
             description = 'Description non disponible sur Steam';
         }
         
         return {
-            title: title || 'Titre non trouvÃ©',
+            title: title || 'Titre non trouvé',
             description: description,
             image: image || null
         };
     } catch (error) {
-        console.error('Erreur lors de la rÃ©cupÃ©ration des infos du jeu:', error);
+        console.error('Erreur lors de la récupération des infos du jeu:', error);
         return null;
     }
 }
 
-// Fonction pour crÃ©er l'embed de suggestion
+// Fonction pour créer l'embed de suggestion
 function createSuggestionEmbed(gameName, description, link, image, status = 'pending', moderator = null, reason = null) {
     const embed = new EmbedBuilder()
-        .setTitle(status === 'pending' ? 'ğŸ® NOUVELLE SUGGESTION' : 
-                 status === 'accepted' ? 'âœ… SUGGESTION ACCEPTÃ‰E' : 'âŒ SUGGESTION REFUSÃ‰E')
+        .setTitle(status === 'pending' ? '?? NOUVELLE SUGGESTION' : 
+                 status === 'accepted' ? '? SUGGESTION ACCEPTÉE' : '? SUGGESTION REFUSÉE')
         .setColor(status === 'pending' ? '#FFA500' : status === 'accepted' ? '#00FF00' : '#FF0000')
         .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
-        .setDescription(`**ğŸ® ${gameName}**\n\n${description}`)
+        .setDescription(`**?? ${gameName}**\n\n${description}`)
         .addFields(
-            { name: 'ğŸ”— Lien Steam', value: `[Cliquez ici pour voir le jeu](${link})`, inline: false }
+            { name: '?? Lien Steam', value: `[Cliquez ici pour voir le jeu](${link})`, inline: false }
         )
         .setFooter({ 
-            text: status === 'pending' ? 'En attente de modÃ©ration' : 
-                  status === 'accepted' ? 'Suggestion approuvÃ©e par l\'Ã©quipe' : 'Suggestion refusÃ©e',
+            text: status === 'pending' ? 'En attente de modération' : 
+                  status === 'accepted' ? 'Suggestion approuvée par l\'équipe' : 'Suggestion refusée',
             iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
         })
         .setTimestamp();
@@ -100,22 +100,22 @@ function createSuggestionEmbed(gameName, description, link, image, status = 'pen
 
     if (status !== 'pending') {
         embed.addFields(
-            { name: 'ğŸ“Š Statut', value: status === 'accepted' ? 'âœ… **AcceptÃ©e**' : 'âŒ **RefusÃ©e**', inline: true },
-            { name: 'ğŸ‘¤ ModÃ©rateur', value: `**${moderator || 'Inconnu'}**`, inline: true },
-            { name: 'â° TraitÃ© le', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true }
+            { name: '?? Statut', value: status === 'accepted' ? '? **Acceptée**' : '? **Refusée**', inline: true },
+            { name: '?? Modérateur', value: `**${moderator || 'Inconnu'}**`, inline: true },
+            { name: '? Traité le', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true }
         );
         
         if (reason) {
             embed.addFields({ 
-                name: 'ğŸ’¬ Raison du refus', 
+                name: '?? Raison du refus', 
                 value: `\`\`\`${reason}\`\`\``, 
                 inline: false 
             });
         }
     } else {
         embed.addFields(
-            { name: 'â° CrÃ©Ã© le', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true },
-            { name: 'ğŸ“‹ ID', value: `${Date.now().toString().slice(-6)}`, inline: true }
+            { name: '? Créé le', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true },
+            { name: '?? ID', value: `${Date.now().toString().slice(-6)}`, inline: true }
         );
     }
 
@@ -125,43 +125,43 @@ function createSuggestionEmbed(gameName, description, link, image, status = 'pen
 // ==================== GESTION WEBSOCKET ====================
 
 wss.on("connection", ws => {
-    console.log("âœ… Launcher connectÃ© !");
+    console.log("? Launcher connecté !");
     launchers.push(ws);
 
     // Envoyer un message de bienvenue
     ws.send(JSON.stringify({
         type: 'welcome',
-        message: 'Connexion Ã©tablie avec le serveur'
+        message: 'Connexion établie avec le serveur'
     }));
 
     ws.on("close", () => {
-        console.log("âŒ Launcher dÃ©connectÃ©");
+        console.log("? Launcher déconnecté");
         launchers = launchers.filter(l => l !== ws);
     });
 
     ws.on("error", (error) => {
-        console.error("âŒ Erreur WebSocket:", error);
+        console.error("? Erreur WebSocket:", error);
     });
 
-    // Ã‰couter les messages du launcher
+    // Écouter les messages du launcher
     ws.on("message", (data) => {
         try {
             const message = JSON.parse(data.toString());
-            console.log("ğŸ“¨ Message reÃ§u du launcher:", message);
+            console.log("?? Message reçu du launcher:", message);
             
-            // Traiter les diffÃ©rents types de messages
+            // Traiter les différents types de messages
             if (message.type === 'ping') {
                 ws.send(JSON.stringify({ type: 'pong' }));
             }
         } catch (error) {
-            console.error("âŒ Erreur lors du parsing du message:", error);
+            console.error("? Erreur lors du parsing du message:", error);
         }
     });
 });
 
 // ==================== API EXPRESS ====================
 
-// API pour crÃ©er un ticket depuis le launcher
+// API pour créer un ticket depuis le launcher
 app.post("/create-ticket", async (req, res) => {
     try {
         const { discord_id, username, message } = req.body;
@@ -169,7 +169,7 @@ app.post("/create-ticket", async (req, res) => {
         if (!discord_id || !username || !message) {
             return res.status(400).json({ 
                 success: false, 
-                error: "ParamÃ¨tres manquants: discord_id, username, message requis" 
+                error: "Paramètres manquants: discord_id, username, message requis" 
             });
         }
 
@@ -182,11 +182,11 @@ app.post("/create-ticket", async (req, res) => {
             });
         }
 
-        // VÃ©rifier si un salon ticket existe dÃ©jÃ 
+        // Vérifier si un salon ticket existe déjà
         let channel = guild.channels.cache.find(ch => ch.name === `ticket-${discord_id}`);
 
         if (!channel) {
-            // CrÃ©er le salon ticket
+            // Créer le salon ticket
             channel = await guild.channels.create({
                 name: `ticket-${discord_id}`,
                 type: 0, // text channel
@@ -205,13 +205,13 @@ app.post("/create-ticket", async (req, res) => {
                     }
                 ]
             });
-            console.log(`âœ… Salon ticket crÃ©Ã©: ${channel.name}`);
+            console.log(`? Salon ticket créé: ${channel.name}`);
         }
 
         // Envoyer le message dans le ticket
         await channel.send(`**${username}** : ${message}`);
         
-        console.log(`âœ… Message envoyÃ© dans le ticket ${channel.name}`);
+        console.log(`? Message envoyé dans le ticket ${channel.name}`);
         
         res.json({ 
             success: true, 
@@ -219,7 +219,7 @@ app.post("/create-ticket", async (req, res) => {
             channelName: channel.name
         });
     } catch (error) {
-        console.error("âŒ Erreur lors de la crÃ©ation du ticket:", error);
+        console.error("? Erreur lors de la création du ticket:", error);
         res.status(500).json({ 
             success: false, 
             error: error.message || "Erreur serveur" 
@@ -227,7 +227,7 @@ app.post("/create-ticket", async (req, res) => {
     }
 });
 
-// Endpoint pour vÃ©rifier le statut du serveur
+// Endpoint pour vérifier le statut du serveur
 app.get("/status", (req, res) => {
     res.json({
         success: true,
@@ -246,29 +246,29 @@ app.get("/status", (req, res) => {
     });
 });
 
-// DÃ©marrer le serveur Express
+// Démarrer le serveur Express
 app.listen(3001, '0.0.0.0', () => {
-    console.log("âœ… API Express prÃªte sur le port 3001 !");
-    console.log("ğŸ“¡ WebSocket serveur prÃªt sur le port 8080 !");
+    console.log("? API Express prête sur le port 3001 !");
+    console.log("?? WebSocket serveur prêt sur le port 8080 !");
 });
 
-// ==================== Ã‰VÃ‰NEMENTS DISCORD ====================
+// ==================== ÉVÉNEMENTS DISCORD ====================
 
-// Utiliser clientReady au lieu de ready pour Ã©viter l'avertissement de dÃ©prÃ©ciation
-// (discord.js v14+ supporte dÃ©jÃ  clientReady, ready sera supprimÃ© dans v15)
+// Utiliser clientReady au lieu de ready pour éviter l'avertissement de dépréciation
+// (discord.js v14+ supporte déjà clientReady, ready sera supprimé dans v15)
 client.once('clientReady', () => {
-    console.log(`âœ… Bot connectÃ© en tant que ${client.user.tag}!`);
+    console.log(`? Bot connecté en tant que ${client.user.tag}!`);
 });
 
 // Gestion des interactions
 client.on('interactionCreate', async interaction => {
     if (!interaction.isButton() && !interaction.isModalSubmit() && !interaction.isStringSelectMenu()) return;
 
-    // SystÃ¨me de suggestions
+    // Système de suggestions
     if (interaction.customId === 'create_suggestion') {
         const modal = new ModalBuilder()
             .setCustomId('suggestion_modal')
-            .setTitle('âœ¨ CrÃ©er une suggestion de jeu');
+            .setTitle('? Créer une suggestion de jeu');
 
         const gameNameInput = new TextInputBuilder()
             .setCustomId('game_name')
@@ -303,7 +303,7 @@ client.on('interactionCreate', async interaction => {
             let gameImage = null;
             let gameDescription = 'Description non disponible';
             
-            // RÃ©cupÃ©rer les infos du jeu si c'est un lien Steam
+            // Récupérer les infos du jeu si c'est un lien Steam
             if (gameLink.includes('steampowered.com')) {
                 const gameInfo = await getGameInfo(gameLink);
                 if (gameInfo) {
@@ -324,29 +324,29 @@ client.on('interactionCreate', async interaction => {
                     .addComponents(
                         new ButtonBuilder()
                             .setCustomId(`accept_suggestion_${message.id}`)
-                            .setLabel('âœ… Accepter')
+                            .setLabel('? Accepter')
                             .setStyle(ButtonStyle.Success),
                         new ButtonBuilder()
                             .setCustomId(`reject_suggestion_${message.id}`)
-                            .setLabel('âŒ Refuser')
+                            .setLabel('? Refuser')
                             .setStyle(ButtonStyle.Danger)
                     );
                 
                 await message.edit({ components: [actionRow] });
             }
 
-            await interaction.editReply('âœ… Votre suggestion a Ã©tÃ© envoyÃ©e avec succÃ¨s !');
+            await interaction.editReply('? Votre suggestion a été envoyée avec succès !');
         } catch (error) {
             console.error('Erreur lors de l\'envoi de la suggestion:', error);
-            await interaction.editReply('âŒ Une erreur est survenue lors de l\'envoi de votre suggestion.');
+            await interaction.editReply('? Une erreur est survenue lors de l\'envoi de votre suggestion.');
         }
     }
 
     // Gestion des boutons d'acceptation/refus
     if (interaction.customId.startsWith('accept_suggestion_') || interaction.customId.startsWith('reject_suggestion_')) {
-        // VÃ©rifier si l'utilisateur a le rÃ´le admin
+        // Vérifier si l'utilisateur a le rôle admin
         if (!interaction.member.roles.cache.has(config.ADMIN_ROLE_ID)) {
-            return await interaction.reply({ content: 'âŒ Vous n\'avez pas la permission d\'effectuer cette action.', ephemeral: true });
+            return await interaction.reply({ content: '? Vous n\'avez pas la permission d\'effectuer cette action.', ephemeral: true });
         }
 
         const messageId = interaction.customId.split('_')[2];
@@ -367,7 +367,7 @@ client.on('interactionCreate', async interaction => {
                 );
                 
                 await message.edit({ embeds: [newEmbed], components: [] });
-                await interaction.reply({ content: 'âœ… Suggestion acceptÃ©e !', ephemeral: true });
+                await interaction.reply({ content: '? Suggestion acceptée !', ephemeral: true });
             } else {
                 // Demander la raison du refus
                 const modal = new ModalBuilder()
@@ -379,14 +379,14 @@ client.on('interactionCreate', async interaction => {
                     .setLabel('Raison du refus')
                     .setStyle(TextInputStyle.Paragraph)
                     .setRequired(true)
-                    .setPlaceholder('Expliquez pourquoi cette suggestion est refusÃ©e...');
+                    .setPlaceholder('Expliquez pourquoi cette suggestion est refusée...');
 
                 modal.addComponents(new ActionRowBuilder().addComponents(reasonInput));
                 await interaction.showModal(modal);
             }
         } catch (error) {
             console.error('Erreur lors de la gestion de la suggestion:', error);
-            await interaction.reply({ content: 'âŒ Une erreur est survenue.', ephemeral: true });
+            await interaction.reply({ content: '? Une erreur est survenue.', ephemeral: true });
         }
     }
 
@@ -410,68 +410,68 @@ client.on('interactionCreate', async interaction => {
             );
             
             await message.edit({ embeds: [newEmbed], components: [] });
-            await interaction.reply({ content: 'âŒ Suggestion refusÃ©e !', ephemeral: true });
+            await interaction.reply({ content: '? Suggestion refusée !', ephemeral: true });
         } catch (error) {
             console.error('Erreur lors du refus de la suggestion:', error);
-            await interaction.reply({ content: 'âŒ Une erreur est survenue.', ephemeral: true });
+            await interaction.reply({ content: '? Une erreur est survenue.', ephemeral: true });
         }
     }
 
-    // SystÃ¨me de tickets - CrÃ©er un ticket
+    // Système de tickets - Créer un ticket
     if (interaction.customId === 'create_ticket') {
         const selectMenu = new StringSelectMenuBuilder()
             .setCustomId('ticket_category')
-            .setPlaceholder('SÃ©lectionnez une catÃ©gorie...')
+            .setPlaceholder('Sélectionnez une catégorie...')
             .addOptions([
                 {
                     label: 'Support',
                     description: 'Pour toute demande d\'aide',
                     value: 'support',
-                    emoji: 'ğŸ’¬'
+                    emoji: '??'
                 },
                 {
-                    label: 'ProblÃ¨me de liens',
+                    label: 'Problème de liens',
                     description: 'Liens morts/corrompus',
                     value: 'link_problem',
-                    emoji: 'ğŸ”—'
+                    emoji: '??'
                 },
                 {
                     label: 'Partenariat',
                     description: 'Demande de partenariat',
                     value: 'partnership',
-                    emoji: 'ğŸ¤'
+                    emoji: '??'
                 },
                 {
                     label: 'Autre',
                     description: 'Autre sujet',
                     value: 'other',
-                    emoji: 'ğŸ”'
+                    emoji: '??'
                 },
                 {
                     label: 'Candidature',
-                    description: 'Suite Ã  une rÃ©ponse positive',
+                    description: 'Suite à une réponse positive',
                     value: 'application',
-                    emoji: 'ğŸ‘¤'
+                    emoji: '??'
                 }
             ]);
 
         const row = new ActionRowBuilder().addComponents(selectMenu);
         
         await interaction.reply({ 
-            content: 'Veuillez sÃ©lectionner une catÃ©gorie pour votre ticket :', 
+            content: 'Veuillez sélectionner une catégorie pour votre ticket :', 
             components: [row], 
             ephemeral: true 
         });
     }
 
-    // Gestion de la sÃ©lection de catÃ©gorie de ticket
+    // Gestion de la sélection de catégorie de ticket
     if (interaction.customId === 'ticket_category') {
         await interaction.deferReply({ ephemeral: true });
         
         const category = interaction.values[0];
         const categoryNames = {
             'support': 'Support',
-            'link_problem': 'ProblÃ¨me de liens',
+            'link_problem': 'Problème de liens',
             'partnership': 'Partenariat',
             'other': 'Autre',
             'application': 'Candidature'
@@ -486,19 +486,19 @@ client.on('interactionCreate', async interaction => {
         };
 
         try {
-            // Trouver la catÃ©gorie parent
+            // Trouver la catégorie parent
             const categoryChannelId = categoryChannelIds[category];
             const parentCategory = client.channels.cache.get(categoryChannelId);
             
             if (!parentCategory) {
                 await interaction.editReply({ 
-                    content: `âŒ Erreur : CatÃ©gorie "${categoryNames[category]}" introuvable.`, 
+                    content: `? Erreur : Catégorie "${categoryNames[category]}" introuvable.`, 
                     components: [] 
                 });
                 return;
             }
 
-            // CrÃ©er un salon privÃ© pour le ticket
+            // Créer un salon privé pour le ticket
             const ticketChannelName = `ticket-${interaction.user.username.toLowerCase()}-${Date.now().toString().slice(-4)}`;
             
             const ticketChannel = await interaction.guild.channels.create({
@@ -523,12 +523,12 @@ client.on('interactionCreate', async interaction => {
 
             // Envoyer le message de bienvenue dans le ticket
             const welcomeEmbed = new EmbedBuilder()
-                .setTitle(`ğŸ« Ticket - ${categoryNames[category]}`)
-                .setDescription(`**ğŸ‘¤ Utilisateur :** ${interaction.user}\n**ğŸ“‚ CatÃ©gorie :** ${categoryNames[category]}\n**â° CrÃ©Ã© le :** <t:${Math.floor(Date.now() / 1000)}:F>\n\n**ğŸ“ Instructions :**\nâ€¢ DÃ©crivez votre problÃ¨me ou votre demande en dÃ©tail\nâ€¢ Un membre de l'Ã©quipe vous rÃ©pondra bientÃ´t\nâ€¢ Utilisez le bouton ci-dessous pour fermer le ticket une fois rÃ©solu`)
+                .setTitle(`?? Ticket - ${categoryNames[category]}`)
+                .setDescription(`**?? Utilisateur :** ${interaction.user}\n**?? Catégorie :** ${categoryNames[category]}\n**? Créé le :** <t:${Math.floor(Date.now() / 1000)}:F>\n\n**?? Instructions :**\n• Décrivez votre problème ou votre demande en détail\n• Un membre de l'équipe vous répondra bientôt\n• Utilisez le bouton ci-dessous pour fermer le ticket une fois résolu`)
                 .setColor('#0099FF')
                 .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
                 .setFooter({ 
-                    text: 'SystÃ¨me de tickets Actoris v2', 
+                    text: 'Système de tickets Actoris v2', 
                     iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
                 })
                 .setTimestamp();
@@ -537,24 +537,24 @@ client.on('interactionCreate', async interaction => {
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId(`close_ticket_${ticketChannel.id}`)
-                        .setLabel('ğŸ”’ Fermer le ticket')
+                        .setLabel('?? Fermer le ticket')
                         .setStyle(ButtonStyle.Danger)
                 );
 
             await ticketChannel.send({ 
-                content: `Bonjour ${interaction.user} ! Votre ticket a Ã©tÃ© crÃ©Ã©.`, 
+                content: `Bonjour ${interaction.user} ! Votre ticket a été créé.`, 
                 embeds: [welcomeEmbed],
                 components: [closeButton]
             });
 
             await interaction.editReply({ 
-                content: `âœ… Votre ticket a Ã©tÃ© crÃ©Ã© : ${ticketChannel}`, 
+                content: `? Votre ticket a été créé : ${ticketChannel}`, 
                 components: [] 
             });
         } catch (error) {
-            console.error('Erreur lors de la crÃ©ation du ticket:', error);
+            console.error('Erreur lors de la création du ticket:', error);
             await interaction.editReply({ 
-                content: 'âŒ Une erreur est survenue lors de la crÃ©ation de votre ticket.', 
+                content: '? Une erreur est survenue lors de la création de votre ticket.', 
                 components: [] 
             });
         }
@@ -562,35 +562,35 @@ client.on('interactionCreate', async interaction => {
 
     // Gestion de la fermeture des tickets
     if (interaction.customId.startsWith('close_ticket_')) {
-        // VÃ©rifier si l'utilisateur a le rÃ´le admin ou s'il est le crÃ©ateur du ticket
+        // Vérifier si l'utilisateur a le rôle admin ou s'il est le créateur du ticket
         const channelId = interaction.customId.split('_')[2];
         const ticketChannel = interaction.channel;
         
         if (!interaction.member.roles.cache.has(config.ADMIN_ROLE_ID) && 
             ticketChannel.name !== `ticket-${interaction.user.username.toLowerCase()}-${ticketChannel.name.split('-').pop()}`) {
             return await interaction.reply({ 
-                content: 'âŒ Vous n\'avez pas la permission de fermer ce ticket.', 
+                content: '? Vous n\'avez pas la permission de fermer ce ticket.', 
                 ephemeral: true 
             });
         }
 
         const closeEmbed = new EmbedBuilder()
-            .setTitle('ğŸ”’ Ticket fermÃ©')
-            .setDescription(`**ğŸ‘¤ FermÃ© par :** ${interaction.user}\n**â° FermÃ© le :** <t:${Math.floor(Date.now() / 1000)}:F>\n**ğŸ“‹ Raison :** Ticket rÃ©solu\n\n**ğŸ’¬ Merci d'avoir utilisÃ© notre systÃ¨me de tickets !**`)
+            .setTitle('?? Ticket fermé')
+            .setDescription(`**?? Fermé par :** ${interaction.user}\n**? Fermé le :** <t:${Math.floor(Date.now() / 1000)}:F>\n**?? Raison :** Ticket résolu\n\n**?? Merci d'avoir utilisé notre système de tickets !**`)
             .setColor('#FF0000')
             .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
             .setFooter({ 
-                text: 'Ce salon sera supprimÃ© dans 5 secondes', 
+                text: 'Ce salon sera supprimé dans 5 secondes', 
                 iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
             })
             .setTimestamp();
 
         await interaction.reply({ 
-            content: 'ğŸ”’ Fermeture du ticket en cours...', 
+            content: '?? Fermeture du ticket en cours...', 
             ephemeral: true 
         });
 
-        // Supprimer le salon aprÃ¨s 5 secondes
+        // Supprimer le salon après 5 secondes
         setTimeout(async () => {
             try {
                 await ticketChannel.delete();
@@ -603,19 +603,19 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-// Commandes pour initialiser les systÃ¨mes
+// Commandes pour initialiser les systèmes
 client.on('messageCreate', async message => {
     if (message.content === '!setup') {
         const suggestionsChannel = client.channels.cache.get(config.SUGGESTIONS_CHANNEL);
         
         if (suggestionsChannel) {
             const embed = new EmbedBuilder()
-                .setTitle('âœ¨ SystÃ¨me de Suggestions de Jeux')
-                .setDescription('**ğŸ® Comment suggÃ©rer un jeu :**\nâ€¢ Cliquez sur le bouton ci-dessous\nâ€¢ Remplissez le formulaire avec le nom et le lien du jeu\nâ€¢ La description et l\'image seront rÃ©cupÃ©rÃ©es automatiquement depuis Steam\nâ€¢ Votre suggestion sera examinÃ©e par l\'Ã©quipe de modÃ©ration\n\n**ğŸ“‹ Informations requises :**\nâ€¢ Nom du jeu\nâ€¢ Lien Steam (recommandÃ© pour rÃ©cupÃ©ration automatique)')
+                .setTitle('? Système de Suggestions de Jeux')
+                .setDescription('**?? Comment suggérer un jeu :**\n• Cliquez sur le bouton ci-dessous\n• Remplissez le formulaire avec le nom et le lien du jeu\n• La description et l\'image seront récupérées automatiquement depuis Steam\n• Votre suggestion sera examinée par l\'équipe de modération\n\n**?? Informations requises :**\n• Nom du jeu\n• Lien Steam (recommandé pour récupération automatique)')
                 .setColor('#FFA500')
                 .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
                 .setFooter({ 
-                    text: 'Actoris v2 â€¢ SystÃ¨me de suggestions', 
+                    text: 'Actoris v2 • Système de suggestions', 
                     iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
                 })
                 .setTimestamp();
@@ -624,12 +624,12 @@ client.on('messageCreate', async message => {
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('create_suggestion')
-                        .setLabel('âœ¨ CrÃ©er une suggestion')
+                        .setLabel('? Créer une suggestion')
                         .setStyle(ButtonStyle.Primary)
                 );
 
             await suggestionsChannel.send({ embeds: [embed], components: [button] });
-            await message.reply('âœ… SystÃ¨me de suggestions initialisÃ© !');
+            await message.reply('? Système de suggestions initialisé !');
         }
     }
 
@@ -638,12 +638,12 @@ client.on('messageCreate', async message => {
         
         if (ticketsChannel) {
             const embed = new EmbedBuilder()
-                .setTitle('ğŸ« SystÃ¨me de Tickets')
-                .setDescription('**ğŸ« Comment crÃ©er un ticket :**\nâ€¢ Cliquez sur le bouton ci-dessous\nâ€¢ SÃ©lectionnez la catÃ©gorie appropriÃ©e\nâ€¢ Un salon privÃ© sera crÃ©Ã© pour vous\n\n**ğŸ“‚ CatÃ©gories disponibles :**\nâ€¢ ğŸ’¬ Support - Pour toute demande d\'aide\nâ€¢ ğŸ”— ProblÃ¨me de liens - Liens morts/corrompus\nâ€¢ ğŸ¤ Partenariat - Demande de partenariat\nâ€¢ ğŸ” Autre - Autre sujet\nâ€¢ ğŸ‘¤ Candidature - Suite Ã  une rÃ©ponse positive')
+                .setTitle('?? Système de Tickets')
+                .setDescription('**?? Comment créer un ticket :**\n• Cliquez sur le bouton ci-dessous\n• Sélectionnez la catégorie appropriée\n• Un salon privé sera créé pour vous\n\n**?? Catégories disponibles :**\n• ?? Support - Pour toute demande d\'aide\n• ?? Problème de liens - Liens morts/corrompus\n• ?? Partenariat - Demande de partenariat\n• ?? Autre - Autre sujet\n• ?? Candidature - Suite à une réponse positive')
                 .setColor('#0099FF')
                 .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
                 .setFooter({ 
-                    text: 'Actoris v2 â€¢ SystÃ¨me de tickets', 
+                    text: 'Actoris v2 • Système de tickets', 
                     iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
                 })
                 .setTimestamp();
@@ -652,39 +652,39 @@ client.on('messageCreate', async message => {
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('create_ticket')
-                        .setLabel('ğŸ« CrÃ©er un ticket')
+                        .setLabel('?? Créer un ticket')
                         .setStyle(ButtonStyle.Primary)
                 );
 
             await ticketsChannel.send({ embeds: [embed], components: [button] });
-            await message.reply('âœ… SystÃ¨me de tickets initialisÃ© !');
+            await message.reply('? Système de tickets initialisé !');
         }
     }
 
     if (message.content === '!debug-channels') {
-        let debugInfo = 'ğŸ” **Debug des salons :**\n\n';
+        let debugInfo = '?? **Debug des salons :**\n\n';
         
-        // VÃ©rifier les salons principaux
+        // Vérifier les salons principaux
         const suggestionsChannel = client.channels.cache.get(config.SUGGESTIONS_CHANNEL);
         const viewSuggestionsChannel = client.channels.cache.get(config.VIEW_SUGGESTIONS_CHANNEL);
         const ticketsChannel = client.channels.cache.get(config.TICKETS_CHANNEL);
         
         debugInfo += `**Salons principaux :**\n`;
-        debugInfo += `â€¢ Suggestions: ${suggestionsChannel ? `âœ… ${suggestionsChannel.name}` : 'âŒ Introuvable'}\n`;
-        debugInfo += `â€¢ Voir suggestions: ${viewSuggestionsChannel ? `âœ… ${viewSuggestionsChannel.name}` : 'âŒ Introuvable'}\n`;
-        debugInfo += `â€¢ Tickets: ${ticketsChannel ? `âœ… ${ticketsChannel.name}` : 'âŒ Introuvable'}\n\n`;
+        debugInfo += `• Suggestions: ${suggestionsChannel ? `? ${suggestionsChannel.name}` : '? Introuvable'}\n`;
+        debugInfo += `• Voir suggestions: ${viewSuggestionsChannel ? `? ${viewSuggestionsChannel.name}` : '? Introuvable'}\n`;
+        debugInfo += `• Tickets: ${ticketsChannel ? `? ${ticketsChannel.name}` : '? Introuvable'}\n\n`;
         
-        // VÃ©rifier les salons de catÃ©gories
-        debugInfo += `**Salons de catÃ©gories :**\n`;
+        // Vérifier les salons de catégories
+        debugInfo += `**Salons de catégories :**\n`;
         Object.entries(config.TICKET_CATEGORIES).forEach(([key, channelId]) => {
             const channel = client.channels.cache.get(channelId);
-            debugInfo += `â€¢ ${key}: ${channel ? `âœ… ${channel.name}` : `âŒ Introuvable (${channelId})`}\n`;
+            debugInfo += `• ${key}: ${channel ? `? ${channel.name}` : `? Introuvable (${channelId})`}\n`;
         });
         
         await message.reply(debugInfo);
     }
 
-    // Envoyer les messages Discord aux launchers connectÃ©s
+    // Envoyer les messages Discord aux launchers connectés
     if (!message.author.bot && message.channel.name.startsWith("ticket-")) {
         const data = {
             type: 'discord_message',
@@ -695,33 +695,33 @@ client.on('messageCreate', async message => {
             timestamp: message.createdTimestamp
         };
 
-        // Envoyer Ã  tous les launchers connectÃ©s
+        // Envoyer à tous les launchers connectés
         launchers.forEach(ws => {
             if (ws.readyState === WebSocket.OPEN) {
                 try {
                     ws.send(JSON.stringify(data));
-                    console.log(`ğŸ“¤ Message envoyÃ© au launcher depuis ${message.channel.name}`);
+                    console.log(`?? Message envoyé au launcher depuis ${message.channel.name}`);
                 } catch (error) {
-                    console.error("âŒ Erreur lors de l'envoi au launcher:", error);
+                    console.error("? Erreur lors de l'envoi au launcher:", error);
                 }
             }
         });
     }
 });
 
-// Connexion Discord (seulement si le token est configurÃ©)
+// Connexion Discord (seulement si le token est configuré)
 if (config.TOKEN && config.TOKEN.trim() !== '') {
     client.login(config.TOKEN).catch(err => {
-        console.error('âŒ Erreur de connexion Discord:', err);
+        console.error('? Erreur de connexion Discord:', err);
     });
 } else {
-    console.log('âš ï¸  Token Discord non configurÃ©. Le bot Discord ne sera pas connectÃ©.');
-    console.log('âš ï¸  Le serveur WebSocket fonctionne toujours sur le port 8080.');
+    console.log('??  Token Discord non configuré. Le bot Discord ne sera pas connecté.');
+    console.log('??  Le serveur WebSocket fonctionne toujours sur le port 8080.');
 }
 
-// Gestion propre de l'arrÃªt
+// Gestion propre de l'arrêt
 process.on('SIGINT', () => {
-    console.log('\nğŸ›‘ ArrÃªt du serveur...');
+    console.log('\n?? Arrêt du serveur...');
     
     // Fermer toutes les connexions WebSocket
     launchers.forEach(ws => {
@@ -730,10 +730,11 @@ process.on('SIGINT', () => {
         }
     });
     
-    // DÃ©connecter le bot Discord
+    // Déconnecter le bot Discord
     if (client.isReady()) {
         client.destroy();
     }
     
     process.exit(0);
 });
+

@@ -144,6 +144,7 @@ html.light-theme {
     overflow-y: hidden;
     width: calc(100% - 16rem);
     padding: 2rem 2.5rem;
+    z-index: 1;
   }
 
   .app-content {
@@ -154,6 +155,8 @@ html.light-theme {
     max-width: 100%;
     padding-top: 1.5rem;
     padding-bottom: 2rem;
+    position: relative;
+    z-index: 0;
   }
 
   .app-content > * + * {
@@ -248,7 +251,7 @@ html.light-theme {
     max-width: 100%;
     overflow-x: hidden;
     overflow-y: visible;
-    z-index: 10;
+    z-index: 1000;
     isolation: isolate;
     -ms-overflow-style: none; /* IE et Edge */
     scrollbar-width: none; /* Firefox */
@@ -263,6 +266,9 @@ html.light-theme {
     @apply relative w-full max-w-xl;
     flex: 1;
     min-width: 0;
+    position: relative;
+    z-index: 1000;
+    overflow: visible;
   }
 
   .search-icon {

@@ -1,17 +1,48 @@
-// Utilisation de Firebase pour stocker les jeux
-import { getGamesFromFirebase, addGameToFirebase, updateGameInFirebase, deleteGameFromFirebase } from './firebase-games-service.js'
+// Utilisation de Supabase pour stocker les jeux
+import { getGamesFromSupabase, addGameToSupabase, updateGameOnSupabase, deleteGameFromSupabase } from './supabase-games-service.js'
 
 /**
- * Récupère les jeux depuis Firebase
+ * Récupère les jeux depuis Supabase
  */
+// Cache pour éviter les appels répétés
+let gamesCache = null
+let gamesCacheTimestamp = 0
+const GAMES_CACHE_DURATION = 30000 // 30 secondes
+
 export async function getGamesFromGitHub() {
   try {
-    console.log('[games-service] getGamesFromGitHub called (using Firebase)')
-    return await getGamesFromFirebase()
+    const now = Date.now()
+    // Utiliser le cache si disponible et récent
+    if (gamesCache && (now - gamesCacheTimestamp) < GAMES_CACHE_DURATION) {
+      return gamesCache
+    }
+    
+    const result = await getGamesFromSupabase()
+    // S'assurer qu'on retourne toujours un objet avec games
+    const games = result && result.games ? result : { games: [] }
+    
+    // Mettre à jour le cache
+    gamesCache = games
+    gamesCacheTimestamp = now
+    
+    return games
   } catch (error) {
-    console.error('[games-service] Error getting games from Firebase:', error)
-    throw error
+    // En cas d'erreur, retourner le cache si disponible
+    if (gamesCache) {
+      return gamesCache
+    }
+    console.error('[games-service] Error getting games from Supabase:', error)
+    // Retourner un tableau vide au lieu de throw pour éviter de bloquer l'application
+    return { games: [] }
   }
+}
+
+/**
+ * Invalide le cache des jeux
+ */
+export function invalidateGamesCache() {
+  gamesCache = null
+  gamesCacheTimestamp = 0
 }
 
 /**
@@ -19,10 +50,12 @@ export async function getGamesFromGitHub() {
  */
 export async function addGame(gameData) {
   try {
-    console.log('[games-service] addGame called (using Firebase)')
-    return await addGameToFirebase(gameData)
+    const result = await addGameToSupabase(gameData)
+    // Invalider le cache après ajout
+    invalidateGamesCache()
+    return result
   } catch (error) {
-    console.error('[games-service] Error adding game to Firebase:', error)
+    console.error('[games-service] Error adding game to Supabase:', error)
     throw error
   }
 }
@@ -32,10 +65,12 @@ export async function addGame(gameData) {
  */
 export async function updateGame(gameId, updates) {
   try {
-    console.log('[games-service] updateGame called (using Firebase)')
-    return await updateGameInFirebase(gameId, updates)
+    const result = await updateGameOnSupabase(gameId, updates)
+    // Invalider le cache après mise à jour
+    invalidateGamesCache()
+    return result
   } catch (error) {
-    console.error('[games-service] Error updating game in Firebase:', error)
+    console.error('[games-service] Error updating game on Supabase:', error)
     throw error
   }
 }
@@ -45,10 +80,12 @@ export async function updateGame(gameId, updates) {
  */
 export async function deleteGame(gameId) {
   try {
-    console.log('[games-service] deleteGame called (using Firebase)')
-    return await deleteGameFromFirebase(gameId)
+    const result = await deleteGameFromSupabase(gameId)
+    // Invalider le cache après suppression
+    invalidateGamesCache()
+    return result
   } catch (error) {
-    console.error('[games-service] Error deleting game from Firebase:', error)
+    console.error('[games-service] Error deleting game from Supabase:', error)
     throw error
   }
 }

@@ -54,9 +54,22 @@ export function SupportPage() {
           return
         }
 
-        const result = await window.electron.websocket.connect()
+        const result = await window.electron.websocket.connect(true) // true = tentative manuelle
         if (!result.success) {
-          setError(result.error || 'Erreur de connexion')
+          let errorString = result.error instanceof Error ? result.error.message : (typeof result.error === 'string' ? result.error : String(result.error || 'Erreur de connexion'))
+          
+          // Convertir les erreurs techniques en messages conviviaux
+          if (errorString.includes('ECONNREFUSED') || errorString.includes('connection refused') || errorString.includes('::1:') || errorString.includes('localhost:')) {
+            errorString = 'Le serveur de support n\'est pas disponible. Veuillez réessayer plus tard ou contacter l\'administrateur.'
+          } else if (errorString.includes('ENOTFOUND') || errorString.includes('getaddrinfo')) {
+            errorString = 'Impossible de joindre le serveur de support. Vérifiez votre connexion internet.'
+          } else if (errorString.includes('ETIMEDOUT') || errorString.includes('timeout')) {
+            errorString = 'La connexion au serveur de support a expiré. Veuillez réessayer.'
+          } else if (errorString.includes('WebSocket') || errorString.includes('ws://')) {
+            errorString = 'Erreur de connexion au serveur de support. Veuillez réessayer.'
+          }
+          
+          setError(errorString)
           setIsConnecting(false)
         }
         // Note: isConnected sera mis à true via handleConnected
@@ -66,7 +79,20 @@ export function SupportPage() {
       }
     } catch (err) {
       console.error('[Support] Erreur de connexion:', err)
-      setError(err.message || 'Erreur de connexion')
+      let errorString = err instanceof Error ? err.message : (typeof err === 'string' ? err : String(err))
+      
+      // Convertir les erreurs techniques en messages conviviaux
+      if (errorString.includes('ECONNREFUSED') || errorString.includes('connection refused')) {
+        errorString = 'Le serveur de support n\'est pas disponible. Veuillez réessayer plus tard ou contacter l\'administrateur.'
+      } else if (errorString.includes('ENOTFOUND') || errorString.includes('getaddrinfo')) {
+        errorString = 'Impossible de joindre le serveur de support. Vérifiez votre connexion internet.'
+      } else if (errorString.includes('ETIMEDOUT') || errorString.includes('timeout')) {
+        errorString = 'La connexion au serveur de support a expiré. Veuillez réessayer.'
+      } else if (errorString.includes('WebSocket')) {
+        errorString = 'Erreur de connexion au serveur de support. Veuillez réessayer.'
+      }
+      
+      setError(errorString || 'Erreur de connexion')
       setIsConnecting(false)
     }
   }
@@ -136,9 +162,25 @@ export function SupportPage() {
       }
 
       const handleError = (event, errorMessage) => {
-        setError(errorMessage)
+        // S'assurer que errorMessage est une chaîne de caractères
+        let errorString = errorMessage instanceof Error ? errorMessage.message : (typeof errorMessage === 'string' ? errorMessage : String(errorMessage))
+        
+        // Convertir les erreurs techniques en messages conviviaux
+        if (errorString.includes('ECONNREFUSED') || errorString.includes('connection refused') || errorString.includes('::1:') || errorString.includes('localhost:')) {
+          errorString = 'Le serveur de support n\'est pas disponible. Veuillez réessayer plus tard ou contacter l\'administrateur.'
+        } else if (errorString.includes('ENOTFOUND') || errorString.includes('getaddrinfo')) {
+          errorString = 'Impossible de joindre le serveur de support. Vérifiez votre connexion internet.'
+        } else if (errorString.includes('ETIMEDOUT') || errorString.includes('timeout')) {
+          errorString = 'La connexion au serveur de support a expiré. Veuillez réessayer.'
+        } else if (errorString.includes('WebSocket') || errorString.includes('ws://')) {
+          errorString = 'Erreur de connexion au serveur de support. Veuillez réessayer.'
+        }
+        
+        setError(errorString)
         setIsConnecting(false)
-        console.error('[Support] Erreur WebSocket:', errorMessage)
+        setIsConnected(false)
+        // Logger l'erreur technique pour le debug, mais afficher un message convivial à l'utilisateur
+        console.error('[Support] Erreur WebSocket technique:', errorMessage)
       }
 
       window.electron.ipcRenderer.on('websocket:message', handleMessage)
@@ -209,14 +251,16 @@ export function SupportPage() {
           setSuccess('Message envoyé avec succès !')
           setTimeout(() => setSuccess(''), 3000)
         } else {
-          setError(result.error || 'Erreur lors de l\'envoi du message')
+          const errorString = result.error instanceof Error ? result.error.message : (typeof result.error === 'string' ? result.error : String(result.error || 'Erreur lors de l\'envoi du message'))
+          setError(errorString)
         }
       } else {
         setError('Les fonctions de support ne sont pas disponibles')
       }
     } catch (err) {
       console.error('[Support] Erreur lors de l\'envoi:', err)
-      setError(err.message || 'Erreur lors de l\'envoi du message')
+      const errorString = err instanceof Error ? err.message : (typeof err === 'string' ? err : String(err))
+      setError(errorString || 'Erreur lors de l\'envoi du message')
     } finally {
       setSending(false)
     }
@@ -298,26 +342,46 @@ export function SupportPage() {
           initial={{ opacity: 0, y: -10, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
-          className={`relative z-10 flex items-center gap-3 rounded-xl px-4 py-3 mb-4 backdrop-blur-sm ${
+          className={`relative z-10 rounded-xl px-4 py-3 mb-4 backdrop-blur-sm ${
             error
               ? 'bg-red-500/10 border border-red-500/30 shadow-lg shadow-red-500/10'
               : 'bg-emerald-500/10 border border-emerald-500/30 shadow-lg shadow-emerald-500/10'
           }`}
         >
           {error ? (
-            <>
-              <div className="p-2 rounded-lg bg-red-500/20">
+            <div className="flex items-start gap-3">
+              <div className="p-2 rounded-lg bg-red-500/20 flex-shrink-0">
                 <FiAlertCircle className="text-red-400 text-lg" />
               </div>
-              <p className="text-sm text-red-400 font-medium flex-1">{error}</p>
-            </>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-red-400 font-medium mb-2">{error}</p>
+                {!isConnected && (
+                  <Motion.button
+                    onClick={connectWebSocket}
+                    disabled={isConnecting}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-red-500/20 border border-red-500/30 text-red-300 hover:bg-red-500/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isConnecting ? (
+                      <>
+                        <FiLoader className="inline-block animate-spin mr-1" />
+                        Connexion...
+                      </>
+                    ) : (
+                      'Réessayer la connexion'
+                    )}
+                  </Motion.button>
+                )}
+              </div>
+            </div>
           ) : (
-            <>
+            <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-emerald-500/20">
                 <FiCheck className="text-emerald-400 text-lg" />
               </div>
               <p className="text-sm text-emerald-400 font-medium flex-1">{success}</p>
-            </>
+            </div>
           )}
         </Motion.div>
       )}

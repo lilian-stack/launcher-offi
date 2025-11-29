@@ -1,0 +1,45 @@
+{
+  "latestVersion": "1.0.25",
+  "releaseDate": "2025-11-20",
+  "highlights": [
+    "Refonte de la page GameDetails avec sections dynamiques et progression enrichie",
+    "Chargement paresseux des médias et intégration des stats communautaires",
+    "Ajout de l'autostart Windows avec bascule dans les paramètres",
+    "Patch notes distants avec cache local et module d'accueil",
+    "Mise à jour silencieuse avec téléchargement vérifié en arrière-plan"
+  ],
+  "notes": [
+    "Nouveau layout en onglets sur la fiche jeu, avec aperçu, configurations, médias et communauté.",
+    "Barre de progression contextuelle, gestion améliorée des téléchargements interrompus.",
+    "Support du démarrage automatique Windows (app.setLoginItemSettings) configurable dans Paramètres.",
+    "Patch notes distants (JSON) récupérés avec cache et affichés sur l'accueil.",
+    "Processus d'auto-update téléchargeant en tâche de fond, vérification SHA-256 puis redémarrage guidé."
+  ],
+  "downloads": {
+    "windows": {
+      "url": "https://github.com/example/actoris-launcher/releases/download/v1.0.25/Actoris-Setup-1.0.25.exe",
+      "sha256": "d41d8cd98f00b204e9800998ecf8427e",
+      "size": "242 MB"
+    }
+  },
+  "history": [
+    {
+      "version": "1.0.24",
+      "date": "2025-11-01",
+      "notes": [
+        "Ajout des badges VIP/Premium dans l'interface.",
+        "Amélioration des notifications de téléchargement.",
+        "Stabilisation des scripts de déploiement GitHub."
+      ]
+    },
+    {
+      "version": "1.0.23",
+      "date": "2025-10-12",
+      "notes": [
+        "Optimisations catalogue et filtres rapides.",
+        "Nouvelles animations de cartes et grilles."
+      ]
+    }
+  ]
+}
+

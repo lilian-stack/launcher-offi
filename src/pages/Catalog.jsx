@@ -1,80 +1,383 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef, memo } from 'react'
 import { motion as Motion, AnimatePresence } from 'framer-motion'
-import { FiGrid, FiSearch, FiLoader, FiAlertCircle, FiHeart, FiDownload } from 'react-icons/fi'
+import { FiGrid, FiSearch, FiLoader, FiAlertCircle, FiDownload, FiHeart } from 'react-icons/fi'
 import { favoritesService } from '../services/favorites'
+import { GameCard } from '../components/GameCard'
+import { gamesCacheService } from '../services/gamesCache'
+import { useSearch } from '../contexts/SearchContext'
+
+const VIRTUAL_BATCH_SIZE = 20 // Optimisé pour de meilleures performances
+const IMAGE_LOAD_DELAY = 50 // Délai pour le chargement des images (ms)
 
 export function CatalogPage({ installedGames = [] }) {
-  const [games, setGames] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [games, setGames] = useState(gamesCacheService.getCachedGames())
+  const [loading, setLoading] = useState(!gamesCacheService.isCacheValid())
   const [error, setError] = useState('')
-  const [searchQuery, setSearchQuery] = useState('')
+  const { debouncedSearchQuery } = useSearch() // Utiliser la recherche avec debounce
   const [favoriteIds, setFavoriteIds] = useState([])
+  const [visibleCount, setVisibleCount] = useState(VIRTUAL_BATCH_SIZE)
+  const loadMoreRef = useRef(null)
   
-  // Marquer les jeux comme installés
-  const getGameInstallStatus = (gameName) => {
-    if (!installedGames || installedGames.length === 0) return null
-    const normalizeName = (name) => name.toLowerCase().trim().replace(/\s+/g, ' ')
-    const normalizedGameName = normalizeName(gameName)
-    return installedGames.find(g => {
-      const normalizedInstalledName = normalizeName(g.name)
-      return normalizedInstalledName === normalizedGameName || 
-             normalizedInstalledName.includes(normalizedGameName) ||
-             normalizedGameName.includes(normalizedInstalledName)
-    })
-  }
-
-  // Charger les jeux
-  useEffect(() => {
-    loadGames()
-    loadFavorites()
+  // Mémoriser la fonction de normalisation
+  const normalizeName = useCallback((name) => {
+    if (!name) return ''
+    return name.toLowerCase().trim().replace(/\s+/g, ' ').replace(/[^a-z0-9\s]/g, '')
   }, [])
+  
+  // Mémoriser le mapping des jeux installés pour des recherches rapides
+  // Utiliser launcherId en priorité, puis le nom
+  const installedGamesMap = useMemo(() => {
+    if (!installedGames || installedGames.length === 0) return { byLauncherId: new Map(), byName: new Map() }
+    
+    const byLauncherId = new Map()
+    const byName = new Map()
+    
+    installedGames.forEach(g => {
+      // Indexer par launcherId (priorité 1)
+      if (g.launcherId) {
+        byLauncherId.set(g.launcherId, g)
+      }
+      
+      // Indexer par nom normalisé (fallback)
+      if (g.name) {
+        const normalized = normalizeName(g.name)
+        if (normalized) {
+          byName.set(normalized, g)
+          // Stocker aussi les mots individuels pour la correspondance partielle
+          normalized.split(' ').filter(w => w.length > 2).forEach(word => {
+            if (!byName.has(word)) byName.set(word, g)
+          })
+        }
+      }
+    })
+    
+    return { byLauncherId, byName }
+  }, [installedGames, normalizeName])
+  
+  // Marquer les jeux comme installés (mémorisé)
+  // Utilise launcherId en priorité, puis le nom
+  const getGameInstallStatus = useCallback((game) => {
+    if (!game || (!installedGamesMap.byLauncherId.size && !installedGamesMap.byName.size)) return null
+    
+    // Priorité 1 : Recherche par launcherId (le plus fiable)
+    if (game.id && installedGamesMap.byLauncherId.has(game.id)) {
+      return installedGamesMap.byLauncherId.get(game.id)
+    }
+    
+    // Fallback : Recherche par nom
+    const gameName = game.name || game.title
+    if (!gameName) return null
+    
+    const normalizedGameName = normalizeName(gameName)
+    if (!normalizedGameName) return null
+    
+    // Recherche directe dans la map par nom (O(1))
+    const directMatch = installedGamesMap.byName.get(normalizedGameName)
+    if (directMatch) return directMatch
+    
+    // Recherche partielle (vérifier si le nom contient des mots de la map)
+    const gameWords = normalizedGameName.split(' ').filter(w => w.length > 2)
+    for (const word of gameWords) {
+      const match = installedGamesMap.byName.get(word)
+      if (match) {
+        // Vérifier que c'est une vraie correspondance
+        const matchName = normalizeName(match.name)
+        if (matchName.includes(normalizedGameName) || normalizedGameName.includes(matchName)) {
+          return match
+        }
+      }
+    }
+    
+    return null
+  }, [installedGamesMap, normalizeName])
 
-  const loadFavorites = () => {
+  // Charger les favoris (défini avant le useEffect qui l'utilise)
+  const loadFavorites = useCallback(() => {
     const ids = favoritesService.getFavorites()
     setFavoriteIds(ids)
-  }
+  }, [])
 
-  const handleToggleFavorite = (e, gameId) => {
-    e.stopPropagation()
-    const wasAdded = favoritesService.toggleFavorite(gameId)
-    loadFavorites()
-  }
-
-  const loadGames = async () => {
+  // Charger les jeux (défini avant le useEffect qui l'utilise)
+  const loadGames = useCallback(async (silent = false, forceRefresh = false) => {
     try {
-      setLoading(true)
+      if (!silent) {
+        setLoading(true)
+      }
       setError('')
       
-      console.log('Catalog: Loading games...')
-      console.log('Catalog: window.electron:', window.electron)
-      console.log('Catalog: window.electron?.games:', window.electron?.games)
-      console.log('Catalog: window.electron?.games?.getGames:', window.electron?.games?.getGames)
+      // Utiliser le service de cache partagé
+      const gamesList = await gamesCacheService.getGames(forceRefresh)
       
-      if (window.electron && window.electron.games && window.electron.games.getGames) {
-        console.log('Catalog: Calling getGames...')
-        const data = await window.electron.games.getGames()
-        console.log('Catalog: Games data received:', data)
-        console.log('Catalog: Number of games:', data?.games?.length || 0)
-        setGames(data.games || [])
+      // Mettre à jour l'état
+      if (!silent) {
+        setGames(gamesList)
       } else {
-        console.error('Catalog: Electron games functions not available')
-        setError('Les fonctions de gestion des jeux ne sont pas disponibles')
+        // Mise à jour silencieuse du cache seulement
+        setGames(prevGames => {
+          // Ne mettre à jour que si les données ont changé
+          if (JSON.stringify(prevGames) !== JSON.stringify(gamesList)) {
+            return gamesList
+          }
+          return prevGames
+        })
       }
     } catch (err) {
       console.error('Error loading games:', err)
-      setError(`Erreur lors du chargement des jeux: ${err.message || err}`)
+      if (!silent) {
+        setError(`Erreur lors du chargement des jeux: ${err.message || err}`)
+        setGames([])
+      }
     } finally {
-      setLoading(false)
+      if (!silent) {
+        setLoading(false)
+      }
     }
-  }
+  }, [])
 
-  // Filtrer les jeux selon la recherche
-  const filteredGames = games.filter(game => {
-    if (!searchQuery) return true
-    const query = searchQuery.toLowerCase()
+  // Charger les jeux immédiatement (pas de délai)
+  useEffect(() => {
+    // Charger les favoris immédiatement (local, rapide)
+    loadFavorites()
+    
+    // Si on a un cache récent, l'utiliser
+    if (gamesCacheService.isCacheValid()) {
+      const cachedGames = gamesCacheService.getCachedGames()
+      setGames(cachedGames)
+      setLoading(false)
+      // Recharger en arrière-plan pour mettre à jour le cache
+      loadGames(true)
+    } else {
+      // Charger immédiatement
+      loadGames()
+    }
+  }, [loadFavorites, loadGames])
+
+  // Forcer un re-render quand installedGames change pour mettre à jour les badges
+  useEffect(() => {
+    // Le re-render se fera automatiquement car installedGames est utilisé dans le render
+  }, [installedGames])
+
+  const handleToggleFavorite = useCallback((gameId) => {
+    favoritesService.toggleFavorite(gameId)
+    loadFavorites()
+  }, [loadFavorites])
+
+  // Filtrer les jeux selon la recherche (mémorisé avec debounce)
+  const filteredGames = useMemo(() => {
+    // Si pas de jeux chargés, retourner un tableau vide
+    if (!games || games.length === 0) {
+      return []
+    }
+    
+    // Si pas de recherche ou recherche vide, retourner tous les jeux
+    if (!debouncedSearchQuery || !debouncedSearchQuery.trim()) {
+      return games
+    }
+    
+    const query = debouncedSearchQuery.toLowerCase().trim()
+    if (!query || query.length === 0) {
+      return games
+    }
+    
+    // Optimisation : pré-calculer les champs de recherche et utiliser une recherche plus intelligente
+    const queryWords = query.split(' ').filter(w => w.length > 0)
+    
+    return games.filter(game => {
+      if (!game) return false
+      
+      const name = game.name?.toLowerCase() || game.title?.toLowerCase() || ''
+      const desc = game.short_description?.toLowerCase() || ''
+      const category = game.category?.toLowerCase() || ''
+      
+      // Recherche par mots-clés : au moins un mot doit être présent (recherche plus permissive)
+      return queryWords.some(word => 
+        name.includes(word) || desc.includes(word) || category.includes(word)
+      )
+    })
+  }, [games, debouncedSearchQuery])
+
+  useEffect(() => {
+    setVisibleCount(VIRTUAL_BATCH_SIZE)
+  }, [filteredGames.length])
+
+  useEffect(() => {
+    const node = loadMoreRef.current
+    if (!node) return undefined
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0]?.isIntersecting) {
+        setVisibleCount(prev => Math.min(prev + VIRTUAL_BATCH_SIZE, filteredGames.length))
+      }
+    }, { rootMargin: '300px' })
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [filteredGames.length])
+
+  const visibleGames = useMemo(() => filteredGames.slice(0, visibleCount), [filteredGames, visibleCount])
+
+  const handleCardClick = useCallback((game) => {
+    window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'game-details', gameId: game.id } }))
+  }, [])
+
+  // Composant de carte optimisé avec lazy loading des images
+  const GameCardOptimized = memo(({ game, index, isFavorite, installedGame, onToggleFavorite, onClick }) => {
+    const [shouldLoadImage, setShouldLoadImage] = useState(index < 12) // Charger les 12 premières immédiatement
+    const [imageError, setImageError] = useState(false)
+    const [imageLoaded, setImageLoaded] = useState(false)
+    const imageRef = useRef(null)
+    const observerRef = useRef(null)
+    
+    // Utiliser IntersectionObserver pour charger les images quand elles sont visibles
+    useEffect(() => {
+      if (shouldLoadImage || imageError) return
+      
+      // Nettoyer l'observer précédent s'il existe
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
+      
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setShouldLoadImage(true)
+              if (observerRef.current) {
+                observerRef.current.disconnect()
+                observerRef.current = null
+              }
+            }
+          })
+        },
+        { rootMargin: '200px' } // Charger 200px avant que l'image soit visible pour éviter la disparition
+      )
+      
+      if (imageRef.current) {
+        observerRef.current.observe(imageRef.current)
+      }
+      
+      return () => {
+        if (observerRef.current) {
+          observerRef.current.disconnect()
+          observerRef.current = null
+        }
+      }
+    }, [shouldLoadImage, imageError])
+    
+    // Charger l'image avec un léger délai pour les images non prioritaires (fallback)
+    useEffect(() => {
+      if (!shouldLoadImage && index >= 12 && !imageError) {
+        const timer = setTimeout(() => setShouldLoadImage(true), IMAGE_LOAD_DELAY * (index - 12))
+        return () => clearTimeout(timer)
+      }
+    }, [shouldLoadImage, index, imageError])
+    
+    const coverUrl = game.coverImage || game.cover_image || game.header_image || game.headerImage
+    const isInstalled = !!installedGame
+    const handleClick = useCallback(() => onClick(game), [onClick, game])
+    const handleFavorite = useCallback((e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      onToggleFavorite(game.id)
+    }, [onToggleFavorite, game.id])
+    
     return (
-      game.name?.toLowerCase().includes(query) ||
-      game.short_description?.toLowerCase().includes(query)
+      <div
+        onClick={handleClick}
+        className="group relative overflow-hidden rounded-3xl border border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-200 cursor-pointer hover:border-white/10 hover:bg-white/8"
+        style={{
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
+        }}
+      >
+        {/* Badge "Télécharger" ou "Installé" */}
+        <div className="absolute top-4 left-4 z-20">
+          <div className={`relative flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-sm border shadow-lg ${
+            isInstalled 
+              ? 'bg-emerald-500/20 border-emerald-400/30' 
+              : 'bg-black/60 border-white/10'
+          }`}>
+            {isInstalled ? (
+              <>
+                <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="text-xs font-medium text-emerald-300">Installé</span>
+              </>
+            ) : (
+              <div className="p-1 rounded-full bg-purple-500/20 border border-purple-400/30">
+                <FiDownload className="text-xs text-purple-300" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Image du jeu */}
+        <div 
+          ref={imageRef}
+          className="relative aspect-video overflow-hidden bg-gradient-to-br from-black/60 to-black/80 rounded-t-3xl"
+        >
+          {shouldLoadImage && coverUrl && !imageError ? (
+            <>
+              <img
+                src={coverUrl}
+                alt={game.name || game.title || 'Jeu'}
+                className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-300 ease-out ${
+                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                loading={index < 12 ? "eager" : "lazy"}
+                decoding="async"
+                fetchpriority={index < 12 ? "high" : "low"}
+                onError={(e) => {
+                  setImageError(true)
+                  setImageLoaded(false)
+                }}
+                onLoad={(e) => {
+                  setImageError(false)
+                  setImageLoaded(true)
+                  // S'assurer que l'image reste visible même après le scroll
+                  e.target.style.display = 'block'
+                }}
+                style={{ 
+                  minHeight: '200px',
+                  backgroundColor: 'transparent'
+                }}
+              />
+              {!imageLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-surface-muted/40 to-surface-muted/20">
+                  <FiGrid className="text-muted text-5xl opacity-50 animate-pulse" />
+                </div>
+              )}
+              <div className="hidden absolute inset-0 flex items-center justify-center bg-black/30">
+                <FiGrid className="text-muted text-4xl" />
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-surface-muted/40 to-surface-muted/20">
+              <FiGrid className="text-muted text-5xl opacity-50" />
+            </div>
+          )}
+          {/* Overlay gradient simplifié */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {/* Bouton favori */}
+          <button
+            onClick={handleFavorite}
+            className={`absolute top-3 right-3 p-2.5 rounded-xl backdrop-blur-md border transition-all z-30 ${
+              isFavorite 
+                ? 'opacity-100 bg-red-500/20 border-red-500/30 text-red-400' 
+                : 'opacity-0 group-hover:opacity-100 bg-black/40 border-white/10 text-white hover:bg-red-500/20 hover:border-red-500/30'
+            }`}
+            style={{ pointerEvents: 'auto' }}
+          >
+            <FiHeart className={`text-sm ${isFavorite ? 'fill-current' : ''}`} />
+          </button>
+        </div>
+
+        {/* Nom du jeu (visible seulement au hover) */}
+        <div className="absolute inset-0 flex flex-col justify-end p-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent rounded-b-3xl -m-4" />
+            <h3 className="relative font-semibold text-base text-white drop-shadow-md">
+              {game.name || game.title || 'Sans titre'}
+            </h3>
+          </div>
+        </div>
+      </div>
     )
   })
 
@@ -118,22 +421,6 @@ export function CatalogPage({ installedGames = [] }) {
 
   return (
     <div className="space-y-6">
-      {/* Barre de recherche */}
-      <Motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative"
-      >
-        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-muted text-lg" />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Rechercher un jeu..."
-          className="w-full rounded-xl border border-border/50 bg-surface-muted px-4 py-3 pl-12 text-sm text-white transition-all focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20"
-        />
-      </Motion.div>
-
       {/* Liste des jeux */}
       {filteredGames.length === 0 ? (
         <div className="empty-page">
@@ -150,7 +437,7 @@ export function CatalogPage({ installedGames = [] }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.4 }}
           >
-            {searchQuery ? 'Aucun jeu trouvé' : 'Aucun jeu disponible'}
+            {debouncedSearchQuery ? 'Aucun jeu trouvé' : 'Aucun jeu disponible'}
           </Motion.h2>
           <Motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -158,7 +445,7 @@ export function CatalogPage({ installedGames = [] }) {
             transition={{ delay: 0.2, duration: 0.4 }}
             className="empty-description"
           >
-            {searchQuery
+            {debouncedSearchQuery
               ? 'Essayez avec d\'autres mots-clés.'
               : 'Le catalogue sera bientôt disponible. Revenez plus tard pour découvrir nos jeux.'}
           </Motion.p>
@@ -168,114 +455,47 @@ export function CatalogPage({ installedGames = [] }) {
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-white">
               {filteredGames.length} {filteredGames.length === 1 ? 'jeu' : 'jeux'}
-              {searchQuery && ` pour "${searchQuery}"`}
+              {debouncedSearchQuery && ` pour "${debouncedSearchQuery}"`}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <AnimatePresence mode="popLayout">
-              {filteredGames.map((game, index) => (
+              {visibleGames.map((game, index) => (
                 <Motion.div
                   key={game.id || index}
-                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                  transition={{ delay: index * 0.05, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  onClick={() => {
-                    window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'game-details', gameId: game.id } }))
+                  exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                  transition={{ 
+                    duration: 0.3, 
+                    delay: index * 0.03,
+                    ease: [0.4, 0, 0.2, 1]
                   }}
-                  className="group relative overflow-hidden rounded-3xl border border-white/5 bg-white/5 backdrop-blur-xl transition-all duration-500 cursor-pointer hover:border-white/10 hover:bg-white/8 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
-                  style={{
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05) inset',
-                  }}
+                  layout
                 >
-                  {/* Badge "Télécharger" élégant et discret */}
-                  <div className="absolute top-4 left-4 z-20">
-                    <Motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.05 + 0.2, type: "spring", stiffness: 200 }}
-                      className="relative group/badge"
-                    >
-                      {/* Badge avec effet de brillance */}
-                      <div className="relative flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden">
-                        {/* Effet de brillance animé */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/badge:translate-x-full transition-transform duration-1000 ease-in-out" />
-                        
-                        {/* Contenu du badge */}
-                        <div className="relative flex items-center gap-1.5">
-                          <div className="p-1 rounded-full bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-400/30">
-                            <FiDownload className="text-xs text-purple-300" />
-                          </div>
-                          <span className="text-xs font-medium text-white/90 tracking-wide">Télécharger</span>
-                        </div>
-                        
-                        {/* Glow effect au hover */}
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 via-purple-500/0 to-purple-500/0 group-hover/badge:from-purple-500/20 group-hover/badge:via-purple-500/10 group-hover/badge:to-purple-500/0 transition-all duration-500 pointer-events-none blur-sm" />
-                      </div>
-                    </Motion.div>
-                  </div>
-
-                  {/* Image du jeu */}
-                  <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-black/60 to-black/80 rounded-t-3xl">
-                    {game.header_image ? (
-                      <>
-                        <img
-                          src={game.header_image}
-                          alt={game.name || 'Jeu'}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
-                          onError={(e) => {
-                            e.target.style.display = 'none'
-                            e.target.nextElementSibling?.classList.remove('hidden')
-                          }}
-                        />
-                        <div className="hidden absolute inset-0 flex items-center justify-center bg-black/30">
-                          <FiGrid className="text-muted text-4xl" />
-                        </div>
-                      </>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-surface-muted/40 to-surface-muted/20">
-                        <FiGrid className="text-muted text-5xl opacity-50" />
-                      </div>
-                    )}
-                    {/* Overlay gradient moderne */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    {/* Shine effect moderne */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-                    {/* Glow effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-primary/0 group-hover:from-primary/10 group-hover:via-primary/5 group-hover:to-primary/0 transition-all duration-500 pointer-events-none" />
-                    {/* Bouton favori moderne */}
-                    <Motion.button
-                      onClick={(e) => handleToggleFavorite(e, game.id)}
-                      className={`absolute top-3 right-3 p-2.5 rounded-xl backdrop-blur-md border transition-all ${
-                        favoriteIds.includes(game.id) 
-                          ? 'opacity-100 bg-red-500/20 border-red-500/30 text-red-400' 
-                          : 'opacity-0 group-hover:opacity-100 bg-black/40 border-white/10 text-white hover:bg-red-500/20 hover:border-red-500/30'
-                      }`}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <FiHeart className={`text-sm ${favoriteIds.includes(game.id) ? 'fill-current' : ''}`} />
-                    </Motion.button>
-                  </div>
-
-                  {/* Nom du jeu (visible seulement au hover) */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-6 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent rounded-b-3xl -m-6" />
-                      <h3 className="relative font-semibold text-lg text-white drop-shadow-lg">
-                        {game.name || 'Sans titre'}
-                      </h3>
-                    </div>
-                  </div>
-                  
-                  {/* Border glow effect moderne */}
-                  <div className="absolute inset-0 rounded-3xl border border-primary/0 group-hover:border-primary/20 transition-all duration-500 pointer-events-none" />
+                  <GameCardOptimized
+                    game={game}
+                    index={index}
+                    isFavorite={favoriteIds.includes(game.id)}
+                    installedGame={getGameInstallStatus(game)}
+                    onToggleFavorite={handleToggleFavorite}
+                    onClick={handleCardClick}
+                  />
                 </Motion.div>
               ))}
             </AnimatePresence>
           </div>
+          
+          {/* Indicateur de chargement pour les jeux suivants */}
+          {visibleCount < filteredGames.length && (
+            <div ref={loadMoreRef} className="flex justify-center py-8">
+              <div className="flex items-center gap-2 text-muted">
+                <FiLoader className="animate-spin" />
+                <span className="text-sm">Chargement de plus de jeux...</span>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

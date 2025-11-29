@@ -45,7 +45,6 @@ export function ActorisLogo({ className = '', size = 'default', showText = true 
     }
     
     img.onload = () => {
-      console.log('[ActorisLogo] Logo chargé depuis:', img.src)
       setLogoPath(img.src)
     }
     

@@ -102,7 +102,32 @@ export function UpdateModal({ isOpen, onClose }) {
           setDownloadMsg(`Téléchargé: ${result.filePath}`)
           // Ouvrir l'écran de Patch Notes en plein écran avec vos notes custom
           const version = release.tag_name || 'v1.0.1'
-          const notes = patchNotesService.getNotes(version)
+          // Récupérer les notes depuis le service ou utiliser le body de la release
+          let notes = []
+          try {
+            // Vérifier que patchNotesService et getNotes existent
+            if (patchNotesService && typeof patchNotesService.getNotes === 'function') {
+              notes = await patchNotesService.getNotes(version)
+            } else {
+              console.warn('[UpdateModal] patchNotesService.getNotes n\'est pas disponible')
+            }
+            // Si pas de notes dans le service, utiliser le body de la release
+            if (!notes || notes.length === 0) {
+              if (release.body) {
+                notes = release.body.split('\n').filter(line => line.trim())
+              } else {
+                notes = []
+              }
+            }
+          } catch (err) {
+            console.warn('[UpdateModal] Erreur lors de la récupération des patch notes:', err)
+            // Fallback: utiliser le body de la release
+            if (release.body) {
+              notes = release.body.split('\n').filter(line => line.trim())
+            } else {
+              notes = []
+            }
+          }
           window.dispatchEvent(new CustomEvent('show-patch-notes', { detail: { version, notes, installerPath: result.filePath } }))
         } else {
           const errorMsg = result?.error || 'Échec du téléchargement'

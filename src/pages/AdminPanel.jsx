@@ -1,6 +1,99 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion as Motion } from 'framer-motion'
-import { FiUsers, FiPlus, FiX, FiLoader, FiCheck, FiAlertCircle, FiLink, FiTrash2, FiGrid, FiEdit2, FiDownload, FiArrowLeft } from 'react-icons/fi'
+import { FiUsers, FiPlus, FiX, FiLoader, FiCheck, FiAlertCircle, FiLink, FiTrash2, FiGrid, FiEdit2, FiDownload, FiArrowLeft, FiFilter } from 'react-icons/fi'
+
+// Composant pour gérer les vidéos avec fallback
+function VideoPlayerWithFallback({ src, gameData }) {
+  const [videoError, setVideoError] = useState(false)
+  const [currentSrc, setCurrentSrc] = useState(src)
+  const [hasTriedAlternative, setHasTriedAlternative] = useState(false)
+  const videoRef = useRef(null)
+  const errorCountRef = useRef(0)
+  
+  // Réinitialiser quand src change
+  useEffect(() => {
+    setCurrentSrc(src)
+    setVideoError(false)
+    setHasTriedAlternative(false)
+    errorCountRef.current = 0
+  }, [src])
+  
+  // Si l'URL est webm et échoue, essayer mp4
+  const getAlternativeUrl = (url) => {
+    if (!url) return null
+    // Remplacer webm par mp4
+    if (url.includes('.webm')) {
+      return url.replace('.webm', '.mp4').replace('movie_max.webm', 'movie_max.mp4').replace('movie480.webm', 'movie480.mp4')
+    }
+    // Remplacer mp4 par webm
+    if (url.includes('.mp4')) {
+      return url.replace('.mp4', '.webm').replace('movie_max.mp4', 'movie_max.webm').replace('movie480.mp4', 'movie480.webm')
+    }
+    return null
+  }
+  
+  const handleError = (e) => {
+    // Limiter les tentatives pour éviter le spam
+    errorCountRef.current += 1
+    
+    // Si on a déjà essayé l'alternative ou trop d'erreurs, arrêter
+    if (hasTriedAlternative || errorCountRef.current > 2) {
+      setVideoError(true)
+      if (e.target) {
+        e.target.style.display = 'none'
+      }
+      return
+    }
+    
+    // Essayer le format alternatif une seule fois
+    const altUrl = getAlternativeUrl(currentSrc)
+    if (altUrl && !hasTriedAlternative) {
+      setHasTriedAlternative(true)
+      setCurrentSrc(altUrl)
+      // Utiliser setTimeout pour éviter les appels multiples
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.src = altUrl
+          videoRef.current.load()
+        }
+      }, 100)
+    } else {
+      // Pas d'alternative ou déjà essayé, masquer la vidéo
+      setVideoError(true)
+      if (e.target) {
+        e.target.style.display = 'none'
+      }
+    }
+  }
+  
+  if (videoError || !currentSrc) {
+    return (
+      <div className="relative w-full rounded-xl overflow-hidden bg-black/40 border border-border/30 shadow-lg p-4 text-center">
+        <p className="text-muted text-sm mb-2">Vidéo non disponible</p>
+        {gameData?.header_image && (
+          <img
+            src={gameData.header_image}
+            alt={gameData.name}
+            className="w-full h-auto max-h-80 object-cover rounded-lg"
+          />
+        )}
+      </div>
+    )
+  }
+  
+  return (
+    <div className="relative w-full rounded-xl overflow-hidden bg-black/40 border border-border/30 shadow-lg">
+      <video
+        ref={videoRef}
+        src={currentSrc}
+        controls
+        className="w-full h-auto max-h-80 object-contain"
+        onError={handleError}
+        preload="metadata"
+      />
+    </div>
+  )
+}
 
 export function AdminPanel() {
   const [users, setUsers] = useState([])
@@ -16,8 +109,12 @@ export function AdminPanel() {
   const [games, setGames] = useState([])
   const [loadingGames, setLoadingGames] = useState(false)
   const [editingGame, setEditingGame] = useState(null)
-  const [downloadUrl, setDownloadUrl] = useState('')
+  const [downloadUrl, setDownloadUrl] = useState('') // Peut contenir plusieurs URLs séparées par des virgules ou des retours à la ligne
   const [activeSection, setActiveSection] = useState(null) // null, 'users', 'add-game', 'games'
+  const [gameFilter, setGameFilter] = useState('all') // 'all', 'with-link', 'without-link', 'not-found'
+  const [searchFilter, setSearchFilter] = useState('') // Filtre de recherche par lien
+  const gamesScrollRef = useRef(null) // Ref pour la zone scrollable des jeux
+  const savedScrollPosition = useRef(null) // Position de scroll à restaurer
 
   // Charger les utilisateurs
   useEffect(() => {
@@ -35,6 +132,21 @@ export function AdminPanel() {
     loadUsers()
     loadGames()
   }, [])
+
+  // Restaurer la position de scroll après le rechargement des jeux
+  useEffect(() => {
+    if (savedScrollPosition.current !== null && gamesScrollRef.current && !loadingGames) {
+      // Utiliser requestAnimationFrame pour s'assurer que le DOM est mis à jour
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (gamesScrollRef.current) {
+            gamesScrollRef.current.scrollTop = savedScrollPosition.current
+            savedScrollPosition.current = null // Réinitialiser après restauration
+          }
+        })
+      })
+    }
+  }, [games, loadingGames])
 
   const loadUsers = async () => {
     try {
@@ -262,6 +374,11 @@ export function AdminPanel() {
       return
     }
     try {
+      // Sauvegarder la position de scroll avant la suppression
+      if (gamesScrollRef.current) {
+        savedScrollPosition.current = gamesScrollRef.current.scrollTop
+      }
+      
       if (window.electron && window.electron.games && window.electron.games.deleteGame) {
         await window.electron.games.deleteGame(gameId)
         setSuccess('Jeu supprimé avec succès !')
@@ -270,15 +387,29 @@ export function AdminPanel() {
       }
     } catch (err) {
       setError('Erreur lors de la suppression du jeu: ' + err.message)
+      savedScrollPosition.current = null // Annuler la restauration en cas d'erreur
     }
   }
 
-  // Mettre à jour le lien de téléchargement
+  // Mettre à jour le lien de téléchargement (peut contenir plusieurs URLs)
   const handleUpdateDownloadUrl = async (gameId, url) => {
     try {
+      // Sauvegarder la position de scroll avant la mise à jour
+      if (gamesScrollRef.current) {
+        savedScrollPosition.current = gamesScrollRef.current.scrollTop
+      }
+      
+      // Nettoyer l'URL : supprimer les espaces et séparer par virgules ou retours à la ligne
+      const cleanedUrl = url.trim()
+      
       if (window.electron && window.electron.games && window.electron.games.updateGame) {
-        await window.electron.games.updateGame(gameId, { downloadUrl: url })
-        setSuccess('Lien de téléchargement mis à jour !')
+        // Retirer la catégorie "Pas trouvé" si un lien de téléchargement est ajouté
+        await window.electron.games.updateGame(gameId, { 
+          downloadUrl: cleanedUrl,
+          category: null // Retirer la catégorie "Pas trouvé" quand un lien est ajouté
+        })
+        const urlCount = cleanedUrl.split(/[,\n]/).filter(u => u.trim()).length
+        setSuccess(urlCount > 1 ? `${urlCount} liens de téléchargement mis à jour !` : 'Lien de téléchargement mis à jour !')
         await loadGames()
         setEditingGame(null)
         setDownloadUrl('')
@@ -286,6 +417,35 @@ export function AdminPanel() {
       }
     } catch (err) {
       setError('Erreur lors de la mise à jour: ' + err.message)
+      savedScrollPosition.current = null // Annuler la restauration en cas d'erreur
+    }
+  }
+
+  // Marquer un jeu comme "Pas trouvé"
+  const handleMarkAsNotFound = async (gameId) => {
+    try {
+      console.log('[AdminPanel] handleMarkAsNotFound called for gameId:', gameId)
+      
+      // Sauvegarder la position de scroll avant la mise à jour
+      if (gamesScrollRef.current) {
+        savedScrollPosition.current = gamesScrollRef.current.scrollTop
+      }
+      
+      if (window.electron && window.electron.games && window.electron.games.updateGame) {
+        console.log('[AdminPanel] Calling updateGame with category:', 'Pas trouvé')
+        const result = await window.electron.games.updateGame(gameId, { category: 'Pas trouvé' })
+        console.log('[AdminPanel] Update result:', result)
+        setSuccess('Jeu marqué comme "Pas trouvé" !')
+        await loadGames()
+        setTimeout(() => setSuccess(''), 3000)
+      } else {
+        console.error('[AdminPanel] window.electron.games.updateGame not available')
+        setError('Fonction de mise à jour non disponible')
+      }
+    } catch (err) {
+      console.error('[AdminPanel] Error in handleMarkAsNotFound:', err)
+      setError('Erreur lors de la mise à jour: ' + err.message)
+      savedScrollPosition.current = null
     }
   }
 
@@ -486,16 +646,10 @@ export function AdminPanel() {
                     {/* Vidéo et Image */}
                     <div className="space-y-4">
                       {(gameData.movies || gameData.video) && (
-                        <div className="relative w-full rounded-xl overflow-hidden bg-black/40 border border-border/30 shadow-lg">
-                          <video
-                            src={gameData.movies || gameData.video}
-                            controls
-                            className="w-full h-auto max-h-80 object-contain"
-                            onError={(e) => {
-                              e.target.style.display = 'none'
-                            }}
-                          />
-                        </div>
+                        <VideoPlayerWithFallback 
+                          src={gameData.movies || gameData.video}
+                          gameData={gameData}
+                        />
                       )}
                       {gameData.header_image && !(gameData.movies || gameData.video) && (
                         <div className="relative w-full rounded-xl overflow-hidden bg-black/20 border border-border/30 shadow-lg">
@@ -573,8 +727,8 @@ export function AdminPanel() {
               <h2 className="text-2xl font-bold text-white">Jeux</h2>
               <div className="flex items-center gap-2">
                 <input 
-                  value={downloadUrl} 
-                  onChange={(e) => setDownloadUrl(e.target.value)} 
+                  value={searchFilter} 
+                  onChange={(e) => setSearchFilter(e.target.value)} 
                   placeholder="Filtrer lien..." 
                   className="input bg-surface-muted/50 border-border/50 focus:border-primary/50" 
                 />
@@ -587,7 +741,71 @@ export function AdminPanel() {
                 </button>
               </div>
             </div>
-            <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pb-4 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+
+            {/* Filtres par catégorie */}
+            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-border/30">
+              <FiFilter className="text-muted text-sm" />
+              <span className="text-sm text-muted mr-2">Catégories:</span>
+              <div className="flex items-center gap-2">
+                <Motion.button
+                  onClick={() => setGameFilter('all')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    gameFilter === 'all'
+                      ? 'bg-primary text-white shadow-lg'
+                      : 'bg-surface-muted/50 text-muted hover:bg-surface-muted/70'
+                  }`}
+                >
+                  Tous ({games.length})
+                </Motion.button>
+                <Motion.button
+                  onClick={() => setGameFilter('with-link')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    gameFilter === 'with-link'
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-lg'
+                      : 'bg-surface-muted/50 text-muted hover:bg-surface-muted/70'
+                  }`}
+                >
+                  Avec lien ({games.filter(g => g.downloadUrl && g.downloadUrl.trim() !== '').length})
+                </Motion.button>
+                <Motion.button
+                  onClick={() => setGameFilter('without-link')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    gameFilter === 'without-link'
+                      ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30 shadow-lg'
+                      : 'bg-surface-muted/50 text-muted hover:bg-surface-muted/70'
+                  }`}
+                >
+                  Sans lien ({games.filter(g => {
+                    const hasNoLink = !g.downloadUrl || g.downloadUrl.trim() === ''
+                    return hasNoLink && g.category !== 'Pas trouvé'
+                  }).length})
+                </Motion.button>
+                {games.some(g => g.category === 'Pas trouvé') && (
+                  <Motion.button
+                    onClick={() => setGameFilter('not-found')}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      gameFilter === 'not-found'
+                        ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30 shadow-lg'
+                        : 'bg-surface-muted/50 text-muted hover:bg-surface-muted/70'
+                    }`}
+                  >
+                    Pas trouvé ({games.filter(g => g.category === 'Pas trouvé').length})
+                  </Motion.button>
+                )}
+              </div>
+            </div>
+            <div 
+              ref={gamesScrollRef}
+              className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pb-4 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent"
+            >
               {loadingGames ? (
                 <div className="flex items-center justify-center py-12">
                   <FiLoader className="animate-spin text-primary text-2xl" />
@@ -596,9 +814,53 @@ export function AdminPanel() {
                 <div className="text-center py-12">
                   <p className="text-muted">Aucun jeu</p>
                 </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {games.map((game, index) => (
+              ) : (() => {
+                // Filtrer les jeux selon la catégorie et la recherche
+                let filteredGames = games
+                
+                // Filtre par catégorie
+                if (gameFilter === 'with-link') {
+                  // Afficher uniquement les jeux avec un lien de téléchargement valide (non vide)
+                  filteredGames = filteredGames.filter(g => g.downloadUrl && g.downloadUrl.trim() !== '')
+                } else if (gameFilter === 'without-link') {
+                  // Exclure les jeux marqués comme "Pas trouvé" du filtre "Sans lien"
+                  // Un jeu est "sans lien" s'il n'a pas de downloadUrl ou si c'est une chaîne vide
+                  filteredGames = filteredGames.filter(g => {
+                    const hasNoLink = !g.downloadUrl || g.downloadUrl.trim() === ''
+                    return hasNoLink && g.category !== 'Pas trouvé'
+                  })
+                } else if (gameFilter === 'not-found') {
+                  filteredGames = filteredGames.filter(g => g.category === 'Pas trouvé')
+                }
+                
+                // Filtre par recherche de lien
+                if (searchFilter) {
+                  const searchLower = searchFilter.toLowerCase()
+                  filteredGames = filteredGames.filter(g => 
+                    (g.downloadUrl && g.downloadUrl.toLowerCase().includes(searchLower)) ||
+                    (g.name && g.name.toLowerCase().includes(searchLower))
+                  )
+                }
+                
+                if (filteredGames.length === 0) {
+                  return (
+                    <div className="text-center py-12">
+                      <p className="text-muted">
+                        {gameFilter === 'with-link' 
+                          ? 'Aucun jeu avec lien de téléchargement'
+                          : gameFilter === 'without-link'
+                          ? 'Aucun jeu sans lien de téléchargement'
+                          : gameFilter === 'not-found'
+                          ? 'Aucun jeu marqué comme "Pas trouvé"'
+                          : 'Aucun jeu trouvé'}
+                      </p>
+                    </div>
+                  )
+                }
+                
+                return (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {filteredGames.map((game, index) => (
                     <Motion.div
                       key={game.id || index}
                       initial={{ opacity: 0, y: 20 }}
@@ -626,13 +888,18 @@ export function AdminPanel() {
                           {/* Lien de téléchargement */}
                           {editingGame === game.id ? (
                             <div className="space-y-2">
-                              <input
-                                type="text"
+                              <textarea
                                 value={downloadUrl}
                                 onChange={(e) => setDownloadUrl(e.target.value)}
-                                placeholder="URL de téléchargement"
-                                className="w-full rounded-lg border border-border/50 bg-surface-muted px-3 py-2 text-xs text-white focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20"
+                                placeholder="URL de téléchargement (une par ligne ou séparées par des virgules pour plusieurs parties)"
+                                rows={3}
+                                className="w-full rounded-lg border border-border/50 bg-surface-muted px-3 py-2 text-xs text-white focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20 resize-none"
                               />
+                              {downloadUrl && (
+                                <p className="text-xs text-muted">
+                                  {downloadUrl.split(/[,\n]/).filter(u => u.trim()).length} partie(s) détectée(s)
+                                </p>
+                              )}
                               <div className="flex gap-2">
                                 <Motion.button
                                   onClick={() => handleUpdateDownloadUrl(game.id, downloadUrl)}
@@ -660,17 +927,47 @@ export function AdminPanel() {
                           ) : (
                             <div className="space-y-2">
                               {game.downloadUrl ? (
-                                <a
-                                  href={game.downloadUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 transition-colors"
-                                >
-                                  <FiDownload className="text-sm" />
-                                  <span className="truncate max-w-[200px]">{game.downloadUrl}</span>
-                                </a>
+                                <div className="space-y-1">
+                                  {(() => {
+                                    const urls = game.downloadUrl.split(/[,\n]/).filter(u => u.trim())
+                                    const urlCount = urls.length
+                                    return (
+                                      <>
+                                        {urlCount > 1 ? (
+                                          <div className="flex items-center gap-1.5 text-xs text-primary">
+                                            <FiDownload className="text-sm" />
+                                            <span>{urlCount} parties PixelDrain</span>
+                                          </div>
+                                        ) : (
+                                          <a
+                                            href={urls[0]}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 transition-colors"
+                                          >
+                                            <FiDownload className="text-sm" />
+                                            <span className="truncate max-w-[200px]">{urls[0]}</span>
+                                          </a>
+                                        )}
+                                      </>
+                                    )
+                                  })()}
+                                </div>
                               ) : (
-                                <p className="text-xs text-muted">Aucun lien de téléchargement</p>
+                                <div className="flex items-center justify-between gap-2">
+                                  <p className="text-xs text-muted">Aucun lien de téléchargement</p>
+                                  {game.category !== 'Pas trouvé' && (
+                                    <Motion.button
+                                      onClick={() => handleMarkAsNotFound(game.id)}
+                                      whileHover={{ scale: 1.05 }}
+                                      whileTap={{ scale: 0.95 }}
+                                      className="btn btn-secondary text-xs py-1 px-2 text-orange-400 hover:text-orange-300 hover:bg-orange-500/10 border-orange-500/20"
+                                      title="Marquer comme 'Pas trouvé'"
+                                    >
+                                      <FiFilter className="text-xs" />
+                                    </Motion.button>
+                                  )}
+                                </div>
                               )}
                             </div>
                           )}
@@ -702,9 +999,10 @@ export function AdminPanel() {
                         </Motion.button>
                       </div>
                     </Motion.div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )
+              })()}
             </div>
           </Motion.section>
         )}
