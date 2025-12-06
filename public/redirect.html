@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirection vers Actoris Launcher</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: white;
+      text-align: center;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      max-width: 500px;
+    }
+    h1 { font-size: 32px; margin: 0 0 20px 0; }
+    p { font-size: 18px; margin: 10px 0; }
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .fallback-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+    .fallback-link:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Ouverture du launcher...</h1>
+    <div class="spinner"></div>
+    <p>Redirection en cours...</p>
+    <p id="fallback" style="display: none;">
+      Si le launcher ne s'ouvre pas automatiquement,<br>
+      <a href="#" id="protocol-link" class="fallback-link">Cliquez ici pour ouvrir le launcher</a>
+    </p>
+  </div>
+
+  <script>
+    // Récupérer les paramètres depuis l'URL
+    const urlParams = new URLSearchParams(window.location.search)
+    const gameName = urlParams.get('game') || urlParams.get('name')
+    const gameId = urlParams.get('gameId') || urlParams.get('gameid') || urlParams.get('id')
+    
+    // Construire l'URL du protocole avec action "launch" pour lancer automatiquement
+    let protocolUrl = 'actoris://launch?'
+    if (gameName) {
+      protocolUrl += `game=${encodeURIComponent(gameName)}`
+    }
+    if (gameId) {
+      protocolUrl += `&gameId=${encodeURIComponent(gameId)}`
+    }
+    
+    console.log('[Redirect] URL du protocole:', protocolUrl)
+    
+    // Mettre à jour le lien de fallback
+    const protocolLink = document.getElementById('protocol-link')
+    if (protocolLink) {
+      protocolLink.href = protocolUrl
+    }
+    
+    // Tentative 1 : Redirection immédiate
+    console.log('[Redirect] Tentative de redirection vers:', protocolUrl)
+    window.location.href = protocolUrl
+    
+    // Tentative 2 : Si la première ne fonctionne pas, afficher le fallback après 2 secondes
+    setTimeout(() => {
+      const fallback = document.getElementById('fallback')
+      if (fallback) {
+        fallback.style.display = 'block'
+      }
+    }, 2000)
+    
+    // Tentative 3 : Essayer avec un lien invisible (pour certains navigateurs)
+    setTimeout(() => {
+      const link = document.createElement('a')
+      link.href = protocolUrl
+      link.style.display = 'none'
+      document.body.appendChild(link)
+      link.click()
+      setTimeout(() => document.body.removeChild(link), 100)
+    }, 500)
+  </script>
+</body>
+</html>
