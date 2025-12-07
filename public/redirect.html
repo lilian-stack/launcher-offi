@@ -257,16 +257,49 @@
   </div>
 
   <script>
-    // Vérification de sécurité : referer + token
+    // 🔒 SÉCURITÉ MAXIMALE : Plusieurs couches de protection
+    
     const urlParams = new URLSearchParams(window.location.search)
     const gameName = urlParams.get('game') || urlParams.get('name')
     const gameId = urlParams.get('gameId') || urlParams.get('gameid') || urlParams.get('id')
     const token = urlParams.get('token')
+    const timestamp = urlParams.get('timestamp')
+    const userId = urlParams.get('userId') || urlParams.get('uid')
     
     // Token secret (doit correspondre à celui généré côté serveur)
     const SECRET_TOKEN = 'actoris_2024_secure_redirect'
     
-    // Vérifier le referer (doit venir de lockr.so ou lockr.net) - OBLIGATOIRE
+    // Durée de validité du lien : 30 secondes (ajustable)
+    const LINK_VALIDITY_DURATION = 30000 // millisecondes
+    
+    // Fonction pour bloquer l'accès et afficher l'erreur
+    function blockAccess(reason) {
+      console.error('[Redirect] ❌ Accès bloqué:', reason)
+      
+      // Afficher le message d'erreur
+      const errorMsg = document.getElementById('error-message')
+      const container = document.querySelector('.container')
+      const spinner = document.querySelector('.spinner-container')
+      const fallback = document.getElementById('fallback')
+      
+      if (errorMsg) {
+        errorMsg.innerHTML = `<strong>⚠️ Accès non autorisé</strong><br>${reason}<br><small>Le partage de ce lien ne permet pas de contourner les publicités.</small>`
+        errorMsg.style.display = 'block'
+      }
+      if (container) container.style.opacity = '0.7'
+      if (spinner) spinner.style.display = 'none'
+      if (fallback) fallback.style.display = 'none'
+      
+      // Rediriger vers Lockr.so immédiatement
+      setTimeout(() => {
+        window.location.replace('https://lockr.so')
+      }, 1500)
+      
+      // Empêcher TOUTE redirection vers le launcher
+      return false
+    }
+    
+    // 1️⃣ Vérifier le referer (doit venir de lockr.so ou lockr.net) - OBLIGATOIRE
     const referer = document.referrer
     const isValidReferer = referer && (
       referer.includes('lockr.so') || 
@@ -274,56 +307,97 @@
       referer.includes('lockr.com')
     )
     
-    // Vérifier le token (couche supplémentaire de sécurité)
-    const isValidToken = token === SECRET_TOKEN
-    
-    // 🔒 SÉCURITÉ RENFORCÉE : Le referer est OBLIGATOIRE
-    // Même avec le token, si pas de referer valide, on bloque
-    // Cela empêche le partage de liens directs
-    // Vérification STRICTE : le referer doit être présent ET valide
     if (!referer || !isValidReferer) {
-      console.error('[Redirect] ❌ Accès non autorisé - Referer manquant ou invalide:', referer || 'aucun')
-      console.error('[Redirect] ❌ Le referer doit venir de Lockr.so pour accéder à ce lien')
-      console.error('[Redirect] ❌ Accès direct détecté - Blocage de sécurité activé')
-      
-      // Afficher le message d'erreur IMMÉDIATEMENT
-      const errorMsg = document.getElementById('error-message')
-      const container = document.querySelector('.container')
-      const spinner = document.querySelector('.spinner-container')
-      const fallback = document.getElementById('fallback')
-      
-      if (errorMsg) errorMsg.style.display = 'block'
-      if (container) container.style.opacity = '0.7'
-      if (spinner) spinner.style.display = 'none'
-      if (fallback) fallback.style.display = 'none'
-      
-      // Rediriger vers Lockr.so immédiatement (sans délai)
-      setTimeout(() => {
-        window.location.replace('https://lockr.so')
-      }, 1500)
-      
-      // Empêcher TOUTE redirection vers le launcher - ARRÊTER TOUT
-      // Ne pas construire l'URL du protocole
-      // Ne pas exécuter le reste du script
-      return // Arrêter l'exécution du script immédiatement
+      blockAccess('Ce lien ne peut être utilisé que depuis Lockr.so après avoir complété les quêtes.')
+      throw new Error('Referer invalide')
     }
     
-    // Vérification supplémentaire : le token doit aussi être présent
+    // 2️⃣ Vérifier le token secret - OBLIGATOIRE
+    const isValidToken = token === SECRET_TOKEN
     if (!isValidToken) {
-      console.warn('[Redirect] ⚠️ Token manquant ou invalide, mais referer valide détecté')
-      // On peut continuer si le referer est valide, mais c'est moins sécurisé
-      // Pour une sécurité maximale, décommentez les lignes suivantes :
-      /*
-      document.getElementById('error-message').style.display = 'block'
-      document.querySelector('.container').style.opacity = '0.7'
-      setTimeout(() => {
-        window.location.href = 'https://lockr.so'
-      }, 2000)
-      return
-      */
+      blockAccess('Token de sécurité invalide ou manquant.')
+      throw new Error('Token invalide')
     }
     
-    console.log('[Redirect] ✅ Accès autorisé - Referer:', referer, 'Token:', token ? 'valide' : 'non requis')
+    // 3️⃣ Vérifier le timestamp et l'expiration
+    if (timestamp) {
+      const linkTimestamp = parseInt(timestamp, 10)
+      const now = Date.now()
+      const age = now - linkTimestamp
+      
+      if (isNaN(linkTimestamp) || age < 0) {
+        blockAccess('Timestamp invalide.')
+        throw new Error('Timestamp invalide')
+      }
+      
+      if (age > LINK_VALIDITY_DURATION) {
+        blockAccess('Ce lien a expiré. Les liens ne sont valides que pendant 30 secondes.')
+        throw new Error('Lien expiré')
+      }
+    }
+    
+    // 4️⃣ Vérifier l'usage unique (chaque lien ne peut être utilisé qu'une fois)
+    if (timestamp && userId) {
+      const linkId = `${gameId}_${userId}_${timestamp}`
+      const usedLinksKey = 'actoris_used_links'
+      
+      // Récupérer la liste des liens déjà utilisés
+      let usedLinks = []
+      try {
+        const stored = localStorage.getItem(usedLinksKey)
+        if (stored) {
+          usedLinks = JSON.parse(stored)
+          // Nettoyer les anciens liens (plus de 5 minutes)
+          const fiveMinutesAgo = Date.now() - (5 * 60 * 1000)
+          usedLinks = usedLinks.filter(link => {
+            const linkTimestamp = parseInt(link.split('_').pop(), 10)
+            return linkTimestamp > fiveMinutesAgo
+          })
+        }
+      } catch (e) {
+        console.warn('[Redirect] Erreur lors de la lecture du localStorage:', e)
+        usedLinks = []
+      }
+      
+      // Vérifier si ce lien a déjà été utilisé
+      if (usedLinks.includes(linkId)) {
+        blockAccess('Ce lien a déjà été utilisé. Chaque lien ne peut être utilisé qu\'une seule fois.')
+        throw new Error('Lien déjà utilisé')
+      }
+      
+      // Marquer ce lien comme utilisé
+      usedLinks.push(linkId)
+      try {
+        localStorage.setItem(usedLinksKey, JSON.stringify(usedLinks))
+      } catch (e) {
+        console.warn('[Redirect] Erreur lors de l\'écriture dans localStorage:', e)
+      }
+    }
+    
+    // 5️⃣ Détection de bots (user agents suspects)
+    const userAgent = navigator.userAgent || ''
+    const suspiciousPatterns = [
+      /bot/i,
+      /crawler/i,
+      /spider/i,
+      /scraper/i,
+      /curl/i,
+      /wget/i,
+      /python/i,
+      /java/i,
+      /postman/i,
+      /insomnia/i,
+      /httpie/i
+    ]
+    
+    const isBot = suspiciousPatterns.some(pattern => pattern.test(userAgent))
+    if (isBot) {
+      blockAccess('Accès automatisé détecté et bloqué.')
+      throw new Error('Bot détecté')
+    }
+    
+    // ✅ Toutes les vérifications sont passées
+    console.log('[Redirect] ✅ Accès autorisé - Referer:', referer, 'Token: valide', timestamp ? `Timestamp: ${timestamp}` : '', userId ? `UserId: ${userId}` : '')
     
     // Construire l'URL du protocole avec action "launch" pour lancer automatiquement
     let protocolUrl = 'actoris://launch?'
