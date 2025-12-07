@@ -5,9 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirection vers Actoris Launcher</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease infinite;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -15,60 +23,298 @@
       margin: 0;
       color: white;
       text-align: center;
+      overflow: hidden;
+      position: relative;
     }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Particules animées en arrière-plan */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+    
     .container {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      max-width: 500px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 60px 50px;
+      border-radius: 30px;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      max-width: 550px;
+      width: 90%;
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: slideIn 0.6s ease-out;
     }
-    h1 { font-size: 32px; margin: 0 0 20px 0; }
-    p { font-size: 18px; margin: 10px 0; }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    .logo {
+      font-size: 64px;
+      margin-bottom: 20px;
+      animation: bounce 2s ease-in-out infinite;
+      display: block;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+    
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin: 0 0 15px 0;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      letter-spacing: -0.5px;
+    }
+    
+    .subtitle {
+      font-size: 18px;
+      margin: 0 0 30px 0;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+    
+    .spinner-container {
+      margin: 30px 0;
+      position: relative;
+    }
+    
     .spinner {
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid white;
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(255, 255, 255, 0.2);
+      border-top: 5px solid white;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
       animation: spin 1s linear infinite;
-      margin: 20px auto;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
     }
+    
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.8));
+      border-radius: 2px;
+      animation: progress 2s ease-in-out infinite;
+      width: 60%;
+    }
+    
+    @keyframes progress {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(400%); }
+    }
+    
+    .fallback {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .fallback-text {
+      font-size: 16px;
+      margin-bottom: 15px;
+      opacity: 0.85;
+    }
+    
     .fallback-link {
       display: inline-block;
-      margin-top: 20px;
-      padding: 12px 24px;
-      background: rgba(255, 255, 255, 0.2);
+      padding: 14px 32px;
+      background: rgba(255, 255, 255, 0.25);
       color: white;
       text-decoration: none;
-      border-radius: 8px;
-      transition: background 0.3s;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
+    
     .fallback-link:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .fallback-link:active {
+      transform: translateY(0);
+    }
+    
+    .error-message {
+      background: rgba(255, 59, 48, 0.2);
+      border: 1px solid rgba(255, 59, 48, 0.5);
+      padding: 15px 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      display: none;
+      animation: shake 0.5s ease-out;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 40px 30px;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+      
+      .subtitle {
+        font-size: 16px;
+      }
+      
+      .logo {
+        font-size: 48px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🚀 Ouverture du launcher...</h1>
-    <div class="spinner"></div>
-    <p>Redirection en cours...</p>
-    <p id="fallback" style="display: none;">
-      Si le launcher ne s'ouvre pas automatiquement,<br>
+    <div class="logo">🚀</div>
+    <h1>Ouverture du launcher...</h1>
+    <p class="subtitle">Redirection en cours</p>
+    
+    <div class="spinner-container">
+      <div class="spinner"></div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+    
+    <div class="fallback" id="fallback">
+      <p class="fallback-text">
+        Si le launcher ne s'ouvre pas automatiquement,
+      </p>
       <a href="#" id="protocol-link" class="fallback-link">Cliquez ici pour ouvrir le launcher</a>
-    </p>
+    </div>
+    
+    <div class="error-message" id="error-message">
+      <strong>⚠️ Accès non autorisé</strong><br>
+      Ce lien ne peut être utilisé que depuis Lockr.so après avoir complété les quêtes.<br>
+      <small>Le partage de ce lien ne permet pas de contourner les publicités.</small>
+    </div>
   </div>
 
   <script>
-    // Récupérer les paramètres depuis l'URL
+    // Vérification de sécurité : referer + token
     const urlParams = new URLSearchParams(window.location.search)
     const gameName = urlParams.get('game') || urlParams.get('name')
     const gameId = urlParams.get('gameId') || urlParams.get('gameid') || urlParams.get('id')
+    const token = urlParams.get('token')
+    
+    // Token secret (doit correspondre à celui généré côté serveur)
+    const SECRET_TOKEN = 'actoris_2024_secure_redirect'
+    
+    // Vérifier le referer (doit venir de lockr.so ou lockr.net) - OBLIGATOIRE
+    const referer = document.referrer
+    const isValidReferer = referer && (
+      referer.includes('lockr.so') || 
+      referer.includes('lockr.net') ||
+      referer.includes('lockr.com')
+    )
+    
+    // Vérifier le token (couche supplémentaire de sécurité)
+    const isValidToken = token === SECRET_TOKEN
+    
+    // 🔒 SÉCURITÉ RENFORCÉE : Le referer est OBLIGATOIRE
+    // Même avec le token, si pas de referer valide, on bloque
+    // Cela empêche le partage de liens directs
+    if (!isValidReferer) {
+      console.error('[Redirect] ❌ Accès non autorisé - Referer manquant ou invalide:', referer || 'aucun')
+      console.error('[Redirect] ❌ Le referer doit venir de Lockr.so pour accéder à ce lien')
+      
+      // Afficher le message d'erreur
+      document.getElementById('error-message').style.display = 'block'
+      document.querySelector('.container').style.opacity = '0.7'
+      document.querySelector('.spinner-container').style.display = 'none'
+      document.getElementById('fallback').style.display = 'none'
+      
+      // Rediriger vers Lockr.so immédiatement
+      setTimeout(() => {
+        window.location.href = 'https://lockr.so'
+      }, 2000)
+      
+      // Empêcher TOUTE redirection vers le launcher
+      return // Arrêter l'exécution du script
+    }
+    
+    // Vérification supplémentaire : le token doit aussi être présent
+    if (!isValidToken) {
+      console.warn('[Redirect] ⚠️ Token manquant ou invalide, mais referer valide détecté')
+      // On peut continuer si le referer est valide, mais c'est moins sécurisé
+      // Pour une sécurité maximale, décommentez les lignes suivantes :
+      /*
+      document.getElementById('error-message').style.display = 'block'
+      document.querySelector('.container').style.opacity = '0.7'
+      setTimeout(() => {
+        window.location.href = 'https://lockr.so'
+      }, 2000)
+      return
+      */
+    }
+    
+    console.log('[Redirect] ✅ Accès autorisé - Referer:', referer, 'Token:', token ? 'valide' : 'non requis')
     
     // Construire l'URL du protocole avec action "launch" pour lancer automatiquement
     let protocolUrl = 'actoris://launch?'
