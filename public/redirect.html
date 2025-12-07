@@ -280,23 +280,32 @@
     // 🔒 SÉCURITÉ RENFORCÉE : Le referer est OBLIGATOIRE
     // Même avec le token, si pas de referer valide, on bloque
     // Cela empêche le partage de liens directs
-    if (!isValidReferer) {
+    // Vérification STRICTE : le referer doit être présent ET valide
+    if (!referer || !isValidReferer) {
       console.error('[Redirect] ❌ Accès non autorisé - Referer manquant ou invalide:', referer || 'aucun')
       console.error('[Redirect] ❌ Le referer doit venir de Lockr.so pour accéder à ce lien')
+      console.error('[Redirect] ❌ Accès direct détecté - Blocage de sécurité activé')
       
-      // Afficher le message d'erreur
-      document.getElementById('error-message').style.display = 'block'
-      document.querySelector('.container').style.opacity = '0.7'
-      document.querySelector('.spinner-container').style.display = 'none'
-      document.getElementById('fallback').style.display = 'none'
+      // Afficher le message d'erreur IMMÉDIATEMENT
+      const errorMsg = document.getElementById('error-message')
+      const container = document.querySelector('.container')
+      const spinner = document.querySelector('.spinner-container')
+      const fallback = document.getElementById('fallback')
       
-      // Rediriger vers Lockr.so immédiatement
+      if (errorMsg) errorMsg.style.display = 'block'
+      if (container) container.style.opacity = '0.7'
+      if (spinner) spinner.style.display = 'none'
+      if (fallback) fallback.style.display = 'none'
+      
+      // Rediriger vers Lockr.so immédiatement (sans délai)
       setTimeout(() => {
-        window.location.href = 'https://lockr.so'
-      }, 2000)
+        window.location.replace('https://lockr.so')
+      }, 1500)
       
-      // Empêcher TOUTE redirection vers le launcher
-      return // Arrêter l'exécution du script
+      // Empêcher TOUTE redirection vers le launcher - ARRÊTER TOUT
+      // Ne pas construire l'URL du protocole
+      // Ne pas exécuter le reste du script
+      return // Arrêter l'exécution du script immédiatement
     }
     
     // Vérification supplémentaire : le token doit aussi être présent
