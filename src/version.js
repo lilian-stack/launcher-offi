@@ -1,4 +1,4 @@
 // Généré automatiquement - Ne pas modifier
-export const COMMIT_HASH = '254978e8a664ae56808b28b12f0e2dfdcc785305'
-export const BUILD_DATE = '2026-01-07T12:25:07.965Z'
-export const SHORT_HASH = '254978e'
+export const COMMIT_HASH = 'fcb379f8f7aaf2177c5d3339766a1f668751b587'
+export const BUILD_DATE = '2026-01-07T14:58:15.422Z'
+export const SHORT_HASH = 'fcb379f'

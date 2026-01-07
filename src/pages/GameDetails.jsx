@@ -17,6 +17,7 @@ import { DeadLinkRewardModal } from '../components/DeadLinkRewardModal'
 import { GameDownloadPopup } from '../components/GameDownloadPopup'
 import { BACKEND_URL } from '../utils/backend'
 import { gamesMetadataService } from '../services/gamesMetadata.js'
+import { steamVideoService } from '../services/steamVideoService.js'
 
 export function GameDetailsPage({ gameId, onNavigate, currentUser, installedGames = [] }) {
   const [game, setGame] = useState(null)
@@ -1177,12 +1178,49 @@ export function GameDetailsPage({ gameId, onNavigate, currentUser, installedGame
     return null
   }, [game])
 
+  // État pour la vidéo Steam
+  const [steamVideoUrl, setSteamVideoUrl] = useState(null)
+  const [loadingSteamVideo, setLoadingSteamVideo] = useState(false)
+
+  // Charger la vidéo Steam si aucune autre vidéo n'est disponible
+  useEffect(() => {
+    const loadSteamVideo = async () => {
+      // Ne charger la vidéo Steam que si aucune autre vidéo n'est disponible
+      if (videoUrl || !game) return
+
+      setLoadingSteamVideo(true)
+      try {
+        console.log('[GameDetails] 🎬 Tentative de récupération vidéo Steam pour:', game.name || game.title)
+        
+        const steamUrl = await steamVideoService.getVideoUrlForGame(game, {
+          format: 'mp4',
+          quality: 'max',
+          useAPI: true,
+          fallbackToGenerated: true
+        })
+
+        if (steamUrl) {
+          console.log('[GameDetails] ✅ Vidéo Steam trouvée:', steamUrl)
+          setSteamVideoUrl(steamUrl)
+        } else {
+          console.log('[GameDetails] ❌ Aucune vidéo Steam trouvée')
+        }
+      } catch (error) {
+        console.error('[GameDetails] ❌ Erreur chargement vidéo Steam:', error)
+      } finally {
+        setLoadingSteamVideo(false)
+      }
+    }
+
+    loadSteamVideo()
+  }, [game, videoUrl])
+
   // ❌ Vidéos Steam désactivées (problèmes CORS + HLS incompatibles avec Electron)
   // Les vidéos Steam utilisent le format HLS qui nécessite hls.js et crée des blobs
   // qui sont bloqués par le Content Security Policy
 
   // Utiliser les vidéos Steam ou Supabase (par ordre de priorité)
-  const finalVideoUrl = videoUrl
+  const finalVideoUrl = videoUrl || steamVideoUrl
   const hasVideo = finalVideoUrl
 
   const cachedCover = useCachedImage(coverUrl)
