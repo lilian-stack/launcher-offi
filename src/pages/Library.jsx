@@ -12,8 +12,29 @@ export const LibraryPage = ({ onNavigate }) => {
 
   // Charger les jeux installés et favoris
   useEffect(() => {
-    loadLibraryData()
+    initializeAndLoadLibraryData()
   }, [])
+
+  const initializeAndLoadLibraryData = async () => {
+    try {
+      // Initialiser SQLite d'abord
+      if (window.electron?.ipcRenderer) {
+        console.log('[Library] 🔧 Initialisation SQLite...')
+        const initResult = await window.electron.ipcRenderer.invoke('sqlite-library:init')
+        if (initResult.success) {
+          console.log('[Library] ✅ SQLite initialisé avec succès')
+        } else {
+          console.error('[Library] ❌ Erreur initialisation SQLite:', initResult.error)
+        }
+      }
+      
+      // Charger les données
+      await loadLibraryData()
+    } catch (error) {
+      console.error('[Library] ❌ Erreur initialisation:', error)
+      await loadLibraryData() // Essayer de charger quand même
+    }
+  }
 
   const loadLibraryData = async () => {
     try {
@@ -23,14 +44,26 @@ export const LibraryPage = ({ onNavigate }) => {
       let installedGamesData = []
       if (window.electron?.ipcRenderer) {
         try {
+          console.log('[Library] 📡 Récupération des jeux installés depuis SQLite...')
           const result = await window.electron.ipcRenderer.invoke('sqlite-library:getGames')
+          console.log('[Library] 📊 Résultat SQLite:', result)
+          
           if (result.success && result.games) {
             console.log('[Library] ✅ Jeux installés chargés:', result.games.length)
             installedGamesData = result.games
+            
+            // Log détaillé des jeux
+            result.games.forEach(game => {
+              console.log(`[Library] 🎮 Jeu installé: ${game.name} (ID: ${game.id || game.gameId})`)
+            })
+          } else {
+            console.warn('[Library] ⚠️ Aucun jeu installé trouvé ou erreur:', result.error)
           }
         } catch (error) {
           console.error('[Library] ❌ Erreur chargement jeux installés:', error)
         }
+      } else {
+        console.warn('[Library] ⚠️ Electron IPC non disponible')
       }
       
       // Charger les favoris
