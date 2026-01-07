@@ -6,8 +6,8 @@ const fs = require('fs')
 const path = require('path')
 
 const OLD_TOKENS = [
-  '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',
-  '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'
+  'ghp_***REDACTED***',
+  'ghp_***REDACTED***'
 ]
 
 const NEW_TOKEN_VAR = 'process.env.GITHUB_TOKEN'
@@ -72,7 +72,7 @@ function fixAllTokens() {
     envContent = fs.readFileSync(envPath, 'utf8')
   }
 
-  const newToken = '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'
+  const newToken = process.env.GITHUB_TOKEN || 'your_github_token_here'
   
   if (!envContent.includes('GITHUB_TOKEN=')) {
     envContent += `\n# GitHub Token pour les releases et mises à jour\nGITHUB_TOKEN=${newToken}\n`
