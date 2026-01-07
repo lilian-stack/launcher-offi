@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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'
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 const GITHUB_OWNER = 'lilian-stack'
 const GITHUB_REPO = 'launcher-offi'
 

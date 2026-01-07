@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Configuration GitHub
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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'
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 const GITHUB_OWNER = 'lilian-stack'
 const GITHUB_REPO = 'launcher-offi'
 const KEEP_VERSION = 'v1.0.0' // Version à garder

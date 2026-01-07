@@ -1,6 +1,6 @@
 import https from 'https'
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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'
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 const GITHUB_OWNER = 'lilian-stack'
 const GITHUB_REPO = 'launcher-offi'
 
