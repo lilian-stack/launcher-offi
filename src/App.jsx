@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback, Suspense, useRef } from 'react'
+import { CommitUpdateModal } from './components/CommitUpdateModal'
+import { commitUpdateService } from './services/commitUpdateService'
 import { Motion, AnimatePresence } from './components/Motion'
 import { authService } from './services/auth'
 import { downloadManager } from './services/downloadManager'
@@ -32,7 +34,9 @@ const PageLoader = () => (
 )
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
+  const [updateInfo, setUpdateInfo] = useState(null)(null)
   const [activePage, setActivePage] = useState('home')
   const [selectedGameId, setSelectedGameId] = useState(null)
   const [installedGames, setInstalledGames] = useState([])
