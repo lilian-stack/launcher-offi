@@ -1,0 +1,5087 @@
+{
+  "lastUpdated": "2025-12-30T01:00:35.432Z",
+  "totalGames": 635,
+  "gamesWithVideos": 341,
+  "games": {
+    "10": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "70": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "550": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3590": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "7940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "8190": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "10090": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "12130": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "15100": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "16900": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/16900/extras/f0ca2150ea1d44b92fb9263339a24021.mp4?t=1765963237",
+        "type": "trailer"
+      }
+    },
+    "17390": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "17430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "19680": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "21000": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "21090": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "21690": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "22300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "32330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "32370": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "32440": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "32510": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "33320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "34030": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/34030/extras/4fa215b2d1812a8d1ed4588fa5cc2fd6.mp4?t=1765308018",
+        "type": "trailer"
+      }
+    },
+    "35140": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "40990": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "42680": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "45740": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "47780": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "47890": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "48000": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "50130": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "50300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "57300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "71340": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "105600": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "110800": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "115320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "200260": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "203140": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "203160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "204100": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "204360": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "205950": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "209160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "209650": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "212480": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2486820/extras/85dc7707d3b51278f0ee8a135e10c247.mp4?t=1764191870",
+        "type": "trailer"
+      }
+    },
+    "213330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "214490": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "219150": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "219990": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "220200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "220240": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "220440": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "221040": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "230290": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/230290/extras/4e0bd87bad82313ee47be42b23b34207.mp4?t=1745448523",
+        "type": "trailer"
+      }
+    },
+    "232090": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "233860": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/233860/extras/fee4568c3a4b59d891bded4b954fc4de.mp4?t=1765221522",
+        "type": "trailer"
+      }
+    },
+    "234140": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "234670": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "235460": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "235600": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "238090": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "239140": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "241930": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "242550": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "244850": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/244850/extras/3f4e8b563d04308f5eec1102ee99061c.mp4?t=1764755549",
+        "type": "trailer"
+      }
+    },
+    "246620": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "250260": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "250320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "250620": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "253230": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/253230/extras/0551e566f2297b70615e4bbb3adebb93.mp4?t=1737595291",
+        "type": "trailer"
+      }
+    },
+    "260210": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "261550": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/261550/extras/ec15dba81ad56b9e5802724f688fc580.mp4?t=1764252300",
+        "type": "trailer"
+      }
+    },
+    "265930": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "268050": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "270880": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "282140": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "284160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/284160/extras/e32b86262102fcbb1b903f9036351865.mp4?t=1765821591",
+        "type": "trailer"
+      }
+    },
+    "285160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "285900": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "286160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "289070": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289070/extras/542fcd340aa40f2fa4204440d4a721f9.mp4?t=1740607040",
+        "type": "trailer"
+      }
+    },
+    "292030": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "293760": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/293760/extras/57a4596660acedcdfce939d74c68e604.mp4?t=1766012305",
+        "type": "trailer"
+      }
+    },
+    "301280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/301280/extras/d6247e389ab22ab280293d758d8daefb.mp4?t=1746226385",
+        "type": "trailer"
+      }
+    },
+    "301760": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "304240": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "304430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "305620": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/305620/extras/e4a114aa89e2e002efd9ec38ce4194f8.mp4?t=1765217095",
+        "type": "trailer"
+      }
+    },
+    "310950": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/310950/extras/77b6dee9f5c42abe2db12be6c0b2105b.mp4?t=1759109525",
+        "type": "trailer"
+      }
+    },
+    "312520": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/312520/extras/aa77f54775f8f705aa94ecf3fbffa4c8.mp4?t=1759361058",
+        "type": "trailer"
+      }
+    },
+    "313690": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "315210": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/315210/extras/a4f28ea44f9a1381278d23fbb8695356.mp4?t=1739898445",
+        "type": "trailer"
+      }
+    },
+    "322170": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "322330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322330/extras/c7484221486075c97425349eb6c8411f.mp4?t=1766081346",
+        "type": "trailer"
+      }
+    },
+    "322500": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322500/extras/b4bb2273c6c641b49c6b79f84a9a1f5a.mp4?t=1726509130",
+        "type": "trailer"
+      }
+    },
+    "323190": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "327890": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "329050": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "332950": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/332950/extras/0e78771eb267328b7045d0f44cef714f.mp4?t=1693784243",
+        "type": "trailer"
+      }
+    },
+    "337320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/337320/extras/dc5ddf326d4a7c18eb346f72f3e0bc5d.mp4?t=1747124279",
+        "type": "trailer"
+      }
+    },
+    "339340": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "341940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "342560": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "346010": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/346010/extras/ad739cd64944d4b1ba5152f2b04ae6eb.mp4?t=1762860336",
+        "type": "trailer"
+      }
+    },
+    "352400": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "356190": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "360430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "366090": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "367500": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "370240": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "378540": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "379430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "383870": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "386940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/386940/extras/d26c05d3d7c778b7b13121b6aee0e247.mp4?t=1765298731",
+        "type": "trailer"
+      }
+    },
+    "389730": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/389730/extras/3c2434762395ed445f006d52734bf6f2.mp4?t=1765812753",
+        "type": "trailer"
+      }
+    },
+    "391220": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "394360": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/394360/extras/341d0dfa9d3af33efbc688cf6775a82d.mp4?t=1765368663",
+        "type": "trailer"
+      }
+    },
+    "395200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "400750": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400750/extras/b52278a71abed051c80e6e04c76fd7ad.mp4?t=1764717941",
+        "type": "trailer"
+      }
+    },
+    "403640": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "405310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "409710": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "409720": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "412020": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "413410": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "414700": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "424840": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/424840/extras/802321fa4bcfba9b26fbb33738cf383a.mp4?t=1760535166",
+        "type": "trailer"
+      }
+    },
+    "427410": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/427410/extras/6d35b5d183b6dc4989fff9d243378cdc.mp4?t=1765822569",
+        "type": "trailer"
+      }
+    },
+    "431730": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "440900": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "460920": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "460950": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "463530": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/463530/extras/189d7c3ab266ecd2a659f9b76a2b347d.mp4?t=1766077858",
+        "type": "trailer"
+      }
+    },
+    "476600": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "481510": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "488790": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "488860": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "490110": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/490110/extras/7dd8f3eeea36490722cb7ddadda7992e.mp4?t=1765216837",
+        "type": "trailer"
+      }
+    },
+    "492720": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "494840": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/494840/extras/cc5a0de4bc73ce24eb5a80d08352a050.mp4?t=1750843285",
+        "type": "trailer"
+      }
+    },
+    "502280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "513710": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/513710/extras/da0484b0c505d0aa15e246f7bccf069f.mp4?t=1759911435",
+        "type": "trailer"
+      }
+    },
+    "515180": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "516750": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "544750": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/544750/extras/158619e04d82d25252fd0a76c42015ab.mp4?t=1718967845",
+        "type": "trailer"
+      }
+    },
+    "548430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/548430/extras/d9f0ff37fc68bcec10fa5e6e3756a04f.webm?t=1766071358",
+        "type": "trailer"
+      }
+    },
+    "555950": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "567640": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "568220": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "584400": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/584400/extras/5992fb4542d499deb8484b170dad3dfa.mp4?t=1762751921",
+        "type": "trailer"
+      }
+    },
+    "585420": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/585420/extras/9332ec17185a1c7842c51caa5083c840.mp4?t=1763975043",
+        "type": "trailer"
+      }
+    },
+    "588650": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/588650/extras/e0eba0c607cfe799ed7b0a9cb53b022a.mp4?t=1761123066",
+        "type": "trailer"
+      }
+    },
+    "597180": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/597180/extras/ec1a72dfd960114fc6264709abe69e0b.mp4?t=1766078162",
+        "type": "trailer"
+      }
+    },
+    "601050": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "601430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "602960": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/602960/extras/dbcedaab25a755a30ae2c31f0a2a5a6b.mp4?t=1765211124",
+        "type": "trailer"
+      }
+    },
+    "613830": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "617160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "620980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "627270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "629820": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "631510": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "632360": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "635260": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "637100": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/637100/extras/a1067fc7c42c69d900560b946441e8c4.mp4?t=1762752729",
+        "type": "trailer"
+      }
+    },
+    "641320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/641320/extras/c9ec6d3b86f7d47bee2aff6098d4b289.mp4?t=1766498051",
+        "type": "trailer"
+      }
+    },
+    "644830": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "646570": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/646570/extras/525fee3b3fedadeaa101f2abbcf8ffca.mp4?t=1764833720",
+        "type": "trailer"
+      }
+    },
+    "649950": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/649950/extras/f7d03d1b4d36d0fcceffee1dea8a1ba4.mp4?t=1729099459",
+        "type": "trailer"
+      }
+    },
+    "653530": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "666150": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/666150/extras/370c1163035ed0c496becdd6461da9c2.mp4?t=1766516878",
+        "type": "trailer"
+      }
+    },
+    "672630": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "678960": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/678960/extras/8f66ec752124570b898cdfd5aea8e081.mp4?t=1766015412",
+        "type": "trailer"
+      }
+    },
+    "681280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/681280/extras/a9d90c8dff1974480a904b69175e9924.mp4?t=1764690930",
+        "type": "trailer"
+      }
+    },
+    "682990": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/682990/extras/34e53054000a26ae6ca8044b41827a06.webm?t=1762946545",
+        "type": "trailer"
+      }
+    },
+    "690790": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "690830": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/690830/extras/32f3349e4d56a0b1cc8f2b3150206540.mp4?t=1765384527",
+        "type": "trailer"
+      }
+    },
+    "707030": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/707030/extras/80dd7c044d6b421c903916d8c2ff5751.mp4?t=1726332007",
+        "type": "trailer"
+      }
+    },
+    "728880": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "729040": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "739630": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/739630/extras/0fe7642bafb25017256babb9be8e8b13.mp4?t=1765887477",
+        "type": "trailer"
+      }
+    },
+    "740130": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/740130/extras/403c5ca6e8b42700e153e5151506a279.mp4?t=1735264482",
+        "type": "trailer"
+      }
+    },
+    "742420": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "747660": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "750130": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "750920": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "751780": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/751780/extras/26ab220d25cd88d361334361dbd74471.mp4?t=1699372258",
+        "type": "trailer"
+      }
+    },
+    "752590": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/752590/extras/38f07694b9cad2310bced04c2a83f644.mp4?t=1727793332",
+        "type": "trailer"
+      }
+    },
+    "768200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/768200/extras/507a7348a0dae64bb5bb69564d15a8db.mp4?t=1766089012",
+        "type": "trailer"
+      }
+    },
+    "774361": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/774361/extras/beb8730c4086a6e62a58c4c395e4e154.mp4?t=1766049817",
+        "type": "trailer"
+      }
+    },
+    "774801": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/774801/extras/f75e0040c856e25aa83b804443b05fd5.mp4?t=1754771711",
+        "type": "trailer"
+      }
+    },
+    "780310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/780310/extras/501c77f1e5b3b4cfd47da29dc0025421.mp4?t=1764008301",
+        "type": "trailer"
+      }
+    },
+    "787860": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "788100": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/788100/extras/6e936bb5943d6403a7544ccf9ae30e12.mp4?t=1762780723",
+        "type": "trailer"
+      }
+    },
+    "813230": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/813230/extras/24d6011d0b6a3f6108c3024bb78c0076.mp4?t=1736282851",
+        "type": "trailer"
+      }
+    },
+    "813780": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "815370": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/815370/extras/378d74e44a660d5af7ffd0111ee8a31e.webm?t=1757690850",
+        "type": "trailer"
+      }
+    },
+    "829110": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "837470": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "847370": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "849100": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/849100/extras/a503abf27b422c2fd6e06ddef2c21581.mp4?t=1764078931",
+        "type": "trailer"
+      }
+    },
+    "851850": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/851850/extras/51bb34881507e65fbe6a7caae49f6396.mp4?t=1765785183",
+        "type": "trailer"
+      }
+    },
+    "861650": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "880940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/880940/extras/ae392e5da9e58e0f32cfbc0376ca8daf.mp4?t=1725311353",
+        "type": "trailer"
+      }
+    },
+    "883710": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "887490": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/887490/extras/79e63deeca37a4e0d3d65eefc8cb7773.webm?t=1753811709",
+        "type": "trailer"
+      }
+    },
+    "892970": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "916440": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/916440/extras/f1c01c57da467a8abca3b1356b381205.mp4?t=1758568419",
+        "type": "trailer"
+      }
+    },
+    "919360": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/919360/extras/3388f938204e67bdb98884d3ee7f8295.webm?t=1765217540",
+        "type": "trailer"
+      }
+    },
+    "933110": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "953490": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "960090": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/960090/extras/2b62297a77c00d0bafd367ba726645f3.mp4?t=1761619015",
+        "type": "trailer"
+      }
+    },
+    "960910": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "962400": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "962730": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "973810": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/973810/extras/1655dc06a332472407f7d5badb8a3f52.mp4?t=1723047768",
+        "type": "trailer"
+      }
+    },
+    "975370": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "976590": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/976590/extras/1792d843d80dbc72a1a6c3a38c991739.webm?t=1765374004",
+        "type": "trailer"
+      }
+    },
+    "976730": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/976730/extras/61057aec0bc3d9fc2480fcacfbc35ba5.mp4?t=1740682623",
+        "type": "trailer"
+      }
+    },
+    "978300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "979120": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/979120/extras/cde12be139cf1d9d41882ccd3f02bfd5.mp4?t=1728987878",
+        "type": "trailer"
+      }
+    },
+    "983870": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/983870/extras/ebab136e8a53d87c8ff07a98156033cc.webm?t=1766055800",
+        "type": "trailer"
+      }
+    },
+    "993090": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "996580": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1002300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1021210": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1025600": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1030300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1031120": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1031120/extras/909271526d89feca2f8020ccd4beede4.mp4?t=1750948026",
+        "type": "trailer"
+      }
+    },
+    "1040200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1040200/extras/ec09b1d2af4317e30c035bf1e24c7068.mp4?t=1765055591",
+        "type": "trailer"
+      }
+    },
+    "1044720": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1066890": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1080110": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1088850": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1088850/extras/711c7aad0c4d34377a57e06c9710874f.mp4?t=1762805837",
+        "type": "trailer"
+      }
+    },
+    "1089980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1092790": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1104280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1104280/extras/6543ef15f13629e60a9319294ab7e5f6.mp4?t=1755278434",
+        "type": "trailer"
+      }
+    },
+    "1113000": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1113000/extras/8c5edeaaddd2b923188611adf230e613.mp4?t=1763530422",
+        "type": "trailer"
+      }
+    },
+    "1114150": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1129580": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1129580/extras/d9568a5238bc44eef01a78f762ed3c7e.webm?t=1765546793",
+        "type": "trailer"
+      }
+    },
+    "1135690": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1135690/extras/f945ebe36223334af2c8878136508b4e.mp4?t=1758154062",
+        "type": "trailer"
+      }
+    },
+    "1139940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1139940/extras/a5ed9f217928b095fc4722d872ef25e2.mp4?t=1760875019",
+        "type": "trailer"
+      }
+    },
+    "1140170": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1140170/extras/c740c6c8986f6d17065f1bec8fd3b2e6.mp4?t=1744835641",
+        "type": "trailer"
+      }
+    },
+    "1144200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1145350": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/extras/8a5bf90edfe16a94bdd084ab783d82dd.mp4?t=1765831644",
+        "type": "trailer"
+      }
+    },
+    "1147560": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1147560/extras/e24523b6d50845e83107c83ecc528403.mp4?t=1762483568",
+        "type": "trailer"
+      }
+    },
+    "1149460": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1149460/extras/1fdec1b18d8cf0c69ac0ac6f1e89548d.mp4?t=1764892501",
+        "type": "trailer"
+      }
+    },
+    "1149620": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1149620/extras/6485ad97a4e5f9ccb03d54d51397f6d0.mp4?t=1766102567",
+        "type": "trailer"
+      }
+    },
+    "1153410": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1153410/extras/d5845ea8e0946f381088a6af8430410c.mp4?t=1765463285",
+        "type": "trailer"
+      }
+    },
+    "1154030": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1154030/extras/c4070445fc070a858a63b2c1cc6d6267.mp4?t=1764837838",
+        "type": "trailer"
+      }
+    },
+    "1158160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1158160/extras/0a8342ad5a31b4591c4b93c1a2eba7a2.mp4?t=1764822859",
+        "type": "trailer"
+      }
+    },
+    "1158310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1158310/extras/bc754bcfa47e51803d44e9777e59d4e5.mp4?t=1765537474",
+        "type": "trailer"
+      }
+    },
+    "1160920": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1160920/extras/3dfbbe76d720b921ae2bf28fcc39b08c.mp4?t=1742476593",
+        "type": "trailer"
+      }
+    },
+    "1161830": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1161830/extras/00ec56c0e493121f882fc13bdc999cbd.mp4?t=1764212249",
+        "type": "trailer"
+      }
+    },
+    "1164940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1164940/extras/5993826fb7c20198b954f716dba75a5e.mp4?t=1765814715",
+        "type": "trailer"
+      }
+    },
+    "1167450": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1167450/extras/2d084aa5828cba0e88e720ab5591ec36.mp4?t=1752000237",
+        "type": "trailer"
+      }
+    },
+    "1167630": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1167630/extras/92a56f003ef24ba3751974465bbe1d22.mp4?t=1763977691",
+        "type": "trailer"
+      }
+    },
+    "1177980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1177980/extras/9ac58bf63e2dd538f3fd453bfd9d3768.mp4?t=1756399078",
+        "type": "trailer"
+      }
+    },
+    "1179210": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1179210/extras/987da405406decd9dc10dc13afeae9df.mp4?t=1752529684",
+        "type": "trailer"
+      }
+    },
+    "1190000": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1190000/extras/d54a3737a34a66e05b4aac6d02c52184.webm?t=1766396471",
+        "type": "trailer"
+      }
+    },
+    "1201230": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1201230/extras/ad6c079de1d5eb225a5f64a8581807c2.mp4?t=1766042641",
+        "type": "trailer"
+      }
+    },
+    "1201270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1201270/extras/e483eedbebfe2638b285248c6c60e447.mp4?t=1761014941",
+        "type": "trailer"
+      }
+    },
+    "1205970": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1222680": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1225570": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1234430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1237970": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1238080": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1238810": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1238860": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1240210": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1240440": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1244460": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1245620": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1252330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1262350": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1262350/extras/55f822da70c06acacc64adc1614815a5.mp4?t=1762193138",
+        "type": "trailer"
+      }
+    },
+    "1262560": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1262600": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1265920": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1265920/extras/44c53fb89a484893a17c87254b36e35c.mp4?t=1748420882",
+        "type": "trailer"
+      }
+    },
+    "1272320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1272320/extras/9effa37468b78f75bfa53a6b5512dcd2.mp4?t=1766081011",
+        "type": "trailer"
+      }
+    },
+    "1275890": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1282100": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1283230": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1283230/extras/a7e9c18615f9bec5e2d845dda2afbe22.mp4?t=1761829109",
+        "type": "trailer"
+      }
+    },
+    "1284190": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1284190/extras/334be60a6b628312193f87232248fee2.mp4?t=1763396816",
+        "type": "trailer"
+      }
+    },
+    "1286220": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1286220/extras/1764a9f8a160a2b79a357198352f1e40.mp4?t=1765893758",
+        "type": "trailer"
+      }
+    },
+    "1286880": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1286880/extras/e025661ea6b05013327cd539f0c94628.mp4?t=1761080797",
+        "type": "trailer"
+      }
+    },
+    "1286990": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1295920": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1302240": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1310410": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1310410/extras/7677e650dc27f53a40752a39d43d3ebd.mp4?t=1754066311",
+        "type": "trailer"
+      }
+    },
+    "1314000": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1314000/extras/c5b94bab98f3e2896294a922596d6ac7.mp4?t=1763670046",
+        "type": "trailer"
+      }
+    },
+    "1332720": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1332720/extras/08f11e9162423bea45010f8ca252027f.mp4?t=1764666984",
+        "type": "trailer"
+      }
+    },
+    "1335830": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1335830/extras/af7a852944b3ebf8f2b4eaef322874c3.mp4?t=1764924443",
+        "type": "trailer"
+      }
+    },
+    "1338770": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1338770/extras/a39c4ed4a95669f2a85603302c9831ac.mp4?t=1747413239",
+        "type": "trailer"
+      }
+    },
+    "1340990": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1342330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1343240": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1353230": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1353230/extras/ab627dda3d3b5a6d2e0a611f86f42ad5.mp4?t=1749851384",
+        "type": "trailer"
+      }
+    },
+    "1361000": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1361000/extras/2b3a637850eec7b8b7a37b030ce989fa.mp4?t=1639062908",
+        "type": "trailer"
+      }
+    },
+    "1366800": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1367550": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1367550/extras/15888c79597b6c7b076195f04f631dc8.mp4?t=1739448279",
+        "type": "trailer"
+      }
+    },
+    "1371980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1371980/extras/55cb0c27fc043aaf0ce563c386aa4f7a.webm?t=1766151277",
+        "type": "trailer"
+      }
+    },
+    "1374490": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1376200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1376200/extras/953f1a6c4d0862bdd674172311a2d128.mp4?t=1766081893",
+        "type": "trailer"
+      }
+    },
+    "1381650": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1381650/extras/d1590e9be1fff63a75fd0faf6d59ee40.mp4?t=1663146652",
+        "type": "trailer"
+      }
+    },
+    "1382330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1382330/extras/bb81e77d811a5429026b40503b5fdb5c.mp4?t=1763530465",
+        "type": "trailer"
+      }
+    },
+    "1388880": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1401590": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1401590/extras/4a71c1545b2766d408cd222e5b49dc4c.mp4?t=1764192484",
+        "type": "trailer"
+      }
+    },
+    "1401730": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1401730/extras/3df166fc252ed116760fd03dfb47759a.mp4?t=1766992386",
+        "type": "trailer"
+      }
+    },
+    "1408610": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1408610/extras/32a47cfe32ceeaad0956ec0aa84e3a3b.webm?t=1737626002",
+        "type": "trailer"
+      }
+    },
+    "1426450": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1426450/extras/a02b88c7191e8712049e5b5d74c805b9.mp4?t=1765174363",
+        "type": "trailer"
+      }
+    },
+    "1430190": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1430190/extras/8b3854ae0d2bb086b9a2c9cfb5bb6079.mp4?t=1765913634",
+        "type": "trailer"
+      }
+    },
+    "1435790": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1435790/extras/83aea10c1064ee2e7ee29179cb158dd5.mp4?t=1765484511",
+        "type": "trailer"
+      }
+    },
+    "1442430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1442430/extras/1b5fb520847462457e670111ea66faa3.mp4?t=1765465348",
+        "type": "trailer"
+      }
+    },
+    "1443200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1449690": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1451940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1451940/extras/11594d4144781fd5600d8f931ad2011d.mp4?t=1762834234",
+        "type": "trailer"
+      }
+    },
+    "1454400": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1456760": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1456760/extras/047036619aaa114a9c0f52f412570ffc.mp4?t=1762793640",
+        "type": "trailer"
+      }
+    },
+    "1462040": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1465360": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1466060": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1466860": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1479730": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1479730/extras/a836af303a827e69524eff54c863a062.mp4?t=1763476832",
+        "type": "trailer"
+      }
+    },
+    "1480560": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1486920": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1486920/extras/12d58d16eba097606f982b18163ce2d7.mp4?t=1765810866",
+        "type": "trailer"
+      }
+    },
+    "1492070": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1492070/extras/a0129af4cf2cd01b03858db26de61cef.mp4?t=1762515977",
+        "type": "trailer"
+      }
+    },
+    "1493640": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1493640/extras/3864c3cf27f10fd836cb082a51d5bdbb.mp4?t=1763044792",
+        "type": "trailer"
+      }
+    },
+    "1509960": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1520370": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1522160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1522160/extras/81940a4d82765746a9985fef5af1e4bd.mp4?t=1732714651",
+        "type": "trailer"
+      }
+    },
+    "1531540": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1531540/extras/2cd24cf8d5b96d8a0595c15f736a1be7.mp4?t=1765291108",
+        "type": "trailer"
+      }
+    },
+    "1544020": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1557740": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1557740/extras/ca83a0a015551a24ab501615d6bb752c.mp4?t=1759328419",
+        "type": "trailer"
+      }
+    },
+    "1563180": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1563180/extras/b4bb0ec54633ff4913e02476562f7102.mp4?t=1751967673",
+        "type": "trailer"
+      }
+    },
+    "1566690": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1566690/extras/4d8820829e9b9ee85f084487aee1d2fd.mp4?t=1747043120",
+        "type": "trailer"
+      }
+    },
+    "1567020": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1569580": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1574820": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1588010": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1596310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1599660": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1599780": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1599780/extras/1c067feea646d8cd692f9a719ca5df4f.mp4?t=1760649494",
+        "type": "trailer"
+      }
+    },
+    "1601570": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1601570/extras/a74a1990d34b2ff2121ace03a57b5334.webm?t=1766056121",
+        "type": "trailer"
+      }
+    },
+    "1601580": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1601580/extras/335563b7bd4178a3d9024eb64cdceb65.webm?t=1766132479",
+        "type": "trailer"
+      }
+    },
+    "1604030": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1604030/extras/cc8ec42327f3607b48ab551f2a2cfe3c.mp4?t=1765977712",
+        "type": "trailer"
+      }
+    },
+    "1604270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1604270/extras/0d2079917f9085304b93a6a3cb590265.mp4?t=1765358942",
+        "type": "trailer"
+      }
+    },
+    "1612420": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1612420/extras/4d6a8f138bf6a286c36b9e9309c6f6e2.mp4?t=1750440927",
+        "type": "trailer"
+      }
+    },
+    "1614440": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1614440/extras/d70a8a531fb4578efc59aa87080f6d7a.mp4?t=1766302627",
+        "type": "trailer"
+      }
+    },
+    "1619310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1619310/extras/fabb03ce14009d1f28c2e90e9ac132c9.mp4?t=1766141553",
+        "type": "trailer"
+      }
+    },
+    "1620730": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1621690": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1621690/extras/ff2bb33b17219933b924ddc06bad8126.mp4?t=1764415439",
+        "type": "trailer"
+      }
+    },
+    "1622910": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1622910/extras/51aee519736638591bd054865b4c7844.mp4?t=1766147641",
+        "type": "trailer"
+      }
+    },
+    "1623940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1623940/extras/3afd3a11b6e21e850552ed02c81b55b2.mp4?t=1759850350",
+        "type": "trailer"
+      }
+    },
+    "1629520": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1629520/extras/1bd902a60ddfff3f6411b4b385f52749.mp4?t=1765913277",
+        "type": "trailer"
+      }
+    },
+    "1641960": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1641960/extras/f1667355d015fc7e72546bfdb7f13820.mp4?t=1766164402",
+        "type": "trailer"
+      }
+    },
+    "1643310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1645820": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1645820/extras/ce5834332eb3ccd8f5512caa3a6c0743.mp4?t=1758056393",
+        "type": "trailer"
+      }
+    },
+    "1649240": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1649950": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1649950/extras/c094390b6f58f809f0e6702d33c0f3ec.mp4?t=1766051854",
+        "type": "trailer"
+      }
+    },
+    "1656930": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1656930/extras/94417682a6fb0b6b158988b159aa8dd4.mp4?t=1765289275",
+        "type": "trailer"
+      }
+    },
+    "1658280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1658280/extras/6a08c5f8a159ec6bf54caaad24fdf37f.mp4?t=1752751979",
+        "type": "trailer"
+      }
+    },
+    "1660080": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1660080/extras/dd605eaf6f77ebacefcfa755273776bc.mp4?t=1763714495",
+        "type": "trailer"
+      }
+    },
+    "1662210": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1662210/extras/c367f60469119c7959be599c774222e9.webm?t=1762918675",
+        "type": "trailer"
+      }
+    },
+    "1669000": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1671210": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1676840": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1676840/extras/9b68a1b0b5c3b1d38893a4cff93679c0.webm?t=1764949601",
+        "type": "trailer"
+      }
+    },
+    "1677280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1682970": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1682970/extras/58b070ae5e1a9c96dc985a12322a07fc.mp4?t=1744907113",
+        "type": "trailer"
+      }
+    },
+    "1686940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1686940/extras/3a22845fd49c44e70b9b3b57eb1b4e7c.mp4?t=1746784732",
+        "type": "trailer"
+      }
+    },
+    "1689620": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1689620/extras/fb4c9447884d49a517014cb0667a4199.mp4?t=1765454766",
+        "type": "trailer"
+      }
+    },
+    "1691970": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1708850": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1708850/extras/14339c64863463fc94c9bda1fb06e5dc.mp4?t=1763113022",
+        "type": "trailer"
+      }
+    },
+    "1715130": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1715280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1715280/extras/9404bd298c62d56ea166bbe6149d3e58.mp4?t=1729256349",
+        "type": "trailer"
+      }
+    },
+    "1721060": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1721060/extras/467f6420750b86ae45371337fda69d78.mp4?t=1758912549",
+        "type": "trailer"
+      }
+    },
+    "1721110": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1721110/extras/060495c0dd29b94e090c7123f38ef578.mp4?t=1760012130",
+        "type": "trailer"
+      }
+    },
+    "1721470": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1721470/extras/7413e0cfb146797cd7f6ac49bc2e75b8.mp4?t=1755873139",
+        "type": "trailer"
+      }
+    },
+    "1729740": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1732430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1732430/extras/0fc576ebc81c10e403d64f3d695ce65d.mp4?t=1760704191",
+        "type": "trailer"
+      }
+    },
+    "1735700": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1735700/extras/1a60288e926b1b7a23ea75cf3748b31d.mp4?t=1762917628",
+        "type": "trailer"
+      }
+    },
+    "1771300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1771980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1771980/extras/b9445675c4a0a02d51d22170e40b397d.mp4?t=1755332606",
+        "type": "trailer"
+      }
+    },
+    "1774580": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1778820": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1778820/extras/dcc9f48bdf4c8a26537723a956d5aed8.mp4?t=1764891442",
+        "type": "trailer"
+      }
+    },
+    "1790600": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1790600/extras/a7e74a9739644e07a8919750d546467c.mp4?t=1758754863",
+        "type": "trailer"
+      }
+    },
+    "1793090": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1793090/extras/2f2bfb9e0db780bc218248f66462899f.mp4?t=1730895712",
+        "type": "trailer"
+      }
+    },
+    "1794680": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1796470": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1796470/extras/eb368db1e1359f4d3a42ecacbd10bab0.mp4?t=1752241805",
+        "type": "trailer"
+      }
+    },
+    "1812450": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1824220": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1832040": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1843310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1843310/extras/ca6ae364bb3262a1603be552bd675b0f.mp4?t=1763993341",
+        "type": "trailer"
+      }
+    },
+    "1846170": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1861610": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1861610/extras/4a52b2e85bfe0c89d0004dd47150fbae.mp4?t=1761776285",
+        "type": "trailer"
+      }
+    },
+    "1868140": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1868140/extras/d5f3fed41b468e192d871dd1a8121cad.mp4?t=1761737343",
+        "type": "trailer"
+      }
+    },
+    "1869290": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1869290/extras/4dc8941d591b3318eefaa6d343b3ed1c.mp4?t=1762269877",
+        "type": "trailer"
+      }
+    },
+    "1874000": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1874000/extras/7b5fccd2e153fd63fef1e97d608e0b4a.mp4?t=1747227819",
+        "type": "trailer"
+      }
+    },
+    "1874880": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1876590": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1876590/extras/15f8b92aaa6d4835ace2e1fbfce6abf9.mp4?t=1752670777",
+        "type": "trailer"
+      }
+    },
+    "1880360": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1880360/extras/d31f5eea7c5b5d3910421243dd018013.mp4?t=1753350642",
+        "type": "trailer"
+      }
+    },
+    "1887840": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1887840/extras/108bcc9af6c905de761234cede4ebafc.mp4?t=1748555967",
+        "type": "trailer"
+      }
+    },
+    "1888160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1898300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1898300/extras/bff4f65014acd2a8770a67e420eacb3f.mp4?t=1763472986",
+        "type": "trailer"
+      }
+    },
+    "1902690": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1902690/extras/588395a7617a4da30aef93203ae1096e.mp4?t=1760594680",
+        "type": "trailer"
+      }
+    },
+    "1902960": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1903340": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1926520": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1928980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1928980/extras/6dadc1d97f70da54546536c201c0bb0d.webm?t=1761602783",
+        "type": "trailer"
+      }
+    },
+    "1931180": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1931180/extras/8cc5184447d24a068c9d9249f9c79599.webm?t=1764786619",
+        "type": "trailer"
+      }
+    },
+    "1934570": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1934570/extras/e32b0973dd9d73be4776e0591594097f.mp4?t=1744907120",
+        "type": "trailer"
+      }
+    },
+    "1934680": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1934680/extras/57b51c9d9f5db1045cfa1d161b806ea8.mp4?t=1766082175",
+        "type": "trailer"
+      }
+    },
+    "1939970": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1939970/extras/3df83fc411bcd6a7a03591f552fb59de.webm?t=1749822103",
+        "type": "trailer"
+      }
+    },
+    "1942280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1942280/extras/53bd914fedad0b863661248400b244ee.mp4?t=1766064129",
+        "type": "trailer"
+      }
+    },
+    "1944430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1944430/extras/ee35b55c1a2d6268ba51e62091614ea7.mp4?t=1734702362",
+        "type": "trailer"
+      }
+    },
+    "1954160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1954160/extras/a98ed39ef4bf1ac7476add2d2e1c6433.mp4?t=1762714509",
+        "type": "trailer"
+      }
+    },
+    "1954200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1954200/extras/69922ef8c6b44bef49329dd5eba3aa77.mp4?t=1664298117",
+        "type": "trailer"
+      }
+    },
+    "1978590": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1979440": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1979440/extras/1732b96130df53b964bcc732d3e8a1e9.mp4?t=1744601452",
+        "type": "trailer"
+      }
+    },
+    "1985820": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "1989270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2000890": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2000950": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2001120": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/extras/0fbf824eb86e422daf1efa0ed2a1908d.mp4?t=1763484567",
+        "type": "trailer"
+      }
+    },
+    "2004080": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2004080/extras/a056add5fcfc0b63cc497427f72a3026.mp4?t=1763136315",
+        "type": "trailer"
+      }
+    },
+    "2010030": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2021880": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2021880/extras/f106288519b376af988f42dca60ed379.mp4?t=1758910354",
+        "type": "trailer"
+      }
+    },
+    "2027330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2028850": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2054970": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2058180": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2067050": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2087030": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2087030/extras/f090614abf329a9cfe0cd1376a601bf3.mp4?t=1757923026",
+        "type": "trailer"
+      }
+    },
+    "2093010": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2093010/extras/77ad65f470e41a670a76a78a6b43474a.mp4?t=1733831221",
+        "type": "trailer"
+      }
+    },
+    "2095340": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2095340/extras/0c3fc72e35fa471d4c1288712ed87b7b.mp4?t=1766052858",
+        "type": "trailer"
+      }
+    },
+    "2099110": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2099110/extras/70fe90aea22fab2254153b7815367d32.mp4?t=1762156032",
+        "type": "trailer"
+      }
+    },
+    "2102450": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2102450/extras/14dae17db430d12ed9690ab548977dad.mp4?t=1730220222",
+        "type": "trailer"
+      }
+    },
+    "2104890": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2104890/extras/34a9db3c4783eb653d2baa1e51847592.mp4?t=1765883840",
+        "type": "trailer"
+      }
+    },
+    "2111190": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2111190/extras/d9cfb71417271eccfebcda16bd03def6.mp4?t=1765391765",
+        "type": "trailer"
+      }
+    },
+    "2114740": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2124490": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2141730": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2141730/extras/d1d31d0fd91df0d062e776911039355a.mp4?t=1765586995",
+        "type": "trailer"
+      }
+    },
+    "2142330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2142330/extras/ba34bc65865f6aacb1d89ade51955f3f.mp4?t=1754042908",
+        "type": "trailer"
+      }
+    },
+    "2142790": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2142790/extras/18fc61b81b9da0c45b3ae7685fcf1e8e.webm?t=1759939537",
+        "type": "trailer"
+      }
+    },
+    "2144640": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2144640/extras/8b1c73674b807f758ec2c861f0b2ae2e.webm?t=1753366767",
+        "type": "trailer"
+      }
+    },
+    "2162800": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2162800/extras/39eb4aa9669e443d67c239904d84ce34.mp4?t=1763542856",
+        "type": "trailer"
+      }
+    },
+    "2166060": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2166060/extras/e56a969b91df3190edcee951e87b1db3.mp4?t=1730134058",
+        "type": "trailer"
+      }
+    },
+    "2168680": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2168680/extras/5f006d1caa6edd89a86a77b6b980dfdd.mp4?t=1764287229",
+        "type": "trailer"
+      }
+    },
+    "2172010": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2174560": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2174560/extras/4aa053409b3ab55963bf12c23bd153bf.mp4?t=1766073308",
+        "type": "trailer"
+      }
+    },
+    "2178070": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2178070/extras/8f59ab3c89c97d61aaabf13ba981a4e5.mp4?t=1759773354",
+        "type": "trailer"
+      }
+    },
+    "2192790": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2198150": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2198150/extras/67449f425b0ff7e99a70fc611b67f282.mp4?t=1766214635",
+        "type": "trailer"
+      }
+    },
+    "2201940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2201940/extras/7436f7c4628000851c48d79fcf2c2bdb.mp4?t=1766151019",
+        "type": "trailer"
+      }
+    },
+    "2208570": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2208570/extras/8f2e9e2f1d3acb6d21d6ea2d70183c2b.mp4?t=1766136154",
+        "type": "trailer"
+      }
+    },
+    "2215390": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2215430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2221920": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2223700": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2223700/extras/7ffd5cd2fd8ba65a023fc464f375eb86.mp4?t=1756975361",
+        "type": "trailer"
+      }
+    },
+    "2223840": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2224640": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2224640/extras/7d827e55bf00dfea0514086b8e2d7587.mp4?t=1746434385",
+        "type": "trailer"
+      }
+    },
+    "2228280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2228280/extras/ccf730aae9372c6c6a532e1c90595d30.mp4?t=1748847801",
+        "type": "trailer"
+      }
+    },
+    "2230980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2230980/extras/53cd4c81f80a4377caef97332f561a7d.webm?t=1766783579",
+        "type": "trailer"
+      }
+    },
+    "2233120": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2233120/extras/e2c89b6fe795a95824d9107ef93f6e9c.mp4?t=1736876506",
+        "type": "trailer"
+      }
+    },
+    "2235150": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2235150/extras/c02f6dfe2e1ca04b57fedfccda295c12.mp4?t=1763634284",
+        "type": "trailer"
+      }
+    },
+    "2235200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2235200/extras/ec2b0c4079ca5725a0aacac4f1835216.mp4?t=1764235603",
+        "type": "trailer"
+      }
+    },
+    "2239150": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2239150/extras/92f4276b4b72f4c99e0f18e81cd77b55.mp4?t=1766051244",
+        "type": "trailer"
+      }
+    },
+    "2239710": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2239710/extras/de7e9ff844ad7ed111f637eb1c891135.mp4?t=1765436458",
+        "type": "trailer"
+      }
+    },
+    "2244130": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2244130/extras/e60be9c61c07bc790e0228cbd10eeef3.mp4?t=1747128326",
+        "type": "trailer"
+      }
+    },
+    "2248760": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2248760/extras/77ee9d65070b6decadfadad5f64b5818.mp4?t=1765548501",
+        "type": "trailer"
+      }
+    },
+    "2259310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2259310/extras/f4dec5e3cc054a53f69222cdb4c0d6eb.mp4?t=1749494748",
+        "type": "trailer"
+      }
+    },
+    "2272250": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2272540": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2272540/extras/7f2f41aaf022765bda604c61ebb07f09.mp4?t=1765219387",
+        "type": "trailer"
+      }
+    },
+    "2273430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2273980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2273980/extras/6b4aad0d0bd08bc37ca65f3eabbb1845.webm?t=1762547172",
+        "type": "trailer"
+      }
+    },
+    "2275020": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2275020/extras/8eacf770d1a83b139acc3cc1bb9d9b5f.mp4?t=1764190762",
+        "type": "trailer"
+      }
+    },
+    "2288150": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2288150/extras/3d7c46b0f1c7b1455aa61ffe10dc29db.mp4?t=1765868519",
+        "type": "trailer"
+      }
+    },
+    "2290180": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2300320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2300320/extras/15a356885415bc0fcc959c125bef1697.mp4?t=1764249746",
+        "type": "trailer"
+      }
+    },
+    "2314720": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2318310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2322010": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2337820": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2337820/extras/3e6af39632fb244c5bfdb5d96698edb7.mp4?t=1746465607",
+        "type": "trailer"
+      }
+    },
+    "2350270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2350270/extras/eb915eb9092c5bb9a18ed8d5608a4944.mp4?t=1765965547",
+        "type": "trailer"
+      }
+    },
+    "2353250": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2353250/extras/0d47b0722cc5e398a2870caba65d443b.mp4?t=1764702654",
+        "type": "trailer"
+      }
+    },
+    "2378900": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2379780": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/d5b3b51f8b55febc8dd08a443d126907.webm?t=1762516142",
+        "type": "trailer"
+      }
+    },
+    "2380050": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2380050/extras/195b27d660c3edbf6e1c51b9d4171094.mp4?t=1766068463",
+        "type": "trailer"
+      }
+    },
+    "2383200": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2383200/extras/4b0fd9e76ca86f97ec45b41890d2e92e.webm?t=1766123897",
+        "type": "trailer"
+      }
+    },
+    "2384580": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2384580/extras/d6f0feedae291f1754bf5a5d26d74393.mp4?t=1765962589",
+        "type": "trailer"
+      }
+    },
+    "2393160": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2393160/extras/8a6b7e882341c2fe27a5c9e7dbcccca5.mp4?t=1762781355",
+        "type": "trailer"
+      }
+    },
+    "2396980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2399420": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2399420/extras/5c49b226a2baa2a9400d23f557a356de.mp4?t=1765459545",
+        "type": "trailer"
+      }
+    },
+    "2404880": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2404880/extras/da25100076ad3105d481a7bb8f65ba23.mp4?t=1766167527",
+        "type": "trailer"
+      }
+    },
+    "2406770": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2406770/extras/6fd1c77819008f8379b2451dd00d22cd.mp4?t=1767042043",
+        "type": "trailer"
+      }
+    },
+    "2407270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2407270/extras/597bcea391993e70bbb88235d8ecc2f6.mp4?t=1766571590",
+        "type": "trailer"
+      }
+    },
+    "2417610": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2424010": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2424010/extras/bd9cbb32c9cbce8454ab2534e35e89a0.mp4?t=1765238964",
+        "type": "trailer"
+      }
+    },
+    "2428810": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2440380": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2440380/extras/b3608126a591d7a0d0ce3b522619a8cc.mp4?t=1766127417",
+        "type": "trailer"
+      }
+    },
+    "2456740": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2456740/extras/56a340307e004fb3f63498d5f0a602f8.mp4?t=1761814842",
+        "type": "trailer"
+      }
+    },
+    "2457220": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2457220/extras/c96148ea26f7e7e100f43039d22e34a8.mp4?t=1765372812",
+        "type": "trailer"
+      }
+    },
+    "2461850": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2461850/extras/f9f82d795ae6b71bc5475625bc214154.mp4?t=1754991471",
+        "type": "trailer"
+      }
+    },
+    "2475490": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2475490/extras/ee8ff294ae88ddadbcfa845e9f48e765.mp4?t=1764947696",
+        "type": "trailer"
+      }
+    },
+    "2477340": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2487070": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2488370": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2488370/extras/75a8a1c6621427efd836230714841e08.mp4?t=1766094509",
+        "type": "trailer"
+      }
+    },
+    "2492040": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2500750": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2500750/extras/17e54f4ce5367ee34c97a5fbf5c84086.mp4?t=1747040357",
+        "type": "trailer"
+      }
+    },
+    "2507620": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2507620/extras/3de55bbde70e3c1e3df8dcec22ef8024.mp4?t=1757555596",
+        "type": "trailer"
+      }
+    },
+    "2511320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2511320/extras/1e6d4eae8375a098f26ceb88ec1ff330.mp4?t=1764149744",
+        "type": "trailer"
+      }
+    },
+    "2515020": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2523720": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2523720/extras/096df76fc3c884642be8c2fc1ebfbb76.mp4?t=1757024702",
+        "type": "trailer"
+      }
+    },
+    "2524700": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2524700/extras/f95a3c79944ca2ce4ac8ebe84dd75012.webm?t=1731311678",
+        "type": "trailer"
+      }
+    },
+    "2526310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2526310/extras/1dc8bb6e1a42256a37bcc0d3b7a689fa.mp4?t=1764338628",
+        "type": "trailer"
+      }
+    },
+    "2527500": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2527500/extras/355d8e325da29f31b735b8167b866417.mp4?t=1761879413",
+        "type": "trailer"
+      }
+    },
+    "2530980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2530980/extras/f74bdc14d00750f562b44c2262026a80.mp4?t=1739758056",
+        "type": "trailer"
+      }
+    },
+    "2531310": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2543180": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2543180/extras/55bc58b856a3ba9442b39eb94a65c59d.mp4?t=1764865100",
+        "type": "trailer"
+      }
+    },
+    "2545710": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2552450": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2552450/extras/ce2a17d988476be3968d980c5c953716.mp4?t=1726051317",
+        "type": "trailer"
+      }
+    },
+    "2559270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2559270/extras/9d9b37be1384de8495408ed26bbe0576.mp4?t=1764750102",
+        "type": "trailer"
+      }
+    },
+    "2561580": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2567870": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2567870/extras/1fee78a5b13d46bb283eacfd81cb908d.mp4?t=1732288374",
+        "type": "trailer"
+      }
+    },
+    "2597970": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2597970/extras/6ad42cc2b920ded2788daa7381e0d4e0.mp4?t=1731527788",
+        "type": "trailer"
+      }
+    },
+    "2599300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2599300/extras/cbc27aba978f781e240fc85b9304ca44.mp4?t=1726924697",
+        "type": "trailer"
+      }
+    },
+    "2617700": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2617700/extras/899d930a1509965c160e8e0ea99ed960.mp4?t=1764853509",
+        "type": "trailer"
+      }
+    },
+    "2622380": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/extras/972bf4802f054dcecfdd9122f1c9ce41.webm?t=1764808750",
+        "type": "trailer"
+      }
+    },
+    "2623190": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2625420": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2625420/extras/dd4863ce64e894df6d09a33c8367a4d1.mp4?t=1763590271",
+        "type": "trailer"
+      }
+    },
+    "2638370": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2644470": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2651280": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2653790": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2658450": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2658510": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2658510/extras/92c6eb8e6c3c4642c28c680b1af26e51.mp4?t=1764597707",
+        "type": "trailer"
+      }
+    },
+    "2660460": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2660460/extras/752dfe057f7b0fd4d37d216c5a90e6b0.mp4?t=1744379567",
+        "type": "trailer"
+      }
+    },
+    "2661300": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2661300/extras/28ceb85414778fea99d346f5cde1ab31.mp4?t=1766163725",
+        "type": "trailer"
+      }
+    },
+    "2667120": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2667120/extras/010254067ff20fadc9402f7a017c3f6c.mp4?t=1766067613",
+        "type": "trailer"
+      }
+    },
+    "2668510": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2670630": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2670630/extras/171a97a06988d29f05827d1a69c8eaeb.mp4?t=1760015194",
+        "type": "trailer"
+      }
+    },
+    "2677660": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2679460": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2679460/extras/3aab583c0cedae8eeb97c08a6a686bba.webm?t=1764776325",
+        "type": "trailer"
+      }
+    },
+    "2683150": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2683150/extras/44b1b5cd311dee029d6add9b49267e62.webm?t=1766932694",
+        "type": "trailer"
+      }
+    },
+    "2695940": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2695940/extras/bcae10b5a653b5daaf588ecd85c6ae49.mp4?t=1764783570",
+        "type": "trailer"
+      }
+    },
+    "2698780": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2698780/extras/d76da632fa944fc729eef404979efb99.webm?t=1766489922",
+        "type": "trailer"
+      }
+    },
+    "2701660": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2703850": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2706170": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2706170/extras/6f9dd6c00ef97c5a50eb61f6f22e9ffd.mp4?t=1735594455",
+        "type": "trailer"
+      }
+    },
+    "2708450": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2708450/extras/cb919a6d6737fd485eb8f6f0aed4ac60.mp4?t=1742266552",
+        "type": "trailer"
+      }
+    },
+    "2737070": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2737070/extras/6fbe05d8dd216c4ba0c2d4e58ea500b3.mp4?t=1766261072",
+        "type": "trailer"
+      }
+    },
+    "2742830": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2742830/extras/b19a43db0b421ec23b12d9b267207882.mp4?t=1765987142",
+        "type": "trailer"
+      }
+    },
+    "2753900": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2753900/extras/16115e207f37c04fbe0d8b4327f534e9.mp4?t=1766749866",
+        "type": "trailer"
+      }
+    },
+    "2760790": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2760790/extras/f57ba895bef9fda95879651a5b15ccf9.mp4?t=1761906839",
+        "type": "trailer"
+      }
+    },
+    "2768430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2772750": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2772750/extras/1c97200e45b2a15bbefde60d643ff74d.mp4?t=1754994534",
+        "type": "trailer"
+      }
+    },
+    "2780980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2787320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2787320/extras/0b99118b7c32f49077d084dfb7e78f61.mp4?t=1766069600",
+        "type": "trailer"
+      }
+    },
+    "2799860": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2807960": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2807960/extras/3c7bc23eb7594cc0a7ff2cdfa68f8d80.mp4?t=1765583938",
+        "type": "trailer"
+      }
+    },
+    "2820820": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2820820/extras/98de79f3e7ec8826498aa8f2cbb8e088.mp4?t=1766333337",
+        "type": "trailer"
+      }
+    },
+    "2821610": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2821610/extras/6ebab2758d5beef3ba12030fd18cba29.mp4?t=1761838256",
+        "type": "trailer"
+      }
+    },
+    "2835530": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2835530/extras/8348369758d095f9eee23b99a616c441.mp4?t=1761591603",
+        "type": "trailer"
+      }
+    },
+    "2848330": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2864560": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2864560/extras/8b3a19c77df4c311e613480d3c0a0518.mp4?t=1763057053",
+        "type": "trailer"
+      }
+    },
+    "2873080": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2890830": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2890830/extras/f85466cb94824158ea709a4c1d3f3387.mp4?t=1751968040",
+        "type": "trailer"
+      }
+    },
+    "2898270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2898270/extras/e5699f22c6e8eb34282126cf7df2608d.webm?t=1758172877",
+        "type": "trailer"
+      }
+    },
+    "2909400": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2914390": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2916430": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2916430/extras/5b354349b23c90df9742849f2d404b16.mp4?t=1762536253",
+        "type": "trailer"
+      }
+    },
+    "2920570": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2920570/extras/c2f95b4d8d0a4fc3c63158f7cd0cdee9.mp4?t=1738015624",
+        "type": "trailer"
+      }
+    },
+    "2922410": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2922410/extras/304ed864b4c1764ff6deec3616e1d6e5.mp4?t=1764935905",
+        "type": "trailer"
+      }
+    },
+    "2924860": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2924860/extras/956cc011622b80c3332da2560548d7b9.mp4?t=1754557577",
+        "type": "trailer"
+      }
+    },
+    "2933080": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2933080/extras/e206fa8714ef3de237cea885daf5d238.mp4?t=1765790827",
+        "type": "trailer"
+      }
+    },
+    "2933130": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2933130/extras/cc3927ec03663fb7e32f15759bbca845.mp4?t=1765931574",
+        "type": "trailer"
+      }
+    },
+    "2933620": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "2961880": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2961880/extras/1dda61bfec3a36ae97abffd544a79192.mp4?t=1746463148",
+        "type": "trailer"
+      }
+    },
+    "2967990": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2967990/extras/cd027bc995ed6e5081af312f09929b3a.mp4?t=1764602050",
+        "type": "trailer"
+      }
+    },
+    "2969380": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2969380/extras/88c6ab990b011cb111d2e3b711064880.mp4?t=1738230147",
+        "type": "trailer"
+      }
+    },
+    "3008340": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3010460": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3010460/extras/8b2b25020b0bf91b36afa24bda2f2a80.mp4?t=1765500475",
+        "type": "trailer"
+      }
+    },
+    "3021630": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3021630/extras/e27936fe493bb2c2efa1a5c10b5e8d0d.mp4?t=1765294318",
+        "type": "trailer"
+      }
+    },
+    "3024040": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3024040/extras/e0c1c83b9f5330272befa02d1a85d34a.mp4?t=1766160682",
+        "type": "trailer"
+      }
+    },
+    "3035570": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3035570/extras/86bb4599b7986bdcfcd4866107597dd2.mp4?t=1766087993",
+        "type": "trailer"
+      }
+    },
+    "3058630": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3058630/extras/ef26c816893ea36ec065084e2a251de4.mp4?t=1766073486",
+        "type": "trailer"
+      }
+    },
+    "3059070": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3059070/extras/2c569454d10ab9494ea094f4c94fcea7.mp4?t=1761229580",
+        "type": "trailer"
+      }
+    },
+    "3070070": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3070070/extras/9f8784083b81461a0fcc13442282745e.mp4?t=1762475483",
+        "type": "trailer"
+      }
+    },
+    "3077390": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3077390/extras/4f4e83323869b5677a5d0693f3dcb9d9.mp4?t=1753692631",
+        "type": "trailer"
+      }
+    },
+    "3097560": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3097560/extras/9de69322c5c57203ce2a8985833431b0.webm?t=1766761133",
+        "type": "trailer"
+      }
+    },
+    "3098470": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3098470/extras/561ef9912a23850e812a3c15c8b5a1fe.mp4?t=1765362069",
+        "type": "trailer"
+      }
+    },
+    "3123410": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3125250": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3128740": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3128740/extras/e5422e44e85f48a6aee786ea61d3b349.mp4?t=1754388692",
+        "type": "trailer"
+      }
+    },
+    "3164500": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3164500/extras/d12cd71d3b6b0a154ba2650b13d8d686.webm?t=1751926051",
+        "type": "trailer"
+      }
+    },
+    "3176060": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3176060/extras/9d7e78f1ff2414725f49ccbab49d18e6.mp4?t=1765817416",
+        "type": "trailer"
+      }
+    },
+    "3194550": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3194550/extras/7804e347ad4a9692801eb1c39acab7dd.mp4?t=1764221588",
+        "type": "trailer"
+      }
+    },
+    "3205080": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3205080/extras/7f26272733e47a818ac9639ab8780dc8.mp4?t=1739082924",
+        "type": "trailer"
+      }
+    },
+    "3211680": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3211680/extras/77751ef58ec2f0c8895cd03529b49130.mp4?t=1765694047",
+        "type": "trailer"
+      }
+    },
+    "3226530": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3226530/extras/4a570a5661b56eb8d342780ce83ad508.mp4?t=1753120397",
+        "type": "trailer"
+      }
+    },
+    "3228590": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3228590/extras/fbf47292ff0bd78e8ed4b6ef7c9a5c51.mp4?t=1766084711",
+        "type": "trailer"
+      }
+    },
+    "3240220": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3241660": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3241660/extras/71dacc434b4c5cb932f13a0951a9580d.mp4?t=1765552338",
+        "type": "trailer"
+      }
+    },
+    "3244220": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3244220/extras/5a6c1470130c89fc18aed1dbe1603357.mp4?t=1766127671",
+        "type": "trailer"
+      }
+    },
+    "3263320": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3263320/extras/437cf12a3def76670a6f953f749ef3ee.mp4?t=1760220386",
+        "type": "trailer"
+      }
+    },
+    "3265250": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3265250/extras/8ad8e45d741bb836fe447d53a4fb610b.mp4?t=1766137935",
+        "type": "trailer"
+      }
+    },
+    "3287520": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3292260": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3292260/extras/0e0ec2d263e47a3ca4ff79487b3dccc0.mp4?t=1758399359",
+        "type": "trailer"
+      }
+    },
+    "3337140": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3355800": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3355800/extras/0d87fea1b1089a6a0c7f8d203d0dff32.mp4?t=1767040154",
+        "type": "trailer"
+      }
+    },
+    "3357250": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3357250/extras/6be61d8959a9b1b470cea239f1e0cf3e.mp4?t=1741788833",
+        "type": "trailer"
+      }
+    },
+    "3371240": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3372980": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3372980/extras/86ccf9a495e68a542dafa1dc58297d78.mp4?t=1750465489",
+        "type": "trailer"
+      }
+    },
+    "3373660": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3373660/extras/4ce6c1970fde857cdfbaaaed67c86a22.mp4?t=1766932848",
+        "type": "trailer"
+      }
+    },
+    "3378960": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3378960/extras/dd88b011a82cc8919e484ea9110f44c8.mp4?t=1756465896",
+        "type": "trailer"
+      }
+    },
+    "3405340": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3405340/extras/69e4caae613b0ddf74d6aab32df9e87f.mp4?t=1760445338",
+        "type": "trailer"
+      }
+    },
+    "3410180": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3410180/extras/d5959f757e68d15ab0ab4f5ea673701b.webm?t=1756748499",
+        "type": "trailer"
+      }
+    },
+    "3444080": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3444080/extras/62cb1f27500c412cdc6e7b0bf12cbaa1.mp4?t=1751976108",
+        "type": "trailer"
+      }
+    },
+    "3447690": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3447690/extras/8380fe21ba825b1c716576ed944a1b37.mp4?t=1766914733",
+        "type": "trailer"
+      }
+    },
+    "3453600": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3453600/extras/4c146dffea4c8f566a44e4a6a91269bb.mp4?t=1760691381",
+        "type": "trailer"
+      }
+    },
+    "3498270": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3498270/extras/21ead9e48b2f5da5cfb71ee0082f2225.mp4?t=1764549373",
+        "type": "trailer"
+      }
+    },
+    "3527290": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3527290/extras/e82d11d9221b2a65adeb68d8cdbc3bd2.mp4?t=1764003551",
+        "type": "trailer"
+      }
+    },
+    "3527760": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3569500": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3569500/extras/b4417bb0266509d573f14ee3aa3ec162.mp4?t=1766730032",
+        "type": "trailer"
+      }
+    },
+    "3587610": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3587610/extras/4ee7552d75c65abd22f44fd0efa547e8.mp4?t=1765761440",
+        "type": "trailer"
+      }
+    },
+    "3595230": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3645890": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3645890/extras/dc134c37532c8acb0f8032998776f5e6.mp4?t=1766024254",
+        "type": "trailer"
+      }
+    },
+    "3672720": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3672720/extras/695e408b523632c0cacc6b234e591b81.mp4?t=1762811398",
+        "type": "trailer"
+      }
+    },
+    "3702930": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3702930/extras/2dfa74ceeeb5ab9fb62f35ed44a673c7.mp4?t=1766080880",
+        "type": "trailer"
+      }
+    },
+    "3716600": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3716600/extras/0a6d551292fe03b40cf3e6da39a06361.mp4?t=1754585254",
+        "type": "trailer"
+      }
+    },
+    "3805420": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3805420/extras/5348021b25233e08877c5a113c23b34e.mp4?t=1758311175",
+        "type": "trailer"
+      }
+    },
+    "3813350": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": null,
+        "type": null
+      }
+    },
+    "3869680": {
+      "genres": [],
+      "categories": [],
+      "video": {
+        "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3869680/extras/2d50a28b9e4432af5354ebb2a6da660b.mp4?t=1753353819",
+        "type": "trailer"
+      }
+    }
+  }
+}

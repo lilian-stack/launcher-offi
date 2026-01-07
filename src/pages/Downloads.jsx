@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { motion as Motion } from 'framer-motion'
-import { FiDownload, FiCheckCircle, FiXCircle, FiClock, FiHardDrive, FiZap } from 'react-icons/fi'
+import { Motion } from '../components/Motion'
+import { FiDownload, FiCheckCircle, FiXCircle, FiTrash2 } from 'react-icons/fi'
 import { downloadManager } from '../services/downloadManager'
+import { ProgressBar } from '../components/ProgressBar'
 
 function formatBytes(bytes) {
   if (!bytes || bytes === 0 || isNaN(bytes)) return '0 B'
@@ -23,236 +24,248 @@ function formatSpeed(bytesPerSecond) {
   return formatBytes(bytesPerSecond) + '/s'
 }
 
-export function DownloadsPage() {
+export function DownloadsPage({ installedGames = [] }) {
   const [downloads, setDownloads] = useState([])
-  const [forceUpdate, setForceUpdate] = useState(0) // Force le re-render
 
   useEffect(() => {
-    // Charger les téléchargements initiaux
-    setDownloads(downloadManager.getAllDownloads())
+    console.log('[Downloads] 🔄 Initialisation de la page Downloads')
     
+    // Charger les téléchargements existants
+    const initialDownloads = downloadManager.getAllDownloads()
+    console.log('[Downloads] 📊 Téléchargements initiaux:', initialDownloads.length)
+    setDownloads(initialDownloads)
+
     // S'abonner aux mises à jour du downloadManager
     const unsubscribe = downloadManager.subscribe((updatedDownloads) => {
+      console.log('[Downloads] 📨 Mise à jour reçue:', updatedDownloads.length, 'téléchargements')
       setDownloads([...updatedDownloads]) // Créer un nouveau tableau pour forcer le re-render
-      setForceUpdate(prev => prev + 1) // Force le re-render
     })
-    
-    // Écouter les événements IPC pour les mises à jour en temps réel
-    if (window.electron && window.electron.ipcRenderer) {
+
+    // Écouter les événements de désinstallation
+    const handleGameUninstalled = (event) => {
+      const gameName = event.detail?.gameName
+      if (gameName) {
+        console.log('[Downloads] 🗑️ Jeu désinstallé:', gameName)
+        const allDownloads = downloadManager.getAllDownloads()
+        allDownloads.forEach(download => {
+          const downloadName = (download.gameName || '').toLowerCase().trim()
+          const uninstalledName = gameName.toLowerCase().trim()
+          if (downloadName === uninstalledName || downloadName.includes(uninstalledName) || uninstalledName.includes(downloadName)) {
+            downloadManager.removeDownload(download.id)
+          }
+        })
+        setDownloads([...downloadManager.getAllDownloads()])
+      }
+    }
+
+    window.addEventListener('game-uninstalled', handleGameUninstalled)
+
+    // Écouter directement les événements IPC pour s'assurer qu'on reçoit les mises à jour
+    if (window.electron?.ipcRenderer) {
       const handleProgress = (event, data) => {
-        // Mettre à jour le downloadManager qui notifiera les subscribers
-        downloadManager.handleDownloadProgress(data)
-        // Forcer un re-render immédiat
-        setForceUpdate(prev => prev + 1)
+        console.log('[Downloads] 📈 Événement download:progress reçu:', data)
+        setDownloads([...downloadManager.getAllDownloads()])
       }
       
       const handleComplete = (event, data) => {
-        downloadManager.handleDownloadComplete(data)
-        setForceUpdate(prev => prev + 1)
+        console.log('[Downloads] ✅ Événement download:complete reçu:', data)
+        setDownloads([...downloadManager.getAllDownloads()])
       }
       
       const handleError = (event, data) => {
-        downloadManager.handleDownloadError(data)
-        setForceUpdate(prev => prev + 1)
+        console.log('[Downloads] ❌ Événement download:error reçu:', data)
+        setDownloads([...downloadManager.getAllDownloads()])
+      }
+      
+      const handleStarted = (event, data) => {
+        console.log('[Downloads] 🚀 Événement download:started reçu:', data)
+        setDownloads([...downloadManager.getAllDownloads()])
       }
       
       const handleExtractionStarted = (event, data) => {
-        downloadManager.handleExtractionStarted(data)
-        setForceUpdate(prev => prev + 1)
+        console.log('[Downloads] 📦 Événement extraction-started reçu:', data)
+        setDownloads([...downloadManager.getAllDownloads()])
+      }
+      
+      const handleExtractionProgress = (event, data) => {
+        console.log('[Downloads] 📦 Événement extraction:progress reçu:', data)
+        setDownloads([...downloadManager.getAllDownloads()])
       }
       
       const handleExtractionComplete = (event, data) => {
-        downloadManager.handleExtractionComplete(data)
-        setForceUpdate(prev => prev + 1)
+        console.log('[Downloads] 📦 Événement download:extracted reçu:', data)
+        setDownloads([...downloadManager.getAllDownloads()])
       }
-      
+
+      // Ajouter les listeners IPC
+      window.electron.ipcRenderer.on('download:started', handleStarted)
       window.electron.ipcRenderer.on('download:progress', handleProgress)
       window.electron.ipcRenderer.on('download:complete', handleComplete)
       window.electron.ipcRenderer.on('download:error', handleError)
       window.electron.ipcRenderer.on('extraction-started', handleExtractionStarted)
+      window.electron.ipcRenderer.on('extraction:progress', handleExtractionProgress)
       window.electron.ipcRenderer.on('download:extracted', handleExtractionComplete)
-      
+
       return () => {
+        console.log('[Downloads] 🧹 Nettoyage des listeners')
         unsubscribe()
-        if (window.electron && window.electron.ipcRenderer) {
-          window.electron.ipcRenderer.removeListener('download:progress', handleProgress)
-          window.electron.ipcRenderer.removeListener('download:complete', handleComplete)
-          window.electron.ipcRenderer.removeListener('download:error', handleError)
-          window.electron.ipcRenderer.removeListener('extraction-started', handleExtractionStarted)
-          window.electron.ipcRenderer.removeListener('download:extracted', handleExtractionComplete)
-        }
+        window.removeEventListener('game-uninstalled', handleGameUninstalled)
+        
+        // Nettoyer les listeners IPC
+        window.electron.ipcRenderer.removeListener('download:started', handleStarted)
+        window.electron.ipcRenderer.removeListener('download:progress', handleProgress)
+        window.electron.ipcRenderer.removeListener('download:complete', handleComplete)
+        window.electron.ipcRenderer.removeListener('download:error', handleError)
+        window.electron.ipcRenderer.removeListener('extraction-started', handleExtractionStarted)
+        window.electron.ipcRenderer.removeListener('extraction:progress', handleExtractionProgress)
+        window.electron.ipcRenderer.removeListener('download:extracted', handleExtractionComplete)
       }
     }
-    
-    return unsubscribe
+
+    return () => {
+      console.log('[Downloads] 🧹 Nettoyage des listeners (fallback)')
+      unsubscribe()
+      window.removeEventListener('game-uninstalled', handleGameUninstalled)
+    }
   }, [])
 
-  if (downloads.length === 0) {
-    return (
-      <div className="empty-page">
-        <Motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="empty-icon-wrapper"
-        >
-          <FiDownload className="empty-icon" />
-        </Motion.div>
-        <Motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.4 }}
-        >
-          Pas de téléchargement en cours
-        </Motion.h2>
-        <Motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-          className="empty-description"
-        >
-          Lancez un téléchargement depuis le catalogue ou importez un jeu pour suivre sa progression ici.
-        </Motion.p>
-      </div>
-    )
+  const activeDownloads = downloads.filter(d => d.status === 'downloading' || d.status === 'extracting' || d.status === 'paused')
+  const completedDownloads = downloads.filter(d => d.status === 'completed')
+  const failedDownloads = downloads.filter(d => d.status === 'error')
+
+  const handlePause = (downloadId) => {
+    if (window.electron?.download?.pauseDownload) {
+      window.electron.download.pauseDownload(downloadId)
+    }
+  }
+
+  const handleResume = (downloadId) => {
+    if (window.electron?.download?.resumeDownload) {
+      window.electron.download.resumeDownload(downloadId)
+    }
+  }
+
+  const handleCancel = (downloadId) => {
+    if (window.electron?.download?.cancelDownload) {
+      window.electron.download.cancelDownload(downloadId)
+    }
+    downloadManager.removeDownload(downloadId)
+    setDownloads([...downloadManager.getAllDownloads()])
   }
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
-      {/* En-tête */}
-      <Motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between"
-      >
-        <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <FiDownload className="text-primary" />
-            Téléchargements
-          </h1>
-          <p className="text-gray-400 mt-1">
-            {downloads.length} téléchargement{downloads.length > 1 ? 's' : ''}
-          </p>
-        </div>
-      </Motion.div>
-
-      {/* Liste des téléchargements */}
-      <div className="flex-1 overflow-y-auto space-y-4">
-        {downloads.map((download, index) => (
-          <Motion.div
-            key={download.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className="group relative overflow-hidden rounded-3xl border border-white/5 bg-white/5 backdrop-blur-xl transition-all duration-500 hover:border-white/10 hover:bg-white/8 hover:shadow-2xl hover:shadow-primary/20"
-            style={{
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05) inset',
-            }}
-          >
-            <div className="p-6 space-y-4">
-              {/* En-tête du téléchargement */}
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white mb-1">
-                    {download.gameName}
-                  </h3>
-                  <div className="flex items-center gap-4 text-sm text-gray-400 flex-wrap">
-                    {download.status === 'downloading' && (
-                      <>
-                        <span className="flex items-center gap-1">
-                          <FiZap className="w-4 h-4" />
-                          {formatSpeed(download.speed || 0)}
-                        </span>
-                        {download.total > 0 && (
-                          <span className="flex items-center gap-1">
-                            <FiHardDrive className="w-4 h-4" />
-                            {formatBytes(download.total - (download.downloaded || 0))} restant
-                          </span>
-                        )}
-                        {download.estimatedTime > 0 && (
-                          <span className="flex items-center gap-1">
-                            <FiClock className="w-4 h-4" />
-                            {formatTime(download.estimatedTime)} restant
-                          </span>
-                        )}
-                      </>
-                    )}
-                    {download.status === 'extracting' && (
-                      <span className="flex items-center gap-1 text-yellow-500">
-                        <FiClock className="w-4 h-4" />
-                        Extraction en cours...
-                      </span>
-                    )}
-                    {(download.status === 'completed' || download.status === 'extracted') && (
-                      <span className="flex items-center gap-1 text-green-500">
-                        <FiCheckCircle className="w-4 h-4" />
-                        Terminé
-                      </span>
-                    )}
-                    {download.status === 'failed' && (
-                      <span className="flex items-center gap-1 text-red-500">
-                        <FiXCircle className="w-4 h-4" />
-                        Échec
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-primary">
-                    {Math.round(download.progress)}%
-                  </div>
-                </div>
-              </div>
-
-              {/* Barre de progression */}
-              {(download.status === 'downloading' || download.status === 'extracting') && (
-                <div className="space-y-2">
-                  <div className="w-full bg-background rounded-full h-3 overflow-hidden">
-                    <Motion.div
-                      className={`h-full rounded-full ${
-                        download.status === 'extracting' 
-                          ? 'bg-gradient-to-r from-yellow-500 to-yellow-400' 
-                          : 'bg-gradient-to-r from-primary to-primary/70'
-                      }`}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${Math.min(100, Math.max(0, download.progress || 0))}%` }}
-                      transition={{ duration: 0.3, ease: 'easeOut' }}
-                    />
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-400">
-                    <span>
-                      {formatBytes(download.downloaded || 0)} / {formatBytes(download.total || 0)}
-                    </span>
-                    <span>
-                      {download.total > 0 && download.status === 'downloading'
-                        ? `${Math.round(((download.total - download.downloaded) / download.total) * 100)}% restant`
-                        : download.status === 'extracting' 
-                        ? 'Extraction en cours...'
-                        : ''}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Message d'erreur */}
-              {download.status === 'failed' && download.error && (
-                <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-3">
-                  {download.error}
-                </div>
-              )}
-
-              {/* Informations de complétion */}
-              {download.status === 'completed' && download.folder && (
-                <div className="text-sm text-green-400 bg-green-500/10 border border-green-500/20 rounded-lg p-3">
-                  Installé dans: {download.folder}
-                </div>
-              )}
+    <div className="h-full overflow-y-auto scrollbar-simple">
+      <div className="container-simple">
+        {/* Header moderne */}
+        <Motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8 relative"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/10 to-[#06b6d4]/10 rounded-2xl blur-2xl -z-10" />
+          <div className="relative flex items-center gap-4 mb-3">
+            <div className="p-3 bg-gradient-to-br from-[#3b82f6]/20 to-[#06b6d4]/20 rounded-xl border border-[#3b82f6]/30">
+              <FiDownload className="text-2xl text-[#3b82f6]" />
             </div>
-            
-            {/* Border glow effect */}
-            <div className="absolute inset-0 rounded-3xl border border-primary/0 group-hover:border-primary/20 transition-all duration-500 pointer-events-none" />
-          </Motion.div>
-        ))}
+            <div>
+              <h1 className="text-3xl font-bold text-white">Téléchargements</h1>
+              <p className="text-gray-400 text-sm mt-1">
+                {activeDownloads.length} {activeDownloads.length === 1 ? 'téléchargement actif' : 'téléchargements actifs'}
+              </p>
+            </div>
+          </div>
+        </Motion.div>
+
+        {/* Téléchargements actifs */}
+        {activeDownloads.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-white mb-4">En cours</h2>
+            <div className="space-y-4">
+              {activeDownloads.map((download) => (
+                <ProgressBar
+                  key={download.id}
+                  title={download.gameName || 'Téléchargement'}
+                  progress={download.progress || 0}
+                  downloaded={download.downloaded || 0}
+                  total={download.total || 0}
+                  speed={download.speed || 0}
+                  eta={download.estimatedTime || download.eta || 0}
+                  status={download.status || 'downloading'}
+                  extractedBytes={download.extractedBytes || 0}
+                  extractionTotal={download.extractionTotal || download.total || 0}
+                  extractionSpeed={download.extractionSpeed || 0}
+                  extractionEta={download.extractionEta || 0}
+                  installPath={download.installPath || download.destinationPath || null}
+                  imageUrl={download.gameImage || download.coverImage || null}
+                  onPause={() => handlePause(download.id)}
+                  onResume={() => handleResume(download.id)}
+                  onCancel={() => handleCancel(download.id)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Terminés */}
+        {completedDownloads.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-white mb-4">Terminés</h2>
+            <div className="space-y-2">
+              {completedDownloads.map((download) => (
+                <div key={download.id} className="card-simple flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <FiCheckCircle className="text-[#10b981] text-xl" />
+                    <div>
+                      <h3 className="text-white font-medium">{download.gameName || 'Téléchargement'}</h3>
+                      <p className="text-sm text-gray-400">Terminé</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleCancel(download.id)}
+                    className="p-2 rounded-lg hover:bg-red-500/10 text-gray-400 hover:text-red-400 transition-colors"
+                  >
+                    <FiTrash2 />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Échoués */}
+        {failedDownloads.length > 0 && (
+          <div>
+            <h2 className="text-xl font-bold text-white mb-4">Échoués</h2>
+            <div className="space-y-2">
+              {failedDownloads.map((download) => (
+                <div key={download.id} className="card-simple flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <FiXCircle className="text-red-500 text-xl" />
+                    <div>
+                      <h3 className="text-white font-medium">{download.gameName || 'Téléchargement'}</h3>
+                      <p className="text-sm text-red-400">{download.error || 'Erreur'}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleCancel(download.id)}
+                    className="p-2 rounded-lg hover:bg-red-500/10 text-gray-400 hover:text-red-400 transition-colors"
+                  >
+                    <FiTrash2 />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* État vide */}
+        {downloads.length === 0 && (
+          <div className="text-center py-20">
+            <FiDownload className="text-5xl text-gray-600 mx-auto mb-4" />
+            <p className="text-gray-400 text-lg">Aucun téléchargement</p>
+          </div>
+        )}
       </div>
     </div>
   )

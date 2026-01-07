@@ -1,4 +1,4 @@
-import { AnimatePresence, motion as Motion } from 'framer-motion'
+import { Motion, AnimatePresence } from './Motion'
 import { FiDownload, FiX } from 'react-icons/fi'
 
 export function PatchNotes({ isOpen, onClose, version = 'v1.0.1', notes = [] , installerPath }) {

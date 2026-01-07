@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { Motion } from './Motion'
 import { useState, useEffect } from 'react'
 
 export function ActorisLogo({ className = '', size = 'default', showText = true }) {
@@ -57,70 +57,41 @@ export function ActorisLogo({ className = '', size = 'default', showText = true 
   }, [])
   
   return (
-    <motion.div
-      className={`actoris-logo flex flex-col items-center ${className}`}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
-    >
+    <div className={`actoris-logo flex flex-col items-center ${className}`}>
       {/* Logo ACTORIS depuis l'image */}
-      <motion.div 
-        className={`relative ${sizeClasses[size]} flex items-center justify-center`}
-        whileHover={{ scale: 1.1 }}
-        transition={{ duration: 0.2 }}
-      >
+      <div className={`${sizeClasses[size]} flex items-center justify-center`}>
         {!logoError ? (
           <img 
             src={logoPath} 
             alt="ACTORIS Logo"
-            className="w-full h-full object-contain rounded-xl"
-            style={{
-              filter: 'drop-shadow(0 0 8px rgba(139, 92, 246, 0.6)) drop-shadow(0 0 16px rgba(139, 92, 246, 0.3))'
-            }}
+            className="w-full h-full object-contain"
+            width="48"
+            height="48"
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
             onError={() => {
               console.error('Erreur de chargement du logo ACTORIS')
               setLogoError(true)
             }}
           />
         ) : (
-          <div className="logo-fallback w-full h-full rounded-xl bg-gradient-to-br from-purple-600 via-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg"
+          <div className="logo-fallback w-full h-full bg-purple-600 flex items-center justify-center text-white font-bold"
             style={{
-              fontSize: size === 'small' ? '0.75rem' : size === 'large' ? '1.5rem' : '1rem',
-              boxShadow: '0 4px 16px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
+              fontSize: size === 'small' ? '0.75rem' : size === 'large' ? '1.5rem' : '1rem'
             }}
           >
             A
           </div>
         )}
-        {/* Effet de brillance animé */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
-          animate={{
-            x: ['-100%', '200%'],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: 'linear'
-          }}
-          style={{
-            mixBlendMode: 'overlay'
-          }}
-        />
-      </motion.div>
+      </div>
       {/* Texte ACTORIS (optionnel, car déjà dans l'image) */}
       {showText && (
-        <div 
-          className={`${textSizes[size]} font-bold text-purple-400 mt-1 tracking-wider`}
-          style={{
-            textShadow: '0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3)',
-            letterSpacing: '0.15em'
-          }}
-        >
+        <div className={`${textSizes[size]} font-bold text-purple-400 mt-1`}>
           ACTORIS
         </div>
       )}
-    </motion.div>
+    </div>
   )
 }
 

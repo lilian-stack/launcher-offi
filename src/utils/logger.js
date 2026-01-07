@@ -14,9 +14,9 @@ const LOG_LEVELS = {
 const isDev = import.meta.env.DEV || import.meta.env.MODE === 'development'
 const isProd = import.meta.env.PROD || import.meta.env.MODE === 'production'
 
-// Niveau de log en production : seulement ERROR et WARN
-// En développement : tout
-const currentLogLevel = isProd ? LOG_LEVELS.WARN : LOG_LEVELS.DEBUG
+// Désactiver tous les logs (même en développement pour réduire le bruit)
+// Niveau de log : NONE (aucun log)
+const currentLogLevel = LOG_LEVELS.NONE
 
 class Logger {
   constructor(context = 'App') {
@@ -39,13 +39,11 @@ class Logger {
 
   debug(message, ...args) {
     if (this._shouldLog(LOG_LEVELS.DEBUG) && isDev) {
-      console.log(...this._formatMessage(LOG_LEVELS.DEBUG, message, ...args))
     }
   }
 
   info(message, ...args) {
     if (this._shouldLog(LOG_LEVELS.INFO)) {
-      console.log(...this._formatMessage(LOG_LEVELS.INFO, message, ...args))
     }
   }
 

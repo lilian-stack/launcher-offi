@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { motion as Motion, AnimatePresence } from 'framer-motion'
+import { Motion, AnimatePresence } from './Motion'
 import { FiX, FiDownload, FiCheckCircle, FiAlertCircle, FiInfo } from 'react-icons/fi'
 
 const TOAST_DURATION = 5000 // 5 secondes par défaut

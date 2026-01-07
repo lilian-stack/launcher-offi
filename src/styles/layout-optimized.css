@@ -1,0 +1,258 @@
+/* ============================================
+   LAYOUT OPTIMISÉ - ORGANISATION MODERNE
+   Structure logique et ergonomique
+   ============================================ */
+
+/* Structure principale */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* TitleBar - Contrôles de fenêtre */
+.titlebar-region {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5rem;
+  z-index: 10000;
+  -webkit-app-region: drag;
+}
+
+.titlebar-region .no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* Sidebar - Navigation principale */
+.sidebar-region {
+  position: fixed;
+  left: 0;
+  width: 16rem; /* 256px */
+  height: calc(100vh - 2.5rem);
+  top: 2.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: #0f0f14;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+/* TopBar - Recherche et profil */
+.topbar-region {
+  position: sticky;
+  top: 2.5rem;
+  height: 3.5rem; /* Hauteur réduite mais confortable */
+  z-index: 50;
+  background: #0f0f14;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+/* Zone de contenu principale */
+.content-region {
+  flex: 1;
+  margin-left: 16rem; /* Largeur de la sidebar */
+  margin-top: 2.5rem; /* Hauteur de la TitleBar */
+  min-height: calc(100vh - 2.5rem);
+  overflow-y: auto;
+  background: #0f0f14;
+}
+
+.content-wrapper {
+  padding: 1.5rem;
+  max-width: 100%;
+}
+
+/* Organisation des pages */
+.page-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  font-size: 0.875rem;
+  color: #a0a0a8;
+}
+
+/* Grilles de jeux */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+/* Sections organisées */
+.section-group {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-description {
+  font-size: 0.875rem;
+  color: #6b6b75;
+  margin-bottom: 1.5rem;
+}
+
+/* Zones d'action contextuelles */
+.action-zone {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Modals et overlays */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #1a1a20;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Notifications */
+.notification-zone {
+  position: fixed;
+  top: calc(2.5rem + 3.5rem + 1rem);
+  right: 1rem;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 400px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar-region {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar-region.open {
+    transform: translateX(0);
+  }
+
+  .content-region {
+    margin-left: 0;
+  }
+
+  .topbar-region {
+    padding: 0 1rem;
+  }
+
+  .page-container {
+    padding: 1rem;
+  }
+
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+}
+
+/* Amélioration de l'accessibilité */
+.focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+/* Scrollbar personnalisée */
+.scrollbar-optimized::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-optimized::-webkit-scrollbar-track {
+  background: #0f0f14;
+}
+
+.scrollbar-optimized::-webkit-scrollbar-thumb {
+  background: #1a1a20;
+  border-radius: 4px;
+}
+
+.scrollbar-optimized::-webkit-scrollbar-thumb:hover {
+  background: #1f1f26;
+}
+

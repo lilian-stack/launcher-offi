@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirect</title>
+  <script>
+    // Rediriger vers redirect.html avec les mêmes paramètres
+    const params = new URLSearchParams(window.location.search)
+    const redirectUrl = '/redirect.html' + (params.toString() ? '?' + params.toString() : '')
+    window.location.href = redirectUrl
+  </script>
+</head>
+<body>
+  <p>Redirection en cours...</p>
+</body>
+</html>
+

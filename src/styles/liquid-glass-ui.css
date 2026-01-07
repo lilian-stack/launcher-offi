@@ -1,0 +1,127 @@
+/* ============================================
+   LIQUID GLASS UI EFFECT
+   ============================================ */
+
+body.liquid-glass-enabled {
+  --liquid-blur: 10px;
+  --liquid-saturation: 100%;
+  --liquid-transparency: 80%;
+  --liquid-accent: #AEE1FF;
+  --liquid-mode: gel;
+  --liquid-animations: 1;
+}
+
+body.liquid-glass-enabled .card-simple,
+body.liquid-glass-enabled .surface-card,
+body.liquid-glass-enabled [class*="card"] {
+  backdrop-filter: blur(var(--liquid-blur)) saturate(var(--liquid-saturation));
+  -webkit-backdrop-filter: blur(var(--liquid-blur)) saturate(var(--liquid-saturation));
+  background: rgba(26, 26, 36, calc(var(--liquid-transparency) / 100));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+body.liquid-glass-enabled .card-simple::before,
+body.liquid-glass-enabled .surface-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    transparent 50%, 
+    rgba(255, 255, 255, 0.05) 100%);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Mode Gel - Flou doux + couleurs glacées */
+body.liquid-glass-enabled[data-liquid-mode="gel"] .card-simple,
+body.liquid-glass-enabled[data-liquid-mode="gel"] .surface-card {
+  background: linear-gradient(135deg, 
+    rgba(174, 225, 255, 0.1) 0%, 
+    rgba(207, 234, 255, 0.05) 50%, 
+    rgba(26, 26, 36, calc(var(--liquid-transparency) / 100)) 100%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(174, 225, 255, 0.2) inset,
+    0 0 40px rgba(174, 225, 255, 0.1);
+}
+
+/* Mode Liquide - Surfaces fluides avec reflets ondulés */
+body.liquid-glass-enabled[data-liquid-mode="liquid"] .card-simple,
+body.liquid-glass-enabled[data-liquid-mode="liquid"] .surface-card {
+  background: linear-gradient(135deg, 
+    rgba(26, 26, 36, calc(var(--liquid-transparency) / 100)) 0%, 
+    rgba(31, 31, 46, calc(var(--liquid-transparency) / 100)) 50%, 
+    rgba(26, 26, 36, calc(var(--liquid-transparency) / 100)) 100%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 0 60px rgba(174, 225, 255, 0.15);
+}
+
+body.liquid-glass-enabled[data-liquid-mode="liquid"] .card-simple::after,
+body.liquid-glass-enabled[data-liquid-mode="liquid"] .surface-card::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle, 
+    var(--liquid-accent) 0%, 
+    transparent 70%);
+  opacity: 0.1;
+  animation: liquid-wave 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes liquid-wave {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(20px, 20px) scale(1.1);
+    opacity: 0.15;
+  }
+}
+
+/* Animations activées */
+body.liquid-glass-enabled[data-liquid-animations="1"] .card-simple:hover,
+body.liquid-glass-enabled[data-liquid-animations="1"] .surface-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+    0 0 80px var(--liquid-accent);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.liquid-glass-enabled[data-liquid-animations="1"] .card-simple::before,
+body.liquid-glass-enabled[data-liquid-animations="1"] .surface-card::before {
+  animation: liquid-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes liquid-shimmer {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(100%);
+  }
+}
+
+/* Light bloom léger */
+body.liquid-glass-enabled .card-simple,
+body.liquid-glass-enabled .surface-card {
+  filter: brightness(1.02) contrast(1.05);
+}
+
+body.liquid-glass-enabled .card-simple:hover,
+body.liquid-glass-enabled .surface-card:hover {
+  filter: brightness(1.05) contrast(1.08);
+}
+

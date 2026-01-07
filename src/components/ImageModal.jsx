@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, memo } from 'react'
-import { motion as Motion, AnimatePresence } from 'framer-motion'
+import { Motion, AnimatePresence } from './Motion'
 import { FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 /**

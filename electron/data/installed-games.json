@@ -1,0 +1,17 @@
+[
+  {
+    "id": "geometry-dash",
+    "gameId": "geometry-dash",
+    "name": "Geometry Dash",
+    "installFolder": "C:\\Games\\Geometry Dash",
+    "path": "C:\\Games\\Geometry Dash",
+    "executable": "GeometryDash.exe",
+    "exe": "GeometryDash.exe",
+    "installed": true,
+    "installed_at": "2026-01-07T11:55:14.334Z",
+    "last_played": null,
+    "play_time": 0,
+    "version": "1.0",
+    "launcherId": "geometry-dash"
+  }
+]

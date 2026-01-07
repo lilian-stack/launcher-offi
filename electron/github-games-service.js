@@ -73,7 +73,6 @@ function githubRequest(method, path, data = null, token = null) {
  */
 export async function getGamesFromGitHub(token = null) {
   try {
-    console.log('[github-games-service] getGamesFromGitHub called')
     const path = `/repos/${GITHUB_GAMES_OWNER}/${GITHUB_GAMES_REPO}/contents/${GITHUB_GAMES_FILE_PATH}`
     const file = await githubRequest('GET', path, null, token)
     
@@ -84,22 +83,18 @@ export async function getGamesFromGitHub(token = null) {
     // Gérer différents formats de fichier
     // Format 1: { games: [...] }
     if (parsed.games && Array.isArray(parsed.games)) {
-      console.log(`[github-games-service] ${parsed.games.length} jeux récupérés depuis GitHub`)
       return parsed
     }
     // Format 2: [...] (tableau direct)
     if (Array.isArray(parsed)) {
-      console.log(`[github-games-service] ${parsed.length} jeux récupérés depuis GitHub (format tableau)`)
       return { games: parsed }
     }
     // Format par défaut
-    console.log('[github-games-service] Aucun jeu trouvé')
     return { games: [] }
   } catch (error) {
     console.error('[github-games-service] Error getting games from GitHub:', error)
     // Si le fichier n'existe pas, retourner un tableau vide
     if (error.message.includes('404')) {
-      console.log('[github-games-service] Fichier game.json n\'existe pas encore, retour d\'un tableau vide')
       return { games: [] }
     }
     throw error
@@ -111,7 +106,6 @@ export async function getGamesFromGitHub(token = null) {
  */
 export async function updateGamesOnGitHub(gamesData, token = null) {
   try {
-    console.log('[github-games-service] updateGamesOnGitHub called')
     
     // Récupérer le SHA du fichier actuel (nécessaire pour la mise à jour)
     let sha = null
@@ -119,10 +113,8 @@ export async function updateGamesOnGitHub(gamesData, token = null) {
       const path = `/repos/${GITHUB_GAMES_OWNER}/${GITHUB_GAMES_REPO}/contents/${GITHUB_GAMES_FILE_PATH}`
       const file = await githubRequest('GET', path, null, token)
       sha = file.sha
-      console.log('[github-games-service] SHA du fichier existant récupéré')
     } catch (error) {
       // Le fichier n'existe pas encore, on va le créer
-      console.log('[github-games-service] Fichier n\'existe pas encore, création')
     }
 
     // S'assurer que gamesData a le format { games: [...] }
@@ -144,7 +136,6 @@ export async function updateGamesOnGitHub(gamesData, token = null) {
     }
 
     await githubRequest('PUT', path, data, token)
-    console.log('[github-games-service] Jeux mis à jour sur GitHub avec succès')
     return { success: true, updated: true }
   } catch (error) {
     console.error('[github-games-service] Error updating games on GitHub:', error)
@@ -157,7 +148,6 @@ export async function updateGamesOnGitHub(gamesData, token = null) {
  */
 export async function addGameToGitHub(gameData, token = null) {
   try {
-    console.log('[github-games-service] addGameToGitHub called')
     
     // Récupérer les jeux existants
     const existingData = await getGamesFromGitHub(token)
@@ -175,7 +165,6 @@ export async function addGameToGitHub(gameData, token = null) {
         id: gameId,
         updatedAt: new Date().toISOString(),
       }
-      console.log(`[github-games-service] Jeu ${gameId} mis à jour`)
     } else {
       // Ajouter le nouveau jeu
       const newGame = {
@@ -185,7 +174,6 @@ export async function addGameToGitHub(gameData, token = null) {
         updatedAt: new Date().toISOString(),
       }
       games.push(newGame)
-      console.log(`[github-games-service] Nouveau jeu ${gameId} ajouté`)
     }
     
     // Mettre à jour sur GitHub
@@ -203,7 +191,6 @@ export async function addGameToGitHub(gameData, token = null) {
  */
 export async function updateGameOnGitHub(gameId, updates, token = null) {
   try {
-    console.log('[github-games-service] updateGameOnGitHub called for gameId:', gameId)
     
     // Récupérer les jeux existants
     const existingData = await getGamesFromGitHub(token)
@@ -226,7 +213,6 @@ export async function updateGameOnGitHub(gameId, updates, token = null) {
     // Mettre à jour sur GitHub
     await updateGamesOnGitHub({ games }, token)
     
-    console.log(`[github-games-service] Jeu ${gameId} mis à jour avec succès`)
     return { success: true }
   } catch (error) {
     console.error('[github-games-service] Error updating game on GitHub:', error)
@@ -239,7 +225,6 @@ export async function updateGameOnGitHub(gameId, updates, token = null) {
  */
 export async function deleteGameFromGitHub(gameId, token = null) {
   try {
-    console.log('[github-games-service] deleteGameFromGitHub called for gameId:', gameId)
     
     // Récupérer les jeux existants
     const existingData = await getGamesFromGitHub(token)
@@ -256,7 +241,6 @@ export async function deleteGameFromGitHub(gameId, token = null) {
     // Mettre à jour sur GitHub
     await updateGamesOnGitHub({ games }, token)
     
-    console.log(`[github-games-service] Jeu ${gameId} supprimé avec succès`)
     return true
   } catch (error) {
     console.error('[github-games-service] Error deleting game from GitHub:', error)

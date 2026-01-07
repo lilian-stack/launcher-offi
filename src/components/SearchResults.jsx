@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import { motion as Motion, AnimatePresence } from 'framer-motion'
+import { Motion, AnimatePresence } from './Motion'
 import { FiSearch, FiDownload, FiGrid } from 'react-icons/fi'
 import { useSearch } from '../contexts/SearchContext'
 import { gamesCacheService } from '../services/gamesCache'
@@ -19,29 +19,7 @@ export function SearchResults({ installedGames = [], onGameClick }) {
   const [loading, setLoading] = useState(false)
   const searchResultsRef = useRef(null)
   
-  // Calculer la position depuis le wrapper de recherche
-  useEffect(() => {
-    if (searchResultsRef.current && searchQuery && searchQuery.trim()) {
-      const updatePosition = () => {
-        const searchWrapper = document.querySelector('.search-wrapper')
-        if (searchWrapper && searchResultsRef.current) {
-          const rect = searchWrapper.getBoundingClientRect()
-          searchResultsRef.current.style.top = `${rect.bottom + 8}px`
-          searchResultsRef.current.style.left = `${rect.left}px`
-          searchResultsRef.current.style.width = `${rect.width}px`
-        }
-      }
-      
-      updatePosition()
-      window.addEventListener('resize', updatePosition)
-      window.addEventListener('scroll', updatePosition, true)
-      
-      return () => {
-        window.removeEventListener('resize', updatePosition)
-        window.removeEventListener('scroll', updatePosition, true)
-      }
-    }
-  }, [searchQuery])
+  // Plus besoin de calculer la position - le composant est maintenant positionné relativement au wrapper
   
   // Charger tous les jeux pour la recherche
   useEffect(() => {
@@ -61,10 +39,8 @@ export function SearchResults({ installedGames = [], onGameClick }) {
           if (window.electron && window.electron.games && window.electron.games.getGames) {
             const data = await window.electron.games.getGames()
             allGames = data?.games || []
-            console.log('[SearchResults] Jeux chargés depuis Electron:', allGames.length)
           }
         } else {
-          console.log('[SearchResults] Jeux chargés depuis le cache:', allGames.length)
         }
         
         setGames(allGames || [])
@@ -208,17 +184,7 @@ export function SearchResults({ installedGames = [], onGameClick }) {
   }, [onGameClick])
   
   // Debug: vérifier que le composant est bien rendu (AVANT tout return conditionnel)
-  useEffect(() => {
-    if (searchQuery && searchQuery.trim()) {
-      console.log('[SearchResults] State:', { 
-        searchQuery, 
-        debouncedSearchQuery, 
-        gamesCount: games.length, 
-        filteredCount: filteredGames.length,
-        loading
-      })
-    }
-  }, [searchQuery, debouncedSearchQuery, games.length, filteredGames.length, loading])
+  // Logs supprimés pour optimisation
   
   // Ne pas afficher si pas de recherche ou recherche vide (APRÈS tous les hooks)
   if (!searchQuery || !searchQuery.trim()) {
@@ -232,26 +198,30 @@ export function SearchResults({ installedGames = [], onGameClick }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.2 }}
+      className="w-full"
       style={{ 
-        position: 'fixed',
-        zIndex: 10000,
-        maxWidth: '600px'
+        position: 'relative',
+        zIndex: 10000
       }}
     >
           <div 
-            className="bg-gradient-to-br from-surface-muted/98 via-surface-muted/95 to-surface-muted/98 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden"
+            className="bg-gradient-to-br from-[#0a0a0f]/98 via-[#1a1a20]/95 to-[#0a0a0f]/98 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
             style={{
-              boxShadow: '0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(139, 92, 246, 0.1) inset, 0 0 40px rgba(139, 92, 246, 0.1)',
-              backgroundColor: 'rgba(19, 19, 28, 0.98)',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(6, 182, 212, 0.1) inset, 0 0 30px rgba(6, 182, 212, 0.08)',
+              backgroundColor: 'rgba(10, 10, 15, 0.98)',
             }}
           >
-            {/* En-tête moderne */}
-            <div className="px-5 py-4 border-b border-white/10 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
+            {/* En-tête moderne et épuré */}
+            <div className="px-6 py-4 border-b border-white/10 bg-gradient-to-r from-[#0a0a0f]/50 via-[#1a1a20]/30 to-[#0a0a0f]/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-primary/20 border border-primary/30">
-                    <FiSearch className="text-primary text-lg" />
-                  </div>
+                  <Motion.div 
+                    animate={{ rotate: [0, 5, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                    className="p-2.5 rounded-xl bg-gradient-to-br from-[#06b6d4]/20 to-[#0891b2]/20 border border-[#06b6d4]/30"
+                  >
+                    <FiSearch className="text-[#06b6d4] text-lg" />
+                  </Motion.div>
                   <div>
                     <p className="text-sm font-semibold text-white">
                       {filteredGames.length > 0 
@@ -259,7 +229,7 @@ export function SearchResults({ installedGames = [], onGameClick }) {
                         : 'Aucun résultat'
                       }
                     </p>
-                    <p className="text-xs text-white/50 mt-0.5">
+                    <p className="text-xs text-gray-400 mt-0.5">
                       {filteredGames.length > 0 
                         ? `pour "${searchQuery}"`
                         : `Aucun jeu ne correspond à "${searchQuery}"`
@@ -285,69 +255,51 @@ export function SearchResults({ installedGames = [], onGameClick }) {
                 return (
                   <Motion.div
                     key={game.id || index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.03, duration: 0.2 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.3, ease: "easeOut" }}
                     onClick={() => handleGameClick(game)}
-                    className="group relative flex items-center gap-3 px-4 py-3 hover:bg-gradient-to-r hover:from-primary/10 hover:via-primary/5 hover:to-transparent cursor-pointer transition-all duration-300 border-b border-white/5 last:border-b-0 hover:border-primary/20"
+                    className="group relative flex items-center gap-3 px-4 py-1.5 hover:bg-white/5 cursor-pointer transition-all duration-200 border-b border-white/5 last:border-b-0"
                   >
-                    {/* Image du jeu - Design moderne */}
-                    <div className="relative w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-black/40 border border-white/10 group-hover:border-primary/30 transition-all duration-300">
+                    {/* Miniature - Agrandie */}
+                    <div className="relative w-12 h-12 flex-shrink-0 rounded-md overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-black/40 border border-white/10">
                       {coverUrl ? (
-                        <>
                           <img
                             src={coverUrl}
                             alt={game.name || game.title || 'Jeu'}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="w-full h-full object-cover"
                             loading="lazy"
                             decoding="async"
                             onError={(e) => {
                               e.target.style.display = 'none'
                             }}
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                          <FiGrid className="text-primary/50 text-2xl" />
+                          <FiGrid className="text-primary/50 text-base" />
                         </div>
                       )}
-                      {/* Badge installé moderne - seulement sur l'image */}
+                      {/* Badge installé - petit point */}
                       {isInstalled && (
-                        <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 shadow-lg border border-white/20" />
+                        <div className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-white/20" />
                       )}
                     </div>
                     
-                    {/* Informations du jeu - Design amélioré */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-white text-sm leading-tight group-hover:text-primary transition-colors duration-200">
-                          {game.name || game.title || 'Sans titre'}
-                        </h3>
-                      </div>
-                      {game.short_description && (
-                        <p className="text-xs text-white/50 line-clamp-1 leading-relaxed">
-                          {game.short_description}
-                        </p>
-                      )}
-                      {/* Catégorie/Genre */}
-                      {(game.category || game.genre) && (
-                        <div className="mt-1.5 flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-primary/10 text-primary/80 border border-primary/20">
-                            {Array.isArray(game.genre) ? game.genre[0] : (Array.isArray(game.category) ? game.category[0] : (game.category || game.genre))}
-                          </span>
-                        </div>
+                    {/* Nom du jeu - Agrandi */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                      <h3 className="font-semibold text-white text-base leading-tight group-hover:text-[#06b6d4] transition-colors duration-200">
+                        {game.name || game.title || 'Sans titre'}
+                      </h3>
+                      {/* Badge Installé compact */}
+                      {isInstalled && (
+                        <span className="text-[11px] font-medium text-emerald-400 mt-0.5">Installé</span>
                       )}
                     </div>
                     
-                    {/* Badge Installé ou Icône de téléchargement */}
-                    {isInstalled ? (
-                      <div className="flex-shrink-0 px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/30">
-                        <span className="text-xs font-semibold text-emerald-300">Installé</span>
-                      </div>
-                    ) : (
-                      <div className="flex-shrink-0 p-2 rounded-xl bg-primary/10 border border-primary/20 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
-                        <FiDownload className="text-primary text-lg" />
+                    {/* Icône de téléchargement */}
+                    {!isInstalled && (
+                      <div className="flex-shrink-0 p-1.5 rounded-lg bg-primary/10 border border-primary/20 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
+                        <FiDownload className="text-primary text-sm" />
                       </div>
                     )}
                   </Motion.div>

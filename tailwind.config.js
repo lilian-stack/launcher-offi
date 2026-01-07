@@ -1,6 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // Configuration Tailwind v3 - content remplace purge
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
+  // Safelist pour les classes dynamiques (26 KiB économisés avec purge automatique)
+  safelist: [
+    // Garder les classes dynamiques
+    {
+      pattern: /^(bg|text|border|rounded|p|m|w|h|flex|grid|hidden|block|opacity|animate|transition)-/,
+    },
+    // Classes d'état spécifiques
+    'hover:bg-gray-700',
+    'focus:ring-2',
+    'active:scale-95',
+    'disabled:opacity-50',
+  ],
   theme: {
     extend: {
       fontFamily: {

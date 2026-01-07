@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http:; frame-src 'self' https: http:; child-src 'self' https: http:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: blob: https: http:; connect-src 'self' https: http: ws: wss:;">
+  <title>Lockr - Navigation par onglets</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0f;
+      overflow: hidden;
+    }
+    
+    /* Barre d'onglets */
+    #tabs-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border-bottom: 2px solid #0f3460;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      z-index: 1000000;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #3b82f6 #1a1a2e;
+    }
+    
+    #tabs-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    #tabs-bar::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+    
+    #tabs-bar::-webkit-scrollbar-thumb {
+      background: #3b82f6;
+      border-radius: 2px;
+    }
+    
+    .tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px 6px 0 0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 120px;
+      max-width: 200px;
+      position: relative;
+      margin-right: 4px;
+      border: 1px solid transparent;
+      border-bottom: none;
+    }
+    
+    .tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .tab.active {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-color: #3b82f6;
+      border-bottom-color: #0a0a0f;
+      z-index: 10;
+    }
+    
+    .tab-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #e2e8f0;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .tab.active .tab-title {
+      color: #60a5fa;
+      font-weight: 600;
+    }
+    
+    .tab-close {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 12px;
+      color: #e2e8f0;
+      flex-shrink: 0;
+    }
+    
+    .tab-close:hover {
+      background: #ef4444;
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .new-tab-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 18px;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+    
+    .new-tab-btn:hover {
+      background: rgba(59, 130, 246, 0.4);
+      transform: scale(1.1);
+    }
+    
+    /* Barre de navigation */
+    #nav-bar {
+      position: fixed;
+      top: 40px;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border-bottom: 2px solid #0f3460;
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .nav-btn {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    }
+    
+    .nav-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      transform: scale(1.05);
+    }
+    
+    .nav-btn:disabled {
+      background: linear-gradient(135deg, #4b5563, #374151);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .close-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+      transition: all 0.2s ease;
+    }
+    
+    .close-btn:hover {
+      background: linear-gradient(135deg, #f87171, #ef4444);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6);
+    }
+    
+    /* Conteneur des iframes */
+    #tabs-container {
+      position: fixed;
+      top: 90px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #0a0a0f;
+    }
+    
+    .tab-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+      background: white;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Barre d'onglets -->
+  <div id="tabs-bar"></div>
+  
+  <!-- Barre de navigation -->
+  <div id="nav-bar">
+    <div class="nav-buttons">
+      <button class="nav-btn" id="back-btn">← Précédent</button>
+      <button class="nav-btn" id="forward-btn">Suivant →</button>
+    </div>
+    <button class="close-btn" id="close-window-btn">✕ Fermer</button>
+  </div>
+  
+  <!-- Conteneur des onglets -->
+  <div id="tabs-container"></div>
+  
+  <script>
+    let tabs = [];
+    let currentTabId = null;
+    let tabIdCounter = 0;
+    
+    // Fonctions IPC Electron
+    const electronAPI = window.electron?.lockr || {
+      goBack: () => {
+        if (window.electron?.lockr?.goBack) {
+          window.electron.lockr.goBack();
+        }
+      },
+      goForward: () => {
+        if (window.electron?.lockr?.goForward) {
+          window.electron.lockr.goForward();
+        }
+      },
+      closeWindow: () => {
+        if (window.electron?.lockr?.closeWindow) {
+          window.electron.lockr.closeWindow();
+        }
+      },
+      createTab: (url, title) => {
+        if (window.electron?.lockr?.createTab) {
+          window.electron.lockr.createTab(url, title);
+        }
+      },
+      switchTab: (tabId) => {
+        if (window.electron?.lockr?.switchTab) {
+          window.electron.lockr.switchTab(tabId);
+        }
+      },
+      closeTab: (tabId) => {
+        if (window.electron?.lockr?.closeTab) {
+          window.electron.lockr.closeTab(tabId);
+        }
+      }
+    };
+    
+    function generateTabId() {
+      return `tab-${++tabIdCounter}-${Date.now()}`;
+    }
+    
+    function createTab(url, title = 'Nouvel onglet', active = false) {
+      const tabId = generateTabId();
+      const tab = {
+        id: tabId,
+        url: url,
+        title: title || 'Nouvel onglet',
+        active: active
+      };
+      
+      tabs.push(tab);
+      
+      // Créer l'iframe
+      const iframe = document.createElement('iframe');
+      iframe.id = `iframe-${tabId}`;
+      iframe.className = 'tab-content';
+      iframe.src = url;
+      iframe.allow = 'fullscreen';
+      iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
+      iframe.setAttribute('allowfullscreen', 'true');
+      
+      // Gérer les erreurs de chargement
+      iframe.onerror = (e) => {
+        console.error('[Lockr] Erreur de chargement de l\'iframe:', e);
+        updateTabTitle(tabId, 'Erreur de chargement');
+      };
+      
+      // Écouter le chargement pour mettre à jour le titre
+      iframe.onload = () => {
+        console.log('[Lockr] Iframe chargée:', url);
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          const newTitle = iframeDoc.title || url;
+          updateTabTitle(tabId, newTitle);
+          
+          // Surveiller les redirections Netlify dans l'iframe
+          try {
+            const iframeUrl = iframe.contentWindow.location.href;
+            console.log('[Lockr] URL de l\'iframe:', iframeUrl);
+            if (iframeUrl.includes('netlify.app/redirect') || iframeUrl.includes('inquisitive-peony-762c3b.netlify.app')) {
+              // Notifier Electron via l'API Lockr
+              if (window.electron && window.electron.lockr && window.electron.lockr.notifyNetlifyRedirect) {
+                window.electron.lockr.notifyNetlifyRedirect(iframeUrl);
+              }
+            }
+          } catch (e) {
+            // Cross-origin, on ne peut pas accéder à l'URL directement
+            console.log('[Lockr] Cross-origin, impossible d\'accéder à l\'URL:', e.message);
+            // On utilisera un autre mécanisme (surveillance périodique)
+          }
+        } catch (e) {
+          // Cross-origin, on garde le titre actuel
+          console.log('[Lockr] Erreur lors de l\'accès au document de l\'iframe:', e.message);
+        }
+      };
+      
+      // Gérer les erreurs de chargement
+      iframe.onerror = (e) => {
+        console.error('[Lockr] Erreur de chargement de l\'iframe:', e);
+        updateTabTitle(tabId, 'Erreur de chargement');
+      };
+      
+      // Afficher un message si l'iframe ne charge pas après 5 secondes
+      setTimeout(() => {
+        if (iframe.contentWindow && iframe.contentWindow.location.href === 'about:blank') {
+          console.warn('[Lockr] L\'iframe n\'a pas chargé après 5 secondes');
+          updateTabTitle(tabId, 'Chargement... (en attente)');
+        }
+      }, 5000);
+      
+      document.getElementById('tabs-container').appendChild(iframe);
+      
+      // Créer l'onglet dans la barre
+      renderTabs();
+      
+      if (active) {
+        switchTab(tabId);
+      }
+      
+      return tabId;
+    }
+    
+    function renderTabs() {
+      const tabsBar = document.getElementById('tabs-bar');
+      tabsBar.innerHTML = '';
+      
+      tabs.forEach(tab => {
+        const tabElement = document.createElement('div');
+        tabElement.className = `tab ${tab.active ? 'active' : ''}`;
+        tabElement.dataset.tabId = tab.id;
+        
+        const title = document.createElement('span');
+        title.className = 'tab-title';
+        title.textContent = tab.title;
+        
+        const closeBtn = document.createElement('div');
+        closeBtn.className = 'tab-close';
+        closeBtn.textContent = '×';
+        closeBtn.onclick = (e) => {
+          e.stopPropagation();
+          closeTab(tab.id);
+        };
+        
+        tabElement.appendChild(title);
+        tabElement.appendChild(closeBtn);
+        
+        tabElement.onclick = () => {
+          switchTab(tab.id);
+        };
+        
+        tabsBar.appendChild(tabElement);
+      });
+      
+      // Bouton nouveau onglet
+      const newTabBtn = document.createElement('div');
+      newTabBtn.className = 'new-tab-btn';
+      newTabBtn.textContent = '+';
+      newTabBtn.title = 'Nouvel onglet';
+      newTabBtn.onclick = () => {
+        createTab('about:blank', 'Nouvel onglet', true);
+      };
+      tabsBar.appendChild(newTabBtn);
+    }
+    
+    function switchTab(tabId) {
+      // Désactiver tous les onglets
+      tabs.forEach(tab => {
+        tab.active = false;
+        const iframe = document.getElementById(`iframe-${tab.id}`);
+        if (iframe) {
+          iframe.classList.remove('active');
+          // Arrêter le chargement si en cours (pour économiser les ressources)
+          try {
+            iframe.contentWindow.stop();
+          } catch (e) {
+            // Cross-origin
+          }
+        }
+      });
+      
+      // Activer l'onglet sélectionné
+      const tab = tabs.find(t => t.id === tabId);
+      if (tab) {
+        tab.active = true;
+        currentTabId = tabId;
+        const iframe = document.getElementById(`iframe-${tabId}`);
+        if (iframe) {
+          iframe.classList.add('active');
+          
+          // L'iframe est déjà chargée, donc pas de rechargement - juste l'afficher
+          // L'état de la page est préservé dans l'iframe
+        }
+        
+        // Mettre à jour les boutons de navigation
+        updateNavButtons(tabId);
+      }
+      
+      renderTabs();
+    }
+    
+    function closeTab(tabId) {
+      if (tabs.length <= 1) {
+        // Si c'est le dernier onglet, fermer la fenêtre
+        electronAPI.closeWindow();
+        return;
+      }
+      
+      const tabIndex = tabs.findIndex(t => t.id === tabId);
+      if (tabIndex === -1) return;
+      
+      const wasActive = tabs[tabIndex].active;
+      
+      // Supprimer l'iframe
+      const iframe = document.getElementById(`iframe-${tabId}`);
+      if (iframe) {
+        iframe.remove();
+      }
+      
+      // Supprimer l'onglet
+      tabs.splice(tabIndex, 1);
+      
+      // Si l'onglet fermé était actif, activer un autre onglet
+      if (wasActive) {
+        const newActiveIndex = Math.min(tabIndex, tabs.length - 1);
+        if (tabs[newActiveIndex]) {
+          switchTab(tabs[newActiveIndex].id);
+        }
+      } else {
+        renderTabs();
+      }
+    }
+    
+    function updateTabTitle(tabId, title) {
+      const tab = tabs.find(t => t.id === tabId);
+      if (tab) {
+        tab.title = title;
+        renderTabs();
+      }
+    }
+    
+    // Historique de navigation pour chaque onglet (pour éviter les rechargements)
+    const tabHistory = {};
+    
+    function updateNavButtons(tabId) {
+      const tab = tabs.find(t => t.id === tabId);
+      if (!tab) return;
+      
+      const iframe = document.getElementById(`iframe-${tabId}`);
+      if (!iframe) return;
+      
+      const backBtn = document.getElementById('back-btn');
+      const forwardBtn = document.getElementById('forward-btn');
+      
+      if (!backBtn || !forwardBtn) return;
+      
+      // Initialiser l'historique pour cet onglet s'il n'existe pas
+      if (!tabHistory[tabId]) {
+        tabHistory[tabId] = {
+          urls: [tab.url],
+          currentIndex: 0
+        };
+      }
+      
+      const history = tabHistory[tabId];
+      const canGoBack = history.currentIndex > 0;
+      const canGoForward = history.currentIndex < history.urls.length - 1;
+      
+      // Mettre à jour l'état des boutons
+      backBtn.disabled = !canGoBack;
+      backBtn.style.opacity = canGoBack ? '1' : '0.5';
+      backBtn.style.cursor = canGoBack ? 'pointer' : 'not-allowed';
+      
+      forwardBtn.disabled = !canGoForward;
+      forwardBtn.style.opacity = canGoForward ? '1' : '0.5';
+      forwardBtn.style.cursor = canGoForward ? 'pointer' : 'not-allowed';
+      
+      // Fonction pour naviguer en arrière (sans recharger)
+      backBtn.onclick = () => {
+        if (canGoBack) {
+          history.currentIndex--;
+          const previousUrl = history.urls[history.currentIndex];
+          
+          // Charger l'URL précédente dans l'iframe (elle sera en cache, donc pas de rechargement complet)
+          iframe.src = previousUrl;
+          updateTabTitle(tabId, 'Chargement...');
+          
+          // Mettre à jour les boutons
+          updateNavButtons(tabId);
+        }
+      };
+      
+      // Fonction pour naviguer en avant (sans recharger)
+      forwardBtn.onclick = () => {
+        if (canGoForward) {
+          history.currentIndex++;
+          const nextUrl = history.urls[history.currentIndex];
+          
+          // Charger l'URL suivante dans l'iframe
+          iframe.src = nextUrl;
+          updateTabTitle(tabId, 'Chargement...');
+          
+          // Mettre à jour les boutons
+          updateNavButtons(tabId);
+        }
+      };
+      
+      // Surveiller les changements d'URL dans l'iframe pour mettre à jour l'historique
+      try {
+        const iframeWindow = iframe.contentWindow;
+        
+        // Intercepter les navigations dans l'iframe pour ajouter à l'historique
+        iframe.addEventListener('load', function() {
+          try {
+            const currentUrl = iframeWindow.location.href;
+            const history = tabHistory[tabId];
+            
+            // Si l'URL actuelle est différente de la dernière dans l'historique
+            if (history.urls[history.currentIndex] !== currentUrl) {
+              // Supprimer les URLs après l'index actuel (si on a navigué en arrière puis en avant)
+              history.urls = history.urls.slice(0, history.currentIndex + 1);
+              // Ajouter la nouvelle URL
+              history.urls.push(currentUrl);
+              history.currentIndex = history.urls.length - 1;
+              
+              // Mettre à jour les boutons
+              updateNavButtons(tabId);
+            }
+          } catch (e) {
+            // Cross-origin, on ne peut pas accéder à l'URL
+          }
+        });
+      } catch (e) {
+        // Cross-origin
+      }
+    }
+    
+    // Bouton fermer fenêtre
+    document.getElementById('close-window-btn').onclick = () => {
+      electronAPI.closeWindow();
+    };
+    
+    // Exposer les fonctions globalement pour IPC
+    window.lockrTabsAPI = {
+      createTab,
+      switchTab,
+      closeTab,
+      updateTabTitle,
+      getCurrentTab: () => tabs.find(t => t.active),
+      getAllTabs: () => tabs
+    };
+    
+    // Créer le premier onglet avec l'URL initiale
+    // Cette URL sera définie par Electron
+    const initialUrl = new URLSearchParams(window.location.search).get('url') || 'about:blank';
+    console.log('[Lockr] URL initiale:', initialUrl);
+    
+    if (initialUrl && initialUrl !== 'about:blank') {
+      // Décoder l'URL si elle est encodée
+      const decodedUrl = decodeURIComponent(initialUrl);
+      console.log('[Lockr] URL décodée:', decodedUrl);
+      createTab(decodedUrl, 'Chargement...', true);
+    } else {
+      createTab('about:blank', 'Nouvel onglet', true);
+    }
+    
+    // Intercepter les clics sur les liens dans les iframes pour créer de nouveaux onglets
+    function interceptIframeLinks() {
+      const iframes = document.querySelectorAll('iframe.tab-content');
+      iframes.forEach(iframe => {
+        try {
+          const iframeWindow = iframe.contentWindow;
+          const iframeDoc = iframe.contentDocument || iframeWindow.document;
+          
+          // Intercepter les clics sur les liens
+          iframeDoc.addEventListener('click', function(e) {
+            const target = e.target.closest('a[href]');
+            if (target && target.href && target.href.startsWith('http')) {
+              e.preventDefault();
+              e.stopPropagation();
+              
+              // Vérifier si c'est un clic avec Ctrl ou Cmd (nouvel onglet)
+              if (e.ctrlKey || e.metaKey) {
+                createTab(target.href, 'Nouvel onglet', true);
+              } else {
+                // Sinon, charger dans l'onglet actuel et mettre à jour l'historique
+                const activeTab = tabs.find(t => t.active);
+                if (activeTab) {
+                  const activeIframe = document.getElementById(`iframe-${activeTab.id}`);
+                  if (activeIframe) {
+                    // Ajouter la nouvelle URL à l'historique de l'onglet
+                    if (!tabHistory[activeTab.id]) {
+                      tabHistory[activeTab.id] = {
+                        urls: [activeTab.url],
+                        currentIndex: 0
+                      };
+                    }
+                    const history = tabHistory[activeTab.id];
+                    history.urls.push(target.href);
+                    history.currentIndex = history.urls.length - 1;
+                    
+                    // Charger la nouvelle URL
+                    activeIframe.src = target.href;
+                    updateTabTitle(activeTab.id, 'Chargement...');
+                    
+                    // Mettre à jour les boutons de navigation
+                    updateNavButtons(activeTab.id);
+                  }
+                }
+              }
+            }
+          }, true);
+        } catch (e) {
+          // Cross-origin, on ne peut pas intercepter
+        }
+      });
+    }
+    
+    // Observer les nouveaux iframes
+    const observer = new MutationObserver(() => {
+      setTimeout(interceptIframeLinks, 500);
+    });
+    
+    observer.observe(document.getElementById('tabs-container'), {
+      childList: true,
+      subtree: true
+    });
+    
+    // Intercepter immédiatement
+    setTimeout(interceptIframeLinks, 1000);
+    
+    // Surveiller périodiquement les redirections Netlify dans les iframes
+    // (pour les cas cross-origin où on ne peut pas accéder directement)
+    function monitorNetlifyRedirects() {
+      const iframes = document.querySelectorAll('iframe.tab-content.active');
+      iframes.forEach(iframe => {
+        try {
+          // Essayer d'accéder à l'URL de l'iframe
+          const iframeUrl = iframe.contentWindow.location.href;
+          if (iframeUrl && (iframeUrl.includes('netlify.app/redirect') || iframeUrl.includes('inquisitive-peony-762c3b.netlify.app'))) {
+            if (window.electron && window.electron.lockr && window.electron.lockr.notifyNetlifyRedirect) {
+              window.electron.lockr.notifyNetlifyRedirect(iframeUrl);
+            }
+          }
+        } catch (e) {
+          // Cross-origin, on ne peut pas accéder à l'URL
+          // Mais on peut surveiller les événements de chargement
+          if (!iframe.dataset.monitored) {
+            iframe.dataset.monitored = 'true';
+            iframe.addEventListener('load', function() {
+              try {
+                const iframeUrl = iframe.contentWindow.location.href;
+                if (iframeUrl && (iframeUrl.includes('netlify.app/redirect') || iframeUrl.includes('inquisitive-peony-762c3b.netlify.app'))) {
+                  if (window.electron && window.electron.lockr && window.electron.lockr.notifyNetlifyRedirect) {
+                    window.electron.lockr.notifyNetlifyRedirect(iframeUrl);
+                  }
+                }
+              } catch (e) {
+                // Cross-origin
+              }
+            });
+          }
+        }
+      });
+    }
+    
+    // Surveiller toutes les 2 secondes
+    setInterval(monitorNetlifyRedirects, 2000);
+    
+    // Surveiller aussi quand on change d'onglet
+    const originalSwitchTab = switchTab;
+    switchTab = function(tabId) {
+      originalSwitchTab(tabId);
+      setTimeout(monitorNetlifyRedirects, 500);
+    };
+  </script>
+</body>
+</html>

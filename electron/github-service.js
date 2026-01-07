@@ -197,11 +197,9 @@ export async function updateUser(email, updates) {
  */
 export async function deleteUser(email) {
   try {
-    console.log('[github-service] deleteUser called for:', email)
     const data = await getUsersFromGitHub()
     const users = data.users || []
     
-    console.log('[github-service] Current users count:', users.length)
     
     const userIndex = users.findIndex(u => u.email === email)
     if (userIndex === -1) {
@@ -209,14 +207,11 @@ export async function deleteUser(email) {
       throw new Error('Utilisateur non trouvé')
     }
     
-    console.log('[github-service] User found at index:', userIndex)
     
     // Supprimer l'utilisateur
     users.splice(userIndex, 1)
-    console.log('[github-service] User removed, new count:', users.length)
     
     await updateUsersOnGitHub({ users })
-    console.log('[github-service] Users updated on GitHub')
     
     return true
   } catch (error) {
@@ -230,31 +225,26 @@ export async function deleteUser(email) {
  */
 export async function loginUser(email, password) {
   try {
-    console.log('loginUser called with:', { email, password: '***' })
     
     const user = await findUser(email)
-    console.log('User found:', user ? { id: user.id, email: user.email, username: user.username } : 'null')
     
     if (!user) {
       throw new Error('Email ou mot de passe incorrect')
     }
 
     if (user.password !== password) {
-      console.log('Password mismatch')
       throw new Error('Email ou mot de passe incorrect')
     }
 
     // Définir automatiquement l'admin pour l'email spécifique
     const ADMIN_EMAIL = 'lilianlesieur82@gmail.com'
     if (email === ADMIN_EMAIL && !user.isAdmin) {
-      console.log('Setting admin status for:', email)
       await updateUser(email, { isAdmin: true })
       user.isAdmin = true
     }
 
     // Ne pas retourner le mot de passe
     const { password: _, ...userWithoutPassword } = user
-    console.log('Login successful for user:', userWithoutPassword.id)
     return userWithoutPassword
   } catch (error) {
     console.error('Error in loginUser:', error)

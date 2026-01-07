@@ -1,13 +1,18 @@
 const imageCache = new Map()
 
 const pendingRequests = new Map()
-const MAX_CACHE_SIZE = 200
+const MAX_CACHE_SIZE = 500 // Augmenté pour garder plus d'images en cache
 
 function trimCache() {
   if (imageCache.size <= MAX_CACHE_SIZE) return
-  const keys = Array.from(imageCache.keys())
+  
+  // Trier par lastAccess pour supprimer les moins récemment utilisées
+  const entries = Array.from(imageCache.entries())
+    .map(([key, value]) => ({ key, lastAccess: value.lastAccess || 0 }))
+    .sort((a, b) => a.lastAccess - b.lastAccess)
+  
   const overflow = imageCache.size - MAX_CACHE_SIZE
-  keys.slice(0, overflow).forEach(key => {
+  entries.slice(0, overflow).forEach(({ key }) => {
     const entry = imageCache.get(key)
     if (entry?.objectUrl) {
       URL.revokeObjectURL(entry.objectUrl)

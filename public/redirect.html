@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirection Actoris</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: white;
+      padding: 20px;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      padding: 50px 40px;
+      border-radius: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: slideIn 0.6s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .logo {
+      font-size: 64px;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .game-info {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .game-name {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .game-id {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.2);
+      border-top: 5px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 30px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .alert {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+    
+    .error {
+      background: rgba(255, 59, 48, 0.2);
+      border: 2px solid rgba(255, 59, 48, 0.5);
+    }
+    
+    .success {
+      background: rgba(34, 197, 94, 0.2);
+      border: 2px solid rgba(34, 197, 94, 0.5);
+    }
+    
+    .warning {
+      background: rgba(255, 193, 7, 0.2);
+      border: 2px solid rgba(255, 193, 7, 0.5);
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 16px 32px;
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    @media (max-width: 600px) {
+      .container { padding: 40px 25px; }
+      h1 { font-size: 24px; }
+      .logo { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo" id="logo">🚀</div>
+    <h1 id="title">Lancement du jeu</h1>
+    <p class="subtitle" id="subtitle">Préparation...</p>
+    
+    <div class="game-info">
+      <div class="game-name" id="gameName">Chargement...</div>
+      <div class="game-id" id="gameId"></div>
+    </div>
+    
+    <div id="loading">
+      <div class="spinner"></div>
+    </div>
+    
+    <div id="content" class="hidden"></div>
+  </div>
+  <script>
+    // Gestion globale des erreurs pour éviter que les scripts externes n'interfèrent
+    window.addEventListener('error', (event) => {
+      // Ignorer les erreurs des scripts externes (comme tag.min.js)
+      if (event.filename && event.filename.includes('tag.min.js')) {
+        console.warn('[Redirect] ⚠️ Erreur ignorée dans script externe:', event.filename);
+        event.preventDefault();
+        return true;
+      }
+    });
+    
+    // Gestion des promesses rejetées non gérées
+    window.addEventListener('unhandledrejection', (event) => {
+      // Ignorer les erreurs des scripts externes
+      if (event.reason && event.reason.stack && event.reason.stack.includes('tag.min.js')) {
+        console.warn('[Redirect] ⚠️ Promesse rejetée ignorée dans script externe');
+        event.preventDefault();
+        return true;
+      }
+    });
+    
+    const API_URL = window.location.origin + '/api/redirect';
+    const urlParams = new URLSearchParams(window.location.search);
+    let gameName = urlParams.get('game') || urlParams.get('name');
+    let gameId = urlParams.get('gameId') || urlParams.get('gameid') || urlParams.get('id');
+    
+    // 🔑 Générer OU récupérer un sessionId unique
+    let sessionId = urlParams.get('sessionId') || urlParams.get('session');
+    
+    if (!sessionId) {
+      // Générer un nouveau sessionId si absent
+      sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      console.log('[Redirect] 🆕 Nouveau sessionId généré:', sessionId);
+    } else {
+      console.log('[Redirect] 🔑 SessionId existant:', sessionId);
+    }
+    
+    const titleEl = document.getElementById('title');
+    const subtitleEl = document.getElementById('subtitle');
+    const gameNameEl = document.getElementById('gameName');
+    const gameIdEl = document.getElementById('gameId');
+    const loadingEl = document.getElementById('loading');
+    const contentEl = document.getElementById('content');
+    const logoEl = document.getElementById('logo');
+    
+    console.log('[Redirect] Session ID:', sessionId);
+    console.log('[Redirect] Game:', gameName, 'ID:', gameId);
+    
+    // Fonction pour récupérer les infos du jeu depuis Electron si manquantes
+    async function getGameInfoFromElectron() {
+      if ((!gameName || !gameId) && window.electron && window.electron.lockr) {
+        console.log('[Redirect] ⚠️ Paramètres manquants dans l\'URL, tentative de récupération depuis Electron...');
+        try {
+          const currentGame = await window.electron.lockr.getCurrentGame();
+          if (currentGame) {
+            if (!gameName && currentGame.gameName) {
+              gameName = currentGame.gameName;
+              console.log('[Redirect] ✅ GameName récupéré depuis Electron:', gameName);
+              if (gameNameEl) {
+                gameNameEl.textContent = decodeURIComponent(gameName);
+              }
+            }
+            if (!gameId && currentGame.gameId) {
+              gameId = currentGame.gameId;
+              console.log('[Redirect] ✅ GameId récupéré depuis Electron:', gameId);
+              if (gameIdEl) {
+                gameIdEl.textContent = `ID: ${gameId}`;
+              }
+            }
+          }
+        } catch (err) {
+          console.warn('[Redirect] ⚠️ Impossible de récupérer le jeu depuis Electron:', err);
+        }
+      }
+      return { gameName, gameId };
+    }
+    
+    // Afficher les infos du jeu
+    if (gameName) {
+      gameNameEl.textContent = decodeURIComponent(gameName);
+    } else if (gameId) {
+      gameNameEl.textContent = 'Jeu ID: ' + gameId;
+    }
+    if (gameId) {
+      gameIdEl.textContent = `ID: ${gameId}`;
+    }
+    
+    async function checkSession() {
+      // ⚠️ L'API /api/redirect/check-session n'existe pas sur Netlify
+      // On saute cette vérification et on passe directement au lancement
+      console.log('[Redirect] ⚠️ Vérification de session ignorée (API non disponible sur Netlify)');
+        return true;
+    }
+    
+    function showError(message) {
+      logoEl.textContent = '❌';
+      titleEl.textContent = 'Accès refusé';
+      subtitleEl.textContent = '';
+      loadingEl.classList.add('hidden');
+      contentEl.innerHTML = `
+        <div class="alert error">
+          <strong>⚠️ Lien invalide</strong><br>
+          ${message}<br><br>
+          <small style="display: block; margin-top: 10px; opacity: 0.9;">
+            Chaque lien ne peut être utilisé qu'une seule fois.<br>
+            Si quelqu'un a partagé ce lien, il ne fonctionnera pas.
+          </small>
+        </div>
+        <div style="text-align: center;">
+          <a href="https://lockr.so" class="btn">Retour à Lockr.so</a>
+        </div>
+      `;
+      contentEl.classList.remove('hidden');
+    }
+    
+    function showSuccess() {
+      logoEl.textContent = '✅';
+      titleEl.textContent = 'Lien verrouillé !';
+      subtitleEl.textContent = 'Le launcher a été ouvert';
+      loadingEl.classList.add('hidden');
+      contentEl.innerHTML = `
+        <div class="alert success">
+          <strong>✅ Succès !</strong><br>
+          Le launcher a détecté l'ouverture et a bloqué ce lien.<br>
+          Le téléchargement devrait démarrer dans le launcher.<br><br>
+          <small>Ce lien ne peut plus être réutilisé.</small>
+        </div>
+        <div style="text-align: center;">
+          <a href="https://lockr.so" class="btn">Retour à Lockr.so</a>
+        </div>
+      `;
+      contentEl.classList.remove('hidden');
+    }
+    
+    async function init() {
+      // Essayer de récupérer les infos du jeu depuis Electron si manquantes
+      const gameInfo = await getGameInfoFromElectron();
+      gameName = gameInfo.gameName || gameName;
+      gameId = gameInfo.gameId || gameId;
+      
+      // Vérifier que le jeu est spécifié
+      if (!gameName && !gameId) {
+        showError('Aucun jeu spécifié dans le lien.');
+        setTimeout(() => window.location.href = 'https://lockr.so', 3000);
+        return;
+      }
+      
+      // 1️⃣ Vérifier si la session est déjà bloquée
+      const isValid = await checkSession();
+      
+      if (!isValid) {
+        return; // La session est déjà utilisée
+      }
+      
+      // 2️⃣ Construire l'URL complète avec sessionId
+      const currentUrl = new URL(window.location.href);
+      if (!currentUrl.searchParams.has('sessionId')) {
+        currentUrl.searchParams.set('sessionId', sessionId);
+      }
+      const redirectUrl = currentUrl.toString();
+      
+      // 3️⃣ Construire l'URL du protocole avec redirectUrl contenant le sessionId
+      const protocolUrl = `actoris://launch?gameId=${encodeURIComponent(gameId)}${gameName ? '&game=' + encodeURIComponent(gameName) : ''}&redirectUrl=${encodeURIComponent(redirectUrl)}`;
+      
+      console.log('[Redirect] 🚀 Protocol URL:', protocolUrl);
+      console.log('[Redirect] 📍 Redirect URL:', redirectUrl);
+      
+      // Lancer le téléchargement immédiatement
+      titleEl.textContent = 'Lancement du téléchargement...';
+      subtitleEl.textContent = 'Ouverture du dossier de téléchargement';
+      
+      // Essayer d'utiliser l'API IPC d'Electron si disponible (depuis une fenêtre Electron)
+      if (window.electron && window.electron.lockr) {
+        // Si les paramètres manquent, essayer de les récupérer depuis Electron
+        if ((!gameId || !gameName) && window.electron.lockr.getCurrentGame) {
+          try {
+            const currentGame = await window.electron.lockr.getCurrentGame();
+            if (currentGame) {
+              if (!gameId && currentGame.gameId) {
+                gameId = currentGame.gameId;
+                console.log('[Redirect] ✅ GameId récupéré depuis Electron:', gameId);
+              }
+              if (!gameName && currentGame.gameName) {
+                gameName = currentGame.gameName;
+                console.log('[Redirect] ✅ GameName récupéré depuis Electron:', gameName);
+              }
+            }
+          } catch (err) {
+            console.warn('[Redirect] ⚠️ Impossible de récupérer le jeu depuis Electron:', err);
+          }
+        }
+        
+        // Priorité 1 : Utiliser startGameDownload pour lancer directement le téléchargement
+        if (window.electron.lockr.startGameDownload) {
+          console.log('[Redirect] ✅ Utilisation de l\'API IPC Electron pour lancer le téléchargement');
+          console.log('[Redirect] 📛 Jeu:', gameName, 'ID:', gameId);
+          try {
+            const result = await window.electron.lockr.startGameDownload(gameId, gameName, redirectUrl);
+            console.log('[Redirect] ✅ Téléchargement lancé via IPC:', result);
+            
+            // Notifier Electron que la redirection Netlify a été détectée
+            if (window.electron.lockr.notifyNetlifyRedirect) {
+              window.electron.lockr.notifyNetlifyRedirect(redirectUrl);
+            }
+            
+            // Afficher le succès
+              logoEl.textContent = '✅';
+            titleEl.textContent = 'Téléchargement lancé !';
+            subtitleEl.textContent = 'Le dossier de téléchargement va s\'ouvrir';
+              loadingEl.classList.add('hidden');
+              contentEl.innerHTML = `
+                <div class="alert success">
+                  <strong>✅ Succès !</strong><br>
+                  Le téléchargement a été lancé dans le launcher.<br>
+                Le dossier de téléchargement va s'ouvrir automatiquement.
+                </div>
+              `;
+              contentEl.classList.remove('hidden');
+            return;
+          } catch (err) {
+            console.error('[Redirect] ❌ Erreur lors du lancement via IPC:', err);
+            // Fallback vers le protocole si IPC échoue
+            window.location.href = protocolUrl;
+          }
+        } 
+        // Priorité 2 : Utiliser launchGameWithUniqueLink (ancienne méthode)
+        else if (window.electron.lockr.launchGameWithUniqueLink) {
+          console.log('[Redirect] ✅ Utilisation de l\'API IPC Electron pour lancer le jeu');
+          try {
+            await window.electron.lockr.launchGameWithUniqueLink(gameId, gameName);
+            console.log('[Redirect] ✅ Jeu lancé via IPC');
+            
+            // Notifier Electron que la redirection Netlify a été détectée
+            if (window.electron.lockr.notifyNetlifyRedirect) {
+              window.electron.lockr.notifyNetlifyRedirect(redirectUrl);
+            }
+            
+            // Afficher le succès
+            logoEl.textContent = '✅';
+            titleEl.textContent = 'Téléchargement lancé !';
+            subtitleEl.textContent = 'Le dossier de téléchargement va s\'ouvrir';
+            loadingEl.classList.add('hidden');
+            contentEl.innerHTML = `
+              <div class="alert success">
+                <strong>✅ Succès !</strong><br>
+                Le téléchargement a été lancé dans le launcher.<br>
+                Le dossier de téléchargement va s'ouvrir automatiquement.
+              </div>
+            `;
+            contentEl.classList.remove('hidden');
+            return;
+          } catch (err) {
+            console.error('[Redirect] ❌ Erreur lors du lancement via IPC:', err);
+            // Fallback vers le protocole si IPC échoue
+            window.location.href = protocolUrl;
+          }
+        } else {
+          // Fallback : utiliser le protocole personnalisé (pour navigateur externe)
+          console.log('[Redirect] ⚠️ API IPC non disponible, utilisation du protocole personnalisé');
+          window.location.href = protocolUrl;
+          }
+      } else {
+        // Fallback : utiliser le protocole personnalisé (pour navigateur externe)
+        console.log('[Redirect] ⚠️ API IPC non disponible, utilisation du protocole personnalisé');
+        window.location.href = protocolUrl;
+      }
+    }
+    
+    // Démarrer
+    init();
+  </script>
+</body>
+</html>

@@ -1,399 +1,647 @@
-import { useState } from 'react'
-import { AnimatePresence, motion as Motion } from 'framer-motion'
-import { FiHeadphones, FiBox, FiAward, FiArrowRight, FiCheck, FiTrendingUp, FiMessageCircle } from 'react-icons/fi'
-import { RiVipCrownFill } from 'react-icons/ri'
+import React, { useState, useEffect } from 'react'
+import { VipAccessModal } from '../components/VipAccessModal'
 
-const perks = [
-  {
-    icon: FiHeadphones,
-    title: 'Support prioritaire',
-    description: 'Assistance dédiée et réponses rapides.',
-    gradient: 'from-blue-500/20 to-cyan-500/10',
-    iconBg: 'bg-gradient-to-br from-blue-500/30 to-cyan-500/20',
-    iconColor: 'text-blue-400',
-  },
-  {
-    icon: FiTrendingUp,
-    title: 'Mises à jour anticipées',
-    description: 'Accès aux nouvelles versions en avant-première.',
-    gradient: 'from-purple-500/20 to-pink-500/10',
-    iconBg: 'bg-gradient-to-br from-purple-500/30 to-pink-500/20',
-    iconColor: 'text-purple-400',
-  },
-  {
-    icon: FiBox,
-    title: 'Contenu exclusif',
-    description: 'Packs visuels et thèmes réservés VIP.',
-    gradient: 'from-emerald-500/20 to-teal-500/10',
-    iconBg: 'bg-gradient-to-br from-emerald-500/30 to-teal-500/20',
-    iconColor: 'text-emerald-400',
-  },
-  {
-    icon: FiAward,
-    title: 'Badge VIP',
-    description: 'Montrez votre statut dans le launcher.',
-    gradient: 'from-amber-500/20 to-orange-500/10',
-    iconBg: 'bg-gradient-to-br from-amber-500/30 to-orange-500/20',
-    iconColor: 'text-amber-400',
-  },
-]
+export function VipPage({ currentUser = null, onNavigate }) {
+  const [showVipModal, setShowVipModal] = useState(false)
+  const [cardsVisible, setCardsVisible] = useState(false)
+  const [hoveredCard, setHoveredCard] = useState(null)
 
-const features = [
-  'Téléchargements illimités',
-  'Accès anticipé aux nouveautés',
-  'Support client 24/7',
-  'Thèmes exclusifs',
-  'Statistiques détaillées',
-  'Pas de publicités',
-]
+  const isGuest = currentUser?.isGuest === true
+  const isAdmin = currentUser?.isAdmin === true
+  const isVip = currentUser?.isVip === true
+  const isBoost = currentUser?.isBoost === true
 
-const discordFeatures = [
-  'Support Discord',
-  'Mises à jour anticipées',
-  'Pas de publicités',
-]
+  // Déterminer le plan actuel de l'utilisateur
+  const getCurrentPlan = () => {
+    if (isAdmin || isVip) return 'vip'
+    if (isBoost) return 'boost'
+    return 'free'
+  }
 
-const discordPerks = [
-  {
-    icon: FiMessageCircle,
-    title: 'Support Discord',
-    description: 'Accès au canal support dédié.',
-    gradient: 'from-indigo-500/20 to-blue-500/10',
-    iconBg: 'bg-gradient-to-br from-indigo-500/30 to-blue-500/20',
-    iconColor: 'text-indigo-400',
-  },
-  {
-    icon: FiTrendingUp,
-    title: 'Mises à jour anticipées',
-    description: 'Accès aux nouvelles versions 1 semaine avant.',
-    gradient: 'from-blue-500/20 to-cyan-500/10',
-    iconBg: 'bg-gradient-to-br from-blue-500/30 to-cyan-500/20',
-    iconColor: 'text-blue-400',
-  },
-]
+  const currentPlan = getCurrentPlan()
 
-export function VipPage({ currentUser = null }) {
-  const [isBoostMode, setIsBoostMode] = useState(false)
-  const isVip = currentUser?.isVip || false
-  
+  // Afficher le modal si l'utilisateur est invité
+  useEffect(() => {
+    if (isGuest) {
+      setShowVipModal(true)
+    }
+  }, [isGuest])
+
+  // Animation d'apparition en cascade des cartes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCardsVisible(true)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const handlePlanSelect = (planType) => {
+    if (planType === 'vip') {
+      console.log('Plan VIP sélectionné')
+    } else if (planType === 'boost') {
+      console.log('Plan Boost sélectionné')
+    }
+  }
+
+  const handleCardHover = (cardIndex, isHovering) => {
+    setHoveredCard(isHovering ? cardIndex : null)
+  }
+
   return (
-    <div className="flex h-full flex-col gap-6">
-      {/* VIP/Boost Switch */}
-      <div className="flex justify-center">
-        <div className={`vip-boost-switch ${isBoostMode ? 'boost-active' : ''}`}>
-          <input
-            type="checkbox"
-            id="mode"
-            checked={isBoostMode}
-            onChange={(e) => setIsBoostMode(e.target.checked)}
-            className="hidden"
-          />
-          <label htmlFor="mode" className="switch cursor-pointer">
-            <span className="option vip">VIP</span>
-            <span className="option boost">BOOST</span>
-            <span className="slider" />
-          </label>
-        </div>
-      </div>
+    <>
+      {/* Modal d'accès VIP pour les invités */}
+      <VipAccessModal
+        isOpen={showVipModal}
+        onClose={() => setShowVipModal(false)}
+        onConnectDiscord={() => {
+          setShowVipModal(false)
+          if (onNavigate) {
+            onNavigate('login')
+          } else {
+            window.dispatchEvent(new CustomEvent('navigate', {
+              detail: { page: 'login' }
+            }))
+          }
+        }}
+      />
 
-      <div className="grid h-full grid-cols-12 gap-6 flex-1">
-        {/* Left Column - Hero Section */}
-        <AnimatePresence mode="wait">
-          {isBoostMode ? (
-            <Motion.div
-              key="boost-hero"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-              className="col-span-12 lg:col-span-5"
+      <div style={styles.container}>
+        {/* Background gradient */}
+        <div style={styles.bgGradient}></div>
+        
+        <div style={styles.containerInner}>
+          {/* Header */}
+          <header style={styles.header}>
+            <h1 style={styles.headerTitle}>Choisissez votre plan</h1>
+            <p style={styles.headerSubtitle}>Sélectionnez l'offre qui correspond à vos besoins</p>
+          </header>
+
+          {/* Plans Grid */}
+          <div style={styles.plansGrid}>
+            {/* Plan Gratuit */}
+            <div 
+              style={{
+                ...styles.planCard,
+                ...styles.cardAnimation,
+                animationDelay: cardsVisible ? '0ms' : '1000ms',
+                opacity: cardsVisible ? 1 : 0,
+                transform: cardsVisible ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.95)',
+                ...(hoveredCard === 0 ? styles.cardHover : {})
+              }}
+              onMouseEnter={() => handleCardHover(0, true)}
+              onMouseLeave={() => handleCardHover(0, false)}
             >
-              <div className="relative h-full overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-900/20 via-indigo-800/10 to-blue-900/20 p-1 backdrop-blur-xl">
-                <div className="relative h-full rounded-3xl bg-gradient-to-br from-zinc-900/95 via-zinc-800/90 to-zinc-900/95 p-6 md:p-8">
-                  <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-indigo-500/10 blur-3xl" />
-                  <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-blue-500/10 blur-3xl" />
-                  
-                  <div className="relative z-10 flex h-full flex-col justify-between">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-blue-500 to-indigo-600 shadow-lg shadow-indigo-500/30">
-                          <FiMessageCircle className="text-xl text-white" />
-                        </div>
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-wider text-indigo-400">
-                            DISCORD BOOST
-                          </p>
-                          <p className="text-xs text-muted">Avantages limités</p>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <h1 className="text-3xl font-bold text-white md:text-4xl">
-                          Boost Discord
-                        </h1>
-                        <p className="text-sm text-muted">
-                          Boostez notre serveur Discord pour débloquer des avantages exclusifs. 
-                          Support dédié, accès anticipé et pas de publicités.
-                        </p>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-sm text-muted">
-                        <FiCheck className="text-indigo-400" />
-                        <span>Obtenu en boostant le serveur Discord</span>
-                      </div>
-                    </div>
-
-                    <Motion.button
-                      whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(99, 102, 241, 0.3)" }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={{ duration: 0.2 }}
-                      className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all duration-300"
-                    >
-                      <span className="relative z-10 flex items-center justify-center gap-2">
-                        Rejoindre Discord
-                        <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    </Motion.button>
-                  </div>
+              <div style={styles.planIcon}>
+                🎁
+              </div>
+              <h2 style={styles.planName}>Gratuit</h2>
+              <p style={styles.planDescription}>Accès de base au catalogue</p>
+              <div style={styles.planPrice}>
+                <div style={styles.priceContainer}>
+                  <span style={styles.priceAmount}>0€</span>
+                  <span style={styles.pricePeriod}>/mois</span>
                 </div>
               </div>
-            </Motion.div>
-          ) : (
-            <Motion.div
-              key="vip-hero"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-              className="col-span-12 lg:col-span-5"
+              <ul style={styles.features}>
+                {['Accès au catalogue complet', 'Jusqu\'à 3 jeux dans la bibliothèque', 'Publicités présentes'].map((feature, index) => (
+                  <li 
+                    key={index} 
+                    style={{
+                      ...styles.featureItem,
+                      ...styles.featureAnimation,
+                      animationDelay: cardsVisible ? `${200 + index * 100}ms` : '1000ms',
+                      opacity: cardsVisible ? 1 : 0,
+                      transform: cardsVisible ? 'translateX(0)' : 'translateX(-20px)'
+                    }}
+                  >
+                    <span style={feature === 'Publicités présentes' ? styles.warningIcon : styles.checkIcon}>
+                      {feature === 'Publicités présentes' ? (
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style={styles.warningSvg}>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                        </svg>
+                      ) : (
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style={styles.checkSvg}>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      )}
+                    </span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <button 
+                style={{
+                  ...styles.ctaButton, 
+                  ...(currentPlan === 'free' ? styles.ctaButtonCurrent : {}),
+                  ...(hoveredCard === 0 && currentPlan !== 'free' ? styles.buttonHover : {})
+                }}
+                onClick={() => currentPlan !== 'free' && handlePlanSelect('free')}
+              >
+                {currentPlan === 'free' ? 'Plan actuel' : 'Plan gratuit'}
+              </button>
+            </div>
+
+            {/* Plan VIP */}
+            <div 
+              style={{
+                ...styles.planCard, 
+                ...styles.planCardHighlighted,
+                ...styles.cardAnimation,
+                animationDelay: cardsVisible ? '150ms' : '1000ms',
+                opacity: cardsVisible ? 1 : 0,
+                transform: cardsVisible ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.95)',
+                ...(hoveredCard === 1 ? styles.cardHoverVip : {})
+              }}
+              onMouseEnter={() => handleCardHover(1, true)}
+              onMouseLeave={() => handleCardHover(1, false)}
             >
-              <div className="relative h-full overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-pink-900/20 p-1 backdrop-blur-xl">
-                <div className="relative h-full rounded-3xl bg-gradient-to-br from-zinc-900/95 via-zinc-800/90 to-zinc-900/95 p-6 md:p-8">
-                  <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-purple-500/10 blur-3xl" />
-                  <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-pink-500/10 blur-3xl" />
-                  
-                  <div className="relative z-10 flex h-full flex-col justify-between">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 via-yellow-400 to-amber-500 shadow-lg shadow-amber-500/30">
-                          <RiVipCrownFill className="text-xl text-zinc-900" />
-                        </div>
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-wider text-purple-400">
-                            ACTORIS VIP
-                          </p>
-                          <p className="text-xs text-muted">Expérience premium</p>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <h1 className="text-3xl font-bold text-white md:text-4xl">
-                          {isVip ? 'Vous êtes VIP' : 'Passez en VIP'}
-                        </h1>
-                        <p className="text-sm text-muted">
-                          {isVip 
-                            ? 'Vous bénéficiez déjà de tous les avantages VIP. Profitez de votre expérience premium au maximum !'
-                            : 'Débloquez une expérience gaming exceptionnelle avec des avantages exclusifs, un support prioritaire et du contenu premium.'
-                          }
-                        </p>
-                      </div>
-
-                      {!isVip && (
-                        <div className="flex flex-wrap items-center gap-3">
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-3xl font-bold text-white">2,99€</span>
-                            <span className="text-sm text-muted">Payer une fois</span>
-                          </div>
-                        </div>
-                      )}
-
-                      {isVip && (
-                        <div className="flex items-center gap-2 text-sm text-emerald-400">
-                          <FiCheck className="text-lg" />
-                          <span className="font-semibold">Statut VIP actif</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {!isVip && (
-                      <Motion.button
-                        whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(234, 179, 8, 0.3)" }}
-                        whileTap={{ scale: 0.98 }}
-                        transition={{ duration: 0.2 }}
-                        className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 px-6 py-3 text-sm font-semibold text-zinc-900 shadow-lg shadow-amber-500/30 transition-all duration-300"
-                      >
-                        <span className="relative z-10 flex items-center justify-center gap-2">
-                          Devenir VIP
-                          <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-                        </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                      </Motion.button>
-                    )}
-
-                    {isVip && (
-                      <Motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="w-full rounded-2xl bg-gradient-to-r from-emerald-500/20 via-emerald-500/10 to-emerald-500/20 border border-emerald-500/30 px-6 py-4"
-                      >
-                        <div className="flex items-center gap-3">
-                          <RiVipCrownFill className="text-2xl text-emerald-400" />
-                          <div>
-                            <p className="text-sm font-semibold text-white">Abonnement VIP actif</p>
-                            <p className="text-xs text-muted">Merci de votre confiance !</p>
-                          </div>
-                        </div>
-                      </Motion.div>
-                    )}
-                  </div>
+              <span style={{...styles.badge, ...styles.badgePulse}}>Recommandé</span>
+              <div style={{...styles.planIcon, ...styles.planIconHighlighted}}>
+                👑
+              </div>
+              <h2 style={styles.planName}>VIP</h2>
+              <p style={styles.planDescription}>L'expérience complète et illimitée</p>
+              <div style={styles.planPrice}>
+                <div style={styles.priceContainer}>
+                  <span style={styles.priceAmount}>2,99€</span>
+                  <span style={styles.pricePeriod}>/une fois</span>
                 </div>
               </div>
-            </Motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Right Column - Features and Perks */}
-        <div className="col-span-12 lg:col-span-7 flex flex-col gap-4">
-          {/* Features List */}
-          <AnimatePresence mode="wait">
-            {isBoostMode ? (
-              <Motion.div
-                key="boost-features"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-2 gap-2.5"
-              >
-                {discordFeatures.map((feature, idx) => (
-                  <Motion.div
-                    key={feature}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1, duration: 0.4 }}
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    className="group flex items-center gap-2.5 rounded-xl border border-indigo-500/20 bg-gradient-to-br from-indigo-500/10 to-indigo-500/5 px-3.5 py-3 backdrop-blur-sm transition-all duration-200 hover:border-indigo-500/40 hover:bg-gradient-to-br hover:from-indigo-500/15 hover:to-indigo-500/10 hover:shadow-lg hover:shadow-indigo-500/10"
+              <ul style={styles.features}>
+                {[
+                  'Toutes les fonctionnalités Boost',
+                  'Jeux illimités dans la bibliothèque', 
+                  'Téléchargements illimités',
+                  'Aucune publicité',
+                  'Support prioritaire 24/7',
+                  'Accès anticipé aux nouveautés',
+                  'Badges et personnalisation exclusive',
+                  'Thèmes premium exclusifs'
+                ].map((feature, index) => (
+                  <li 
+                    key={index} 
+                    style={{
+                      ...styles.featureItem,
+                      ...styles.featureAnimation,
+                      animationDelay: cardsVisible ? `${350 + index * 100}ms` : '1000ms',
+                      opacity: cardsVisible ? 1 : 0,
+                      transform: cardsVisible ? 'translateX(0)' : 'translateX(-20px)'
+                    }}
                   >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500/30 to-indigo-500/20 shadow-md shadow-indigo-500/20">
-                      <FiCheck className="text-sm text-indigo-400" />
-                    </div>
-                    <span className="text-xs font-semibold text-white">{feature}</span>
-                  </Motion.div>
+                    <span style={{...styles.checkIcon, ...styles.checkIconHighlighted}}>
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{...styles.checkSvg, ...styles.checkSvgHighlighted}}>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </span>
+                    <span>{feature}</span>
+                  </li>
                 ))}
-              </Motion.div>
-            ) : (
-              <Motion.div
-                key="vip-features"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-2 gap-2.5"
+              </ul>
+              <button 
+                style={{
+                  ...styles.ctaButton, 
+                  ...styles.ctaButtonHighlighted,
+                  ...(currentPlan === 'vip' ? styles.ctaButtonCurrentVip : {}),
+                  ...(hoveredCard === 1 && currentPlan !== 'vip' ? styles.buttonHoverVip : {})
+                }}
+                onClick={() => currentPlan !== 'vip' && handlePlanSelect('vip')}
               >
-                {features.map((feature, idx) => (
-                  <Motion.div
-                    key={feature}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05, duration: 0.4 }}
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    className="group flex items-center gap-2.5 rounded-xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 px-3.5 py-3 backdrop-blur-sm transition-all duration-200 hover:border-emerald-500/40 hover:bg-gradient-to-br hover:from-emerald-500/15 hover:to-emerald-500/10 hover:shadow-lg hover:shadow-emerald-500/10"
-                  >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500/30 to-emerald-500/20 shadow-md shadow-emerald-500/20">
-                      <FiCheck className="text-sm text-emerald-400" />
-                    </div>
-                    <span className="text-xs font-semibold text-white">{feature}</span>
-                  </Motion.div>
-                ))}
-              </Motion.div>
-            )}
-          </AnimatePresence>
+                {currentPlan === 'vip' ? (isAdmin ? 'Plan Admin (VIP inclus)' : 'Plan actuel') : 'Choisir ce plan'}
+              </button>
+            </div>
 
-          {/* Perks Grid */}
-          <div className="flex-1">
-            <Motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="mb-4 text-lg font-bold text-white"
+            {/* Plan Boost */}
+            <div 
+              style={{
+                ...styles.planCard,
+                ...styles.cardAnimation,
+                animationDelay: cardsVisible ? '300ms' : '1000ms',
+                opacity: cardsVisible ? 1 : 0,
+                transform: cardsVisible ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.95)',
+                ...(hoveredCard === 2 ? styles.cardHover : {})
+              }}
+              onMouseEnter={() => handleCardHover(2, true)}
+              onMouseLeave={() => handleCardHover(2, false)}
             >
-              {isBoostMode ? 'Avantages Discord Boost' : 'Avantages VIP'}
-            </Motion.h2>
-            <AnimatePresence mode="wait">
-              {isBoostMode ? (
-                <Motion.div
-                  key="discord"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="grid grid-cols-2 gap-3"
-                >
-                  {discordPerks.map(({ icon, title, description, gradient, iconBg, iconColor }, idx) => {
-                    const Icon = icon
-                    return (
-                      <Motion.div
-                        key={title}
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1, duration: 0.5, ease: "easeOut" }}
-                        whileHover={{ y: -4, scale: 1.02, transition: { duration: 0.2 } }}
-                        className={`group relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br ${gradient} p-5 backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/60 hover:shadow-2xl hover:shadow-indigo-500/20`}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                        <div className="relative z-10 space-y-3">
-                          <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${iconBg} shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl`}>
-                            <Icon className={`text-xl ${iconColor}`} />
-                          </div>
-                          <div>
-                            <h3 className="text-sm font-bold text-white">{title}</h3>
-                            <p className="mt-1.5 text-xs leading-relaxed text-muted">{description}</p>
-                          </div>
-                        </div>
-                      </Motion.div>
-                    )
-                  })}
-                </Motion.div>
-              ) : (
-                <Motion.div
-                  key="vip"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="grid grid-cols-2 gap-3"
-                >
-                  {perks.map(({ icon, title, description, gradient, iconBg, iconColor }, idx) => {
-                    const Icon = icon
-                    return (
-                      <Motion.div
-                        key={title}
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 + idx * 0.1, duration: 0.5, ease: "easeOut" }}
-                        whileHover={{ y: -4, scale: 1.02, transition: { duration: 0.2 } }}
-                        className={`group relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br ${gradient} p-5 backdrop-blur-sm transition-all duration-300 hover:border-purple-500/60 hover:shadow-2xl hover:shadow-purple-500/20`}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                        <div className="relative z-10 space-y-3">
-                          <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${iconBg} shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl`}>
-                            <Icon className={`text-xl ${iconColor}`} />
-                          </div>
-                          <div>
-                            <h3 className="text-sm font-bold text-white">{title}</h3>
-                            <p className="mt-1.5 text-xs leading-relaxed text-muted">{description}</p>
-                          </div>
-                        </div>
-                      </Motion.div>
-                    )
-                  })}
-                </Motion.div>
-              )}
-            </AnimatePresence>
+              <div style={styles.planIcon}>
+                ⚡
+              </div>
+              <h2 style={styles.planName}>Boost Serveur</h2>
+              <p style={styles.planDescription}>Offert lors du boost Discord du serveur</p>
+              <div style={styles.planPrice}>
+                <div style={styles.priceContainer}>
+                  <span style={styles.priceAmount}>0€</span>
+                  <span style={styles.pricePeriod}>/mois</span>
+                </div>
+              </div>
+              <ul style={styles.features}>
+                {[
+                  'Téléchargements prioritaires',
+                  'Aucune publicité',
+                  'Accès aux nouveautés',
+                  'Notifications personnalisées',
+                  'Badges exclusifs',
+                  'Support communautaire'
+                ].map((feature, index) => (
+                  <li 
+                    key={index} 
+                    style={{
+                      ...styles.featureItem,
+                      ...styles.featureAnimation,
+                      animationDelay: cardsVisible ? `${500 + index * 100}ms` : '1000ms',
+                      opacity: cardsVisible ? 1 : 0,
+                      transform: cardsVisible ? 'translateX(0)' : 'translateX(-20px)'
+                    }}
+                  >
+                    <span style={styles.checkIcon}>
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style={styles.checkSvg}>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <button 
+                style={{
+                  ...styles.ctaButton,
+                  ...(currentPlan === 'boost' ? styles.ctaButtonCurrent : {}),
+                  ...(hoveredCard === 2 && currentPlan !== 'boost' ? styles.buttonHover : {})
+                }}
+                onClick={() => currentPlan !== 'boost' && handlePlanSelect('boost')}
+              >
+                {currentPlan === 'boost' ? 'Plan actuel' : 'Choisir ce plan'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Animations CSS */}
+      <style>{`
+        @keyframes cardSlideIn {
+          from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes featureSlideIn {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes iconRotate {
+          from {
+            transform: rotateY(0deg);
+          }
+          to {
+            transform: rotateY(360deg);
+          }
+        }
+
+        @keyframes badgePulse {
+          0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+          }
+          50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 8px rgba(212, 175, 55, 0);
+          }
+        }
+
+        @keyframes cardGlow {
+          0%, 100% {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+          }
+          50% {
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
+          }
+        }
+
+        @keyframes buttonPulse {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.02);
+          }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .plans-grid {
+            grid-template-columns: 1fr !important;
+            max-width: 440px !important;
+          }
+          .header-title {
+            font-size: 2.25rem !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .container-inner {
+            padding: 10px 20px 30px 20px !important;
+          }
+          .header {
+            margin-bottom: 20px !important;
+          }
+          .header-title {
+            font-size: 2rem !important;
+          }
+          .header-subtitle {
+            font-size: 1rem !important;
+          }
+          .price-amount {
+            font-size: 2rem !important;
+          }
+          .plan-card {
+            min-height: 480px !important;
+            padding: 20px 16px !important;
+          }
+        }
+      `}</style>
+    </>
   )
 }
+
+const styles = {
+  container: {
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif',
+    background: '#0a0a0f',
+    color: '#fff',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    minHeight: '100vh',
+    lineHeight: 1.6,
+    position: 'relative',
+    backdropFilter: 'none',
+    WebkitBackdropFilter: 'none',
+  },
+  bgGradient: {
+    position: 'fixed',
+    inset: 0,
+    background: `
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 119, 198, 0.15), transparent),
+      radial-gradient(ellipse 60% 50% at 50% 120%, rgba(139, 92, 246, 0.1), transparent)
+    `,
+    pointerEvents: 'none',
+  },
+  containerInner: {
+    position: 'relative',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '60px 32px 40px 32px',
+  },
+  header: {
+    textAlign: 'center',
+    marginBottom: '24px',
+  },
+  headerTitle: {
+    fontSize: '2.75rem',
+    fontWeight: 600,
+    marginBottom: '16px',
+    color: '#ffffff',
+    letterSpacing: '-0.02em',
+  },
+  headerSubtitle: {
+    fontSize: '1.125rem',
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontWeight: 400,
+  },
+  plansGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '24px',
+    maxWidth: '1100px',
+    margin: '0 auto',
+  },
+  planCard: {
+    background: 'rgba(255, 255, 255, 0.02)',
+    border: '1px solid rgba(255, 255, 255, 0.06)',
+    borderRadius: '16px',
+    padding: '24px 20px',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    position: 'relative',
+    cursor: 'pointer',
+    height: 'auto',
+    minHeight: '550px',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  planCardHighlighted: {
+    background: 'linear-gradient(180deg, rgba(212, 175, 55, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%)',
+    border: '1px solid rgba(212, 175, 55, 0.3)',
+  },
+  badge: {
+    display: 'inline-block',
+    padding: '6px 14px',
+    background: 'rgba(212, 175, 55, 0.15)',
+    border: '1px solid rgba(212, 175, 55, 0.3)',
+    borderRadius: '6px',
+    fontSize: '0.8125rem',
+    fontWeight: 500,
+    color: '#d4af37',
+    marginBottom: '24px',
+    letterSpacing: '0.02em',
+  },
+  planIcon: {
+    width: '40px',
+    height: '40px',
+    marginBottom: '16px',
+    background: 'rgba(255, 255, 255, 0.04)',
+    border: '1px solid rgba(255, 255, 255, 0.08)',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.25rem',
+  },
+  planIconHighlighted: {
+    background: 'rgba(212, 175, 55, 0.1)',
+    borderColor: 'rgba(212, 175, 55, 0.2)',
+  },
+  planName: {
+    fontSize: '1.25rem',
+    fontWeight: 600,
+    marginBottom: '6px',
+    color: '#ffffff',
+    letterSpacing: '-0.01em',
+  },
+  planDescription: {
+    fontSize: '0.875rem',
+    color: 'rgba(255, 255, 255, 0.4)',
+    marginBottom: '20px',
+    fontWeight: 400,
+    lineHeight: 1.4,
+  },
+  planPrice: {
+    marginBottom: '20px',
+    paddingBottom: '20px',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+  },
+  priceContainer: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: '6px',
+  },
+  priceAmount: {
+    fontSize: '2.5rem',
+    fontWeight: 600,
+    color: '#ffffff',
+    letterSpacing: '-0.02em',
+  },
+  pricePeriod: {
+    fontSize: '1rem',
+    color: 'rgba(255, 255, 255, 0.4)',
+    fontWeight: 400,
+  },
+  features: {
+    listStyle: 'none',
+    marginBottom: '16px',
+    padding: 0,
+    flex: 1,
+    maxHeight: 'none',
+  },
+  featureItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '8px',
+    padding: '4px 0',
+    fontSize: '0.8125rem',
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontWeight: 400,
+  },
+  checkIcon: {
+    width: '16px',
+    height: '16px',
+    borderRadius: '4px',
+    background: 'rgba(255, 255, 255, 0.08)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    marginTop: '1px',
+  },
+  checkIconHighlighted: {
+    background: 'rgba(212, 175, 55, 0.15)',
+  },
+  checkSvg: {
+    width: '10px',
+    height: '10px',
+    stroke: 'rgba(255, 255, 255, 0.6)',
+  },
+  checkSvgHighlighted: {
+    stroke: '#d4af37',
+  },
+
+  warningIcon: {
+    width: '16px',
+    height: '16px',
+    borderRadius: '4px',
+    background: 'rgba(255, 193, 7, 0.15)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    marginTop: '1px',
+  },
+
+  warningSvg: {
+    width: '10px',
+    height: '10px',
+    stroke: '#ffc107',
+  },
+  ctaButton: {
+    width: '100%',
+    padding: '12px 20px',
+    background: 'rgba(255, 255, 255, 0.06)',
+    border: '1px solid rgba(255, 255, 255, 0.12)',
+    borderRadius: '10px',
+    color: '#ffffff',
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    letterSpacing: '0.01em',
+    marginTop: 'auto',
+    flexShrink: 0,
+  },
+  ctaButtonHighlighted: {
+    background: 'rgba(212, 175, 55, 0.15)',
+    borderColor: 'rgba(212, 175, 55, 0.3)',
+    color: '#d4af37',
+  },
+  ctaButtonCurrent: {
+    background: 'rgba(255, 255, 255, 0.03)',
+    borderColor: 'rgba(255, 255, 255, 0.06)',
+    color: 'rgba(255, 255, 255, 0.3)',
+    cursor: 'default',
+  },
+
+  ctaButtonCurrentVip: {
+    background: 'rgba(212, 175, 55, 0.08)',
+    borderColor: 'rgba(212, 175, 55, 0.2)',
+    color: '#d4af37',
+    cursor: 'default',
+  },
+
+  // Animations
+  cardAnimation: {
+    transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+  
+  featureAnimation: {
+    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+
+  // Hover Effects
+  cardHover: {
+    transform: 'translateY(-8px) scale(1.02)',
+    boxShadow: '0 25px 60px rgba(255, 255, 255, 0.1)',
+    borderColor: 'rgba(255, 255, 255, 0.15)',
+  },
+
+  cardHoverVip: {
+    transform: 'translateY(-8px) scale(1.02)',
+    boxShadow: '0 25px 60px rgba(212, 175, 55, 0.3)',
+    borderColor: 'rgba(212, 175, 55, 0.5)',
+    background: 'linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)',
+  },
+
+  iconRotate: {
+    transform: 'rotateY(180deg) scale(1.1)',
+    transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+
+  badgePulse: {
+    animation: 'badgePulse 2s infinite',
+  },
+
+  buttonHover: {
+    transform: 'scale(1.05)',
+    background: 'rgba(255, 255, 255, 0.12)',
+    borderColor: 'rgba(255, 255, 255, 0.25)',
+    boxShadow: '0 8px 25px rgba(255, 255, 255, 0.15)',
+  },
+
+  buttonHoverVip: {
+    transform: 'scale(1.05)',
+    background: 'rgba(212, 175, 55, 0.25)',
+    borderColor: 'rgba(212, 175, 55, 0.6)',
+    boxShadow: '0 8px 25px rgba(212, 175, 55, 0.4)',
+  },
+}
+
+export default VipPage

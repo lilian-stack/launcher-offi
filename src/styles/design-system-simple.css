@@ -1,0 +1,212 @@
+/* ============================================
+   ACTORIS LAUNCHER - DESIGN SIMPLE & MODERNE
+   Version épurée et minimaliste
+   ============================================ */
+
+:root {
+  /* Palette simple et moderne */
+  --color-primary: #06b6d4; /* Cyan */
+  --color-primary-hover: #0891b2;
+  --color-secondary: #10b981; /* Vert */
+  --color-accent: #3b82f6; /* Bleu */
+  
+  /* Couleurs de fond - Tons sombres simples */
+  --bg-primary: #0f0f14;
+  --bg-secondary: #1a1a20;
+  --bg-card: #1f1f26;
+  --bg-card-hover: #25252d;
+  --bg-input: #1a1a20;
+  
+  /* Couleurs de texte */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a8;
+  --text-muted: #6b6b75;
+  
+  /* Bordures */
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-radius: 12px;
+  
+  /* Ombres simples */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  
+  /* Transitions */
+  --transition: 200ms ease;
+}
+
+/* Composants simples */
+.btn-simple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-simple:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.btn-simple-primary {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.btn-simple-primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.card-simple {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  transition: all var(--transition);
+}
+
+.card-simple:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.input-simple {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: all var(--transition);
+}
+
+.input-simple:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: var(--bg-card);
+}
+
+.input-simple::placeholder {
+  color: var(--text-muted);
+}
+
+/* Sidebar simple */
+.sidebar-simple {
+  background: var(--bg-primary);
+  border-right: 1px solid var(--border-color);
+  width: 260px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.nav-item-simple {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item-simple:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.nav-item-simple.active {
+  background: var(--bg-card);
+  color: var(--color-primary);
+  border-left: 3px solid var(--color-primary);
+}
+
+/* TopBar simple */
+.topbar-simple {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Game Card simple */
+.game-card-simple {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.game-card-simple:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.game-card-simple img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.game-card-simple-content {
+  padding: 16px;
+}
+
+.game-card-simple-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+/* Layout simple */
+.container-simple {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Scrollbar simple */
+.scrollbar-simple::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-simple::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+.scrollbar-simple::-webkit-scrollbar-thumb {
+  background: var(--bg-card);
+  border-radius: 4px;
+}
+
+.scrollbar-simple::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-card-hover);
+}
+

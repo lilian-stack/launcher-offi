@@ -50,5 +50,14 @@ scripts/backups/*.json
 test-*.js
 *test*.js
 
+# Security - Script d'obfuscation (NE JAMAIS COMMITER !)
+scripts/obfuscate.js
+
 # Documentation générée
 docs/generated/
+
+.vercel
+.env*.local
+
+# Local Netlify folder
+.netlify

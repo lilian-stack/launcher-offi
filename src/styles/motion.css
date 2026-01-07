@@ -1,0 +1,125 @@
+/**
+ * Animations CSS pour remplacer Framer Motion
+ * Performances optimales - 0 KiB de JavaScript
+ */
+
+/* Animations de base */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}
+
+/* Classes d'animation */
+.animate-fade-in {
+  animation: fadeIn var(--motion-duration, 0.3s) ease var(--motion-delay, 0s) forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp var(--motion-duration, 0.3s) ease var(--motion-delay, 0s) forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown var(--motion-duration, 0.3s) ease var(--motion-delay, 0s) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn var(--motion-duration, 0.3s) ease var(--motion-delay, 0s) forwards;
+}
+
+/* États de visibilité */
+.motion-hidden {
+  opacity: 0;
+}
+
+.motion-visible {
+  opacity: 1;
+}
+
+/* Hover effects */
+.motion-hover {
+  transition: transform 0.2s ease, scale 0.2s ease;
+}
+
+.motion-hover:hover {
+  transform: scale(1.02);
+}
+
+/* Tap effects */
+.motion-tap {
+  transition: transform 0.1s ease;
+}
+
+.motion-tap:active {
+  transform: scale(0.98);
+}
+
+/* Respect des préférences d'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-slide-down,
+  .animate-scale-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .motion-hover:hover,
+  .motion-tap:active {
+    transform: none;
+  }
+}
+

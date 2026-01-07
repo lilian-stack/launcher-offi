@@ -1,740 +1,1141 @@
 /**
- * Bot Discord complet avec WebSocket et API Express pour la communication avec le launcher
+ * Serveur backend pour le launcher Actoris
+ * G√®re les WebSockets et l'API Discord s√©curis√©e
  * 
- * Installation des dÈpendances :
- * npm install ws express discord.js axios cheerio
- * 
- * Lancement :
- * node launcher-server.js
+ * Installation des d√©pendances:
+ * npm install ws express discord.js axios cheerio dotenv cors
  */
 
-import WebSocket from "ws";
 import express from "express";
+import { WebSocketServer } from "ws";
 import http from "http";
-import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, PermissionFlagsBits, StringSelectMenuBuilder, ChannelType } from 'discord.js';
-import axios from 'axios';
-import cheerio from 'cheerio';
-import config from './config.js';
+import dotenv from "dotenv";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+import net from "net";
 
-// ==================== WEBSOCKET & API EXPRESS ====================
+// D√©terminer le chemin du .env AVANT d'importer le router
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Initialiser Express
+// Backend server started
+
+/**
+ * Convertit un chemin Windows en URL file:// valide pour ESM
+ * @param {string} filePath - Chemin du fichier (absolu ou relatif)
+ * @returns {string} URL file:// valide
+ */
+function pathToFileURL(filePath) {
+  // R√©soudre le chemin absolu
+  const resolvedPath = path.resolve(filePath);
+  // Normaliser les s√©parateurs Windows (\) en s√©parateurs Unix (/)
+  const normalized = resolvedPath.replace(/\\/g, '/');
+  // Ajouter le pr√©fixe file:// et √©chapper les caract√®res sp√©ciaux
+  // Sur Windows, on doit ajouter un / apr√®s file://
+  return `file:///${normalized}`;
+}
+
+// Gestionnaire d'erreur global (logs d√©sactiv√©s)
+process.on('uncaughtException', (error) => {
+  // Logs d√©sactiv√©s
+  if (process.send) {
+    process.send({ type: 'backend-error', error: error.message, stack: error.stack });
+  }
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  // Logs d√©sactiv√©s
+  if (process.send) {
+    process.send({ type: 'backend-error', error: String(reason) });
+  }
+});
+
+// ‚ö†Ô∏è IMPORTANT : Ne PAS importer discord-auth-api.js ici !
+// Il sera import√© APR√àS le chargement des secrets Supabase
+// pour que process.env soit rempli avant l'import
+let discordAuthRouter = null;
+
+// __filename et __dirname sont d√©j√† d√©finis plus haut
+
+// ============================================
+// üîê CONFIGURATION SUPABASE (int√©gr√©e directement - pas d'import externe)
+// ============================================
+const SUPABASE_CONFIG = {
+  URL: process.env.SUPABASE_URL || 'https://fpxcefuqwvwdduzkmkrj.supabase.co',
+  ANON_KEY: process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZweGNlZnVxd3Z3ZGR1emtta3JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NTI0MjksImV4cCI6MjA3OTQyODQyOX0.eav7rVxbs4fV6LxJs6y7c4zV9279X0DX0gEJtGPMdo8',
+  SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZweGNlZnVxd3Z3ZGR1emtta3JqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Mzg1MjQyOSwiZXhwIjoyMDc5NDI4NDI5fQ.Pp_nQhbXBDnpx88lnNRRU3e0Xfih62iOTy7GIZYiEyA',
+};
+
+/**
+ * Charge les secrets depuis Supabase (code int√©gr√© - pas d'import externe)
+ * @returns {Promise<{success: boolean, secrets?: Object, error?: string}>}
+ */
+async function loadSecretsFromSupabase() {
+  try {
+    // Importer @supabase/supabase-js dynamiquement
+    let createClient;
+    try {
+      const supabaseModule = await import('@supabase/supabase-js');
+      createClient = supabaseModule.createClient;
+    } catch (importError) {
+      console.error('‚ùå [SUPABASE] Impossible d\'importer @supabase/supabase-js:', importError.message);
+      console.error('   Assurez-vous que @supabase/supabase-js est install√©: npm install @supabase/supabase-js');
+      return { success: false, error: 'Module @supabase/supabase-js non disponible' };
+    }
+
+    const supabase = createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
+
+    // R√©cup√©rer tous les secrets depuis Supabase
+    const { data, error } = await supabase
+      .from('app_secrets')
+      .select('key, value');
+
+    if (error) {
+      console.error('‚ùå [SUPABASE] Erreur lors du chargement:', error.message);
+      console.error('   Code:', error.code);
+      console.error('   D√©tails:', error.details);
+      
+      // Si la table n'existe pas, sugg√©rer de cr√©er la table
+      if (error.code === 'PGRST116' || error.message.includes('does not exist')) {
+        console.error('\n‚ö†Ô∏è  [SUPABASE] La table app_secrets n\'existe pas!');
+        console.error('   Ex√©cutez le script SQL: scripts/supabase/create-app-secrets-table.sql');
+      }
+      
+      return { success: false, error: error.message };
+    }
+
+    if (!data || data.length === 0) {
+      console.error('‚ùå [SUPABASE] Aucun secret trouv√© dans la table app_secrets');
+      console.error('   V√©rifiez que les secrets sont bien ins√©r√©s dans Supabase');
+      return { success: false, error: 'Aucun secret trouv√©' };
+    }
+
+    // Secrets loaded
+
+    // Charger les secrets dans process.env
+    const secrets = {};
+    let loadedCount = 0;
+    
+    for (const secret of data) {
+      process.env[secret.key] = secret.value;
+      secrets[secret.key] = secret.value;
+      loadedCount++;
+      
+      // Masquer les valeurs sensibles dans les logs
+      const isSecret = secret.key.includes('SECRET') || secret.key.includes('TOKEN');
+      const displayValue = isSecret 
+        ? (secret.value ? `***masqu√©*** (${secret.value.length} chars)` : '(vide)')
+        : (secret.value ? (secret.value.length > 30 ? secret.value.substring(0, 30) + '...' : secret.value) : '(vide)');
+      
+      const status = secret.value ? '‚úÖ' : '‚ö†Ô∏è ';
+      console.log(`   ${status} ${secret.key} = ${displayValue}`);
+    }
+
+
+    // V√©rifier les variables critiques Discord
+    const criticalVars = {
+      'DISCORD_CLIENT_ID': process.env.DISCORD_CLIENT_ID,
+      'DISCORD_CLIENT_SECRET': process.env.DISCORD_CLIENT_SECRET,
+      'DISCORD_TOKEN': process.env.DISCORD_TOKEN,
+      'DISCORD_GUILD_ID': process.env.DISCORD_GUILD_ID
+    };
+
+    let missingCritical = false;
+    
+    for (const [key, value] of Object.entries(criticalVars)) {
+      if (!value || value.trim() === '') {
+        console.log(`   ‚ùå ${key} - MANQUANT ou VIDE`);
+        missingCritical = true;
+      } else {
+      }
+    }
+
+    if (missingCritical) {
+      console.log('\n‚ö†Ô∏è  [SUPABASE] ATTENTION: Des secrets Discord sont manquants!');
+      console.log('    V√©rifiez la table app_secrets dans Supabase');
+      console.log('    Ou utilisez le fichier .env en fallback\n');
+      return { success: false, error: 'Secrets critiques manquants', secrets };
+    }
+
+    console.log('');
+    return { success: true, secrets };
+
+  } catch (error) {
+    console.error('‚ùå [SUPABASE] Erreur lors du chargement:', error.message);
+    if (error.stack) {
+      console.error('Stack:', error.stack);
+    }
+    return { success: false, error: error.message };
+  }
+}
+
+// ============================================
+// üîê CHARGEMENT DES SECRETS (SUPABASE en priorit√©, .env en fallback)
+// ============================================
+async function loadSecrets() {
+  // Priorit√© 1 : TOUJOURS essayer Supabase en premier (m√™me si variables d√©j√† charg√©es)
+  try {
+    // Code Supabase int√©gr√© directement (pas d'import externe)
+    const result = await loadSecretsFromSupabase();
+    
+    if (result.success) {
+      // Les secrets de Supabase ont √©cras√© ceux du .env - parfait !
+      return true;
+    } else {
+      console.warn('‚ö†Ô∏è  [SECRETS] √âchec du chargement depuis Supabase');
+      console.warn('   Raison:', result.error || 'Inconnue');
+      console.warn('   Fallback vers fichier .env...');
+    }
+  } catch (error) {
+    console.warn('‚ö†Ô∏è  [SECRETS] Erreur lors du chargement depuis Supabase:', error.message);
+    if (error.stack) {
+      console.warn('   Stack:', error.stack);
+    }
+    console.warn('   Fallback vers fichier .env...');
+  }
+  
+  // Priorit√© 2 : Fallback vers fichier .env (seulement si Supabase a √©chou√©)
+  const alreadyLoaded = !!process.env.DISCORD_CLIENT_ID && 
+                        !!process.env.DISCORD_CLIENT_SECRET &&
+                        !!process.env.DISCORD_TOKEN;
+  
+  if (alreadyLoaded) {
+    console.log('  DISCORD_GUILD_ID:', process.env.DISCORD_GUILD_ID || '‚ùå');
+    return true;
+  }
+  
+  return loadEnvFile();
+}
+
+// üîß Fonction pour charger .env SANS √âCRASER les variables existantes (FALLBACK)
+function loadEnvFile() {
+  console.log('üîç [ENV] V√©rification des variables d\'environnement...');
+  
+  // V√©rifier si les variables critiques sont d√©j√† charg√©es
+  const alreadyLoaded = !!process.env.DISCORD_CLIENT_ID && 
+                        !!process.env.DISCORD_CLIENT_SECRET &&
+                        !!process.env.DISCORD_TOKEN;
+  
+  if (alreadyLoaded) {
+    console.log('‚úÖ [ENV] Variables d√©j√† charg√©es par le processus parent!');
+    console.log('üîê [ENV] √âtat des variables:');
+    console.log('  DISCORD_CLIENT_ID:', process.env.DISCORD_CLIENT_ID ? '‚úÖ' : '‚ùå');
+    console.log('  DISCORD_CLIENT_SECRET:', process.env.DISCORD_CLIENT_SECRET ? '‚úÖ ***' : '‚ùå');
+    console.log('  DISCORD_TOKEN:', process.env.DISCORD_TOKEN ? '‚úÖ ***' : '‚ùå');
+    console.log('  DISCORD_GUILD_ID:', process.env.DISCORD_GUILD_ID || '‚ùå');
+    return true;
+  }
+  
+  console.log('‚ö†Ô∏è  [ENV] Variables non charg√©es, tentative de chargement...');
+  
+  // Chemins possibles pour le .env
+  const envPaths = [
+    process.env.ENV_FILE_PATH, // Pass√© depuis main.js
+    path.join(process.env.APPDATA || '', 'actoris-launcher', '.env'),
+    path.resolve(__dirname, '.env'),
+    path.resolve(__dirname, '..', '.env')
+  ].filter(Boolean);
+
+  console.log('üìÇ [ENV] Chemins test√©s:', envPaths);
+
+  for (const envPath of envPaths) {
+    if (fs.existsSync(envPath)) {
+      console.log(`‚úÖ [ENV] Fichier trouv√©: ${envPath}`);
+      
+      try {
+        // ============================================
+        // üîß D√âTECTION ET CORRECTION AUTOMATIQUE
+        // ============================================
+        const buffer = fs.readFileSync(envPath);
+        const fileSize = buffer.length;
+        console.log(`üìÑ [ENV] Taille: ${fileSize} octets`);
+        
+        let content;
+        let needsFix = false;
+        let fixed = false;
+        
+        // D√©tecter et corriger le BOM UTF-8 (EF BB BF)
+        if (buffer.length >= 3 && buffer[0] === 0xEF && buffer[1] === 0xBB && buffer[2] === 0xBF) {
+          console.log('‚ö†Ô∏è  [ENV] BOM UTF-8 d√©tect√© - Correction automatique...');
+          content = buffer.slice(3).toString('utf8'); // Enlever le BOM
+          needsFix = true;
+        }
+        // D√©tecter UTF-16 LE (FF FE)
+        else if (buffer.length >= 2 && buffer[0] === 0xFF && buffer[1] === 0xFE) {
+          console.log('‚ö†Ô∏è  [ENV] UTF-16 LE d√©tect√© - Conversion en UTF-8...');
+          content = buffer.toString('utf16le');
+          needsFix = true;
+        }
+        // D√©tecter UTF-16 BE (FE FF)
+        else if (buffer.length >= 2 && buffer[0] === 0xFE && buffer[1] === 0xFF) {
+          console.log('‚ö†Ô∏è  [ENV] UTF-16 BE d√©tect√© - Conversion en UTF-8...');
+          // Inverser les bytes puis d√©coder
+          const swapped = Buffer.from(buffer);
+          for (let i = 0; i < swapped.length - 1; i += 2) {
+            const temp = swapped[i];
+            swapped[i] = swapped[i + 1];
+            swapped[i + 1] = temp;
+          }
+          content = swapped.toString('utf16le');
+          needsFix = true;
+        }
+        // Pas de BOM - lecture normale
+        else {
+          console.log('‚úÖ [ENV] Encodage UTF-8 sans BOM (correct)');
+          content = buffer.toString('utf8');
+        }
+        
+        // Enlever le BOM UTF-8 invisible si pr√©sent dans la cha√Æne
+        if (content && content.charCodeAt(0) === 0xFEFF) {
+          console.log('üîß [ENV] Suppression du BOM UTF-8 (caract√®re invisible)...');
+          content = content.substring(1);
+          needsFix = true;
+        }
+        
+        // Si correction n√©cessaire, r√©√©crire le fichier en UTF-8 sans BOM
+        if (needsFix && content) {
+          try {
+            // Cr√©er un backup
+            const backupPath = `${envPath}.backup`;
+            if (fs.existsSync(envPath) && !fs.existsSync(backupPath)) {
+              fs.copyFileSync(envPath, backupPath);
+              console.log(`üíæ [ENV] Backup cr√©√©: ${backupPath}`);
+            }
+            
+            // R√©√©crire en UTF-8 sans BOM
+            fs.writeFileSync(envPath, content, { encoding: 'utf8' });
+            console.log('‚úÖ [ENV] Fichier corrig√© et sauvegard√© en UTF-8 sans BOM');
+            fixed = true;
+          } catch (writeError) {
+            console.error('‚ùå [ENV] Erreur lors de la r√©√©criture:', writeError.message);
+            // Continuer quand m√™me avec le contenu en m√©moire
+          }
+        }
+        
+        console.log('üìÑ [ENV] Aper√ßu (premiers 100 chars):', content.substring(0, 100).replace(/\n/g, '\\n'));
+        
+        // Essayer d'abord avec dotenv
+        let dotenvSuccess = false;
+        try {
+          const result = dotenv.config({ 
+            path: envPath, 
+            override: false
+          });
+          
+          if (!result.error) {
+            // V√©rifier si dotenv a r√©ellement charg√© des variables
+            const testVars = ['DISCORD_CLIENT_ID', 'DISCORD_CLIENT_SECRET', 'DISCORD_TOKEN'];
+            const loadedCount = testVars.filter(v => process.env[v]).length;
+            
+            if (loadedCount > 0) {
+              console.log(`‚úÖ [ENV] dotenv a charg√© ${loadedCount} variables critiques`);
+              dotenvSuccess = true;
+            } else {
+              console.warn('‚ö†Ô∏è  [ENV] dotenv n\'a pas charg√© de variables - parsing manuel...');
+            }
+          }
+        } catch (dotenvError) {
+          console.warn('‚ö†Ô∏è  [ENV] Erreur dotenv:', dotenvError.message);
+        }
+        
+        // Si dotenv n'a pas fonctionn√©, parser manuellement
+        if (!dotenvSuccess && content) {
+          console.log('üîß [ENV] Parsing manuel du fichier .env...');
+          const lines = content.split(/\r?\n/);
+          let varCount = 0;
+          const variables = {};
+          
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            
+            // Ignorer commentaires et lignes vides
+            if (!line || line.startsWith('#')) {
+              continue;
+            }
+            
+            // Parser KEY=VALUE (plus strict)
+            const match = line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);
+            if (match) {
+              const key = match[1];
+              let value = match[2].trim();
+              
+              // Enlever les guillemets
+              if ((value.startsWith('"') && value.endsWith('"')) || 
+                  (value.startsWith("'") && value.endsWith("'"))) {
+                value = value.slice(1, -1);
+              }
+              
+              if (key && !process.env[key]) {
+                process.env[key] = value;
+                variables[key] = value;
+                varCount++;
+              }
+            }
+          }
+          
+          console.log(`‚úÖ [ENV] ${varCount} variables pars√©es manuellement`);
+          
+          if (varCount > 0) {
+            console.log('üìã [ENV] Variables charg√©es:');
+            for (const [key, value] of Object.entries(variables)) {
+              const isSecret = key.includes('SECRET') || key.includes('TOKEN');
+              const displayValue = isSecret 
+                ? (value ? `***masqu√©*** (${value.length} chars)` : '(vide)')
+                : (value ? (value.length > 30 ? value.substring(0, 30) + '...' : value) : '(vide)');
+              const status = value ? '‚úÖ' : '‚ö†Ô∏è ';
+              console.log(`   ${status} ${key} = ${displayValue}`);
+            }
+          }
+        }
+        
+        // V√©rifier les variables critiques
+        console.log('\nüîê [ENV] V√©rification des secrets Discord:');
+        const criticalVars = {
+          'DISCORD_CLIENT_ID': process.env.DISCORD_CLIENT_ID,
+          'DISCORD_CLIENT_SECRET': process.env.DISCORD_CLIENT_SECRET,
+          'DISCORD_TOKEN': process.env.DISCORD_TOKEN,
+          'DISCORD_GUILD_ID': process.env.DISCORD_GUILD_ID
+        };
+        
+        let missingCritical = false;
+        for (const [key, value] of Object.entries(criticalVars)) {
+          if (!value || value.trim() === '') {
+            console.log(`   ‚ùå ${key} - MANQUANT ou VIDE`);
+            missingCritical = true;
+          } else {
+            const isSecret = key.includes('SECRET') || key.includes('TOKEN');
+            console.log(`   ‚úÖ ${key} - OK${isSecret ? ' (masqu√©)' : ''}`);
+          }
+        }
+        
+        if (missingCritical) {
+          console.log('\n‚ö†Ô∏è  [ENV] ATTENTION: Des secrets Discord sont manquants!');
+          console.log('    L\'authentification Discord ne fonctionnera pas.');
+          console.log(`    √âditez le fichier: ${envPath}`);
+          console.log('    Ou utilisez: scripts/setup-secrets.ps1\n');
+          return false;
+        }
+        
+        // Afficher quelques autres variables
+        const otherVars = ['PORT', 'WS_PORT', 'DISCORD_REDIRECT_URI', 'API_URL'];
+        const otherVarsFound = otherVars.filter(v => process.env[v]);
+        if (otherVarsFound.length > 0) {
+          console.log('\nüìã [ENV] Autres variables:');
+          for (const key of otherVarsFound) {
+            console.log(`   ${key}: ${process.env[key]}`);
+          }
+        }
+        
+        if (fixed) {
+          console.log('\n‚úÖ [ENV] Encodage corrig√© automatiquement au d√©marrage');
+        }
+        
+        console.log('');
+        return true;
+        
+      } catch (error) {
+        console.error(`‚ùå [ENV] Erreur lors du chargement:`, error.message);
+        if (error.stack) {
+          console.error(error.stack);
+        }
+      }
+    } else {
+      console.log(`‚ùå [ENV] Fichier non trouv√©: ${envPath}`);
+    }
+  }
+  
+  console.error('‚ùå [ENV] Aucun fichier .env trouv√©!');
+  return false;
+}
+
+// ============================================
+// üîê CHARGEMENT DES SECRETS EN PREMIER (BLOQUANT)
+// ============================================
+// ‚ö†Ô∏è CRITIQUE : Charger les secrets AVANT d'importer discord-auth-api.js
+// pour que process.env soit rempli avec les secrets Supabase
+await loadSecrets();
+
+// ============================================
+// üîê IMPORT DYNAMIQUE DES ROUTERS APR√àS CHARGEMENT DES SECRETS
+// ============================================
+// ‚ö†Ô∏è CRITIQUE : Importer discord-auth-api.js APR√àS loadSecrets()
+// pour que process.env soit rempli avec les secrets Supabase
+async function loadDiscordAuthRouter() {
+  try {
+    // Essayer d'abord le chemin relatif depuis le m√™me dossier
+    const routerModule = await import("./server/discord-auth-api.js");
+    discordAuthRouter = routerModule.default || routerModule;
+    return true;
+  } catch (err) {
+    try {
+      // Si √ßa √©choue, essayer depuis le r√©pertoire parent
+      const routerModule = await import("../server/discord-auth-api.js");
+      discordAuthRouter = routerModule.default || routerModule;
+      return true;
+    } catch (err2) {
+      try {
+        // Si √ßa √©choue encore, essayer avec le chemin absolu converti en URL file://
+        const serverPath = path.join(__dirname, "server", "discord-auth-api.js");
+        const apiUrl = pathToFileURL(serverPath);
+        console.log('[Backend] üîç Tentative d\'import depuis:', apiUrl);
+        const routerModule = await import(apiUrl);
+        discordAuthRouter = routerModule.default || routerModule;
+        return true;
+      } catch (err3) {
+        console.error('[Backend] ‚ùå Impossible de charger discord-auth-api.js');
+        console.error('[Backend] ‚ùå __dirname:', __dirname);
+        console.error('[Backend] ‚ùå Erreur 1:', err?.message);
+        console.error('[Backend] ‚ùå Erreur 2:', err2?.message);
+        console.error('[Backend] ‚ùå Erreur 3:', err3?.message);
+        return false;
+      }
+    }
+  }
+}
+
+// Charger le router Discord APR√àS les secrets
+await loadDiscordAuthRouter();
+
 const app = express();
-app.use(express.json());
-
-// Initialiser le serveur WebSocket
-// Cr√©er le serveur HTTP avec Express
 const server = http.createServer(app);
 
-// Cr√©er le serveur WebSocket attach√© au serveur HTTP
-const wss = new WebSocket.Server({ server });
-let launchers = [];
+// Middleware de compression (17,541 KiB √©conomis√©s)
+import compression from 'compression';
+app.use(compression({
+  level: 6, // Niveau de compression optimal
+  filter: (req, res) => {
+    // Compresser seulement les r√©ponses textuelles
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  },
+  threshold: 1024 // Compresser seulement les fichiers > 1KB
+}));
 
-// Initialiser le client Discord
-const client = new Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent
-    ]
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Headers pour am√©liorer les performances et le cache bfcache
+app.use((req, res, next) => {
+  // Headers pour am√©liorer les performances
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  
+  // Headers pour permettre le bfcache (back/forward cache)
+  // Ne pas utiliser unswallowed unload listeners
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  
+  // Headers pour le cache et les performances (optimis√© par type de ressource)
+  const path = req.path.toLowerCase();
+  if (path.match(/\.(js|css|png|jpg|jpeg|webp|svg|woff|woff2|ico)$/)) {
+    // Assets statiques - cache long terme (1 an) avec immutable
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  } else if (path.match(/\.(html|json)$/) || path === '/') {
+    // HTML et JSON - pas de cache pour toujours avoir la derni√®re version
+    res.setHeader('Cache-Control', 'no-cache, must-revalidate, max-age=0');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  } else {
+    // Autres ressources - cache court terme (1 heure)
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+  }
+  
+  // Headers pour HTTP/2 Server Push (si support√©) - seulement pour les ressources critiques
+  if (path === '/' || path.match(/\.html$/)) {
+    res.setHeader('Link', '</actoris-logo.png>; rel=preload; as=image; fetchpriority=high, </src/index.css>; rel=preload; as=style');
+  }
+  
+  next();
 });
 
-// ==================== FONCTIONS UTILITAIRES ====================
-
-// Fonction pour rÈcupÈrer les informations d'un jeu Steam
-async function getGameInfo(steamUrl) {
-    try {
-        // Essayer d'abord la version franÁaise
-        const frenchUrl = steamUrl.replace('/app/', '/app/').replace('?', '?l=french&');
-        let response = await axios.get(frenchUrl);
-        let $ = cheerio.load(response.data);
-        
-        let title = $('.apphub_AppName').text().trim() || $('title').text().trim();
-        let description = $('.game_description_snippet').text().trim();
-        let image = $('.game_header_image_full').attr('src') || $('.apphub_AppIcon img').attr('src');
-        
-        // Si pas de description en franÁais, essayer la version anglaise
-        if (!description || description.length < 10) {
-            response = await axios.get(steamUrl);
-            $ = cheerio.load(response.data);
-            description = $('.game_description_snippet').text().trim();
-        }
-        
-        // Si toujours pas de description, utiliser une description par dÈfaut
-        if (!description || description.length < 10) {
-            description = 'Description non disponible sur Steam';
-        }
-        
-        return {
-            title: title || 'Titre non trouvÈ',
-            description: description,
-            image: image || null
-        };
-    } catch (error) {
-        console.error('Erreur lors de la rÈcupÈration des infos du jeu:', error);
-        return null;
+// Route de sant√© (IMPORTANT: doit √™tre accessible rapidement, AVANT les autres routes)
+app.get("/health", (req, res) => {
+  console.log(`[Backend Server] üì• Requ√™te /health re√ßue`);
+  res.status(200).json({ 
+    status: 'ok', 
+    message: 'Backend is running',
+    timestamp: new Date().toISOString(),
+    env: {
+      hasClientId: !!process.env.DISCORD_CLIENT_ID,
+      hasClientSecret: !!process.env.DISCORD_CLIENT_SECRET,
+      hasToken: !!process.env.DISCORD_TOKEN,
+      hasGuildId: !!process.env.DISCORD_GUILD_ID
     }
-}
-
-// Fonction pour crÈer l'embed de suggestion
-function createSuggestionEmbed(gameName, description, link, image, status = 'pending', moderator = null, reason = null) {
-    const embed = new EmbedBuilder()
-        .setTitle(status === 'pending' ? '?? NOUVELLE SUGGESTION' : 
-                 status === 'accepted' ? '? SUGGESTION ACCEPT…E' : '? SUGGESTION REFUS…E')
-        .setColor(status === 'pending' ? '#FFA500' : status === 'accepted' ? '#00FF00' : '#FF0000')
-        .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
-        .setDescription(`**?? ${gameName}**\n\n${description}`)
-        .addFields(
-            { name: '?? Lien Steam', value: `[Cliquez ici pour voir le jeu](${link})`, inline: false }
-        )
-        .setFooter({ 
-            text: status === 'pending' ? 'En attente de modÈration' : 
-                  status === 'accepted' ? 'Suggestion approuvÈe par l\'Èquipe' : 'Suggestion refusÈe',
-            iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
-        })
-        .setTimestamp();
-
-    if (image) {
-        embed.setImage(image);
-    }
-
-    if (status !== 'pending') {
-        embed.addFields(
-            { name: '?? Statut', value: status === 'accepted' ? '? **AcceptÈe**' : '? **RefusÈe**', inline: true },
-            { name: '?? ModÈrateur', value: `**${moderator || 'Inconnu'}**`, inline: true },
-            { name: '? TraitÈ le', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true }
-        );
-        
-        if (reason) {
-            embed.addFields({ 
-                name: '?? Raison du refus', 
-                value: `\`\`\`${reason}\`\`\``, 
-                inline: false 
-            });
-        }
-    } else {
-        embed.addFields(
-            { name: '? CrÈÈ le', value: `<t:${Math.floor(Date.now() / 1000)}:F>`, inline: true },
-            { name: '?? ID', value: `${Date.now().toString().slice(-6)}`, inline: true }
-        );
-    }
-
-    return embed;
-}
-
-// ==================== GESTION WEBSOCKET ====================
-
-wss.on("connection", ws => {
-    console.log("? Launcher connectÈ !");
-    launchers.push(ws);
-
-    // Envoyer un message de bienvenue
-    ws.send(JSON.stringify({
-        type: 'welcome',
-        message: 'Connexion Ètablie avec le serveur'
-    }));
-
-    ws.on("close", () => {
-        console.log("? Launcher dÈconnectÈ");
-        launchers = launchers.filter(l => l !== ws);
-    });
-
-    ws.on("error", (error) => {
-        console.error("? Erreur WebSocket:", error);
-    });
-
-    // …couter les messages du launcher
-    ws.on("message", (data) => {
-        try {
-            const message = JSON.parse(data.toString());
-            console.log("?? Message reÁu du launcher:", message);
-            
-            // Traiter les diffÈrents types de messages
-            if (message.type === 'ping') {
-                ws.send(JSON.stringify({ type: 'pong' }));
-            }
-        } catch (error) {
-            console.error("? Erreur lors du parsing du message:", error);
-        }
-    });
+  });
 });
 
-// ==================== API EXPRESS ====================
-
-// API pour crÈer un ticket depuis le launcher
-app.post("/create-ticket", async (req, res) => {
-    try {
-        const { discord_id, username, message } = req.body;
-
-        if (!discord_id || !username || !message) {
-            return res.status(400).json({ 
-                success: false, 
-                error: "ParamËtres manquants: discord_id, username, message requis" 
-            });
-        }
-
-        const guild = client.guilds.cache.get(config.GUILD_ID);
-        
-        if (!guild) {
-            return res.status(404).json({ 
-                success: false, 
-                error: "Guild introuvable" 
-            });
-        }
-
-        // VÈrifier si un salon ticket existe dÈj‡
-        let channel = guild.channels.cache.find(ch => ch.name === `ticket-${discord_id}`);
-
-        if (!channel) {
-            // CrÈer le salon ticket
-            channel = await guild.channels.create({
-                name: `ticket-${discord_id}`,
-                type: 0, // text channel
-                permissionOverwrites: [
-                    {
-                        id: guild.roles.everyone.id,
-                        deny: ['ViewChannel']
-                    },
-                    {
-                        id: discord_id,
-                        allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory']
-                    },
-                    {
-                        id: config.ADMIN_ROLE_ID,
-                        allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory', 'ManageMessages']
-                    }
-                ]
-            });
-            console.log(`? Salon ticket crÈÈ: ${channel.name}`);
-        }
-
-        // Envoyer le message dans le ticket
-        await channel.send(`**${username}** : ${message}`);
-        
-        console.log(`? Message envoyÈ dans le ticket ${channel.name}`);
-        
-        res.json({ 
-            success: true, 
-            channelId: channel.id,
-            channelName: channel.name
-        });
-    } catch (error) {
-        console.error("? Erreur lors de la crÈation du ticket:", error);
-        res.status(500).json({ 
-            success: false, 
-            error: error.message || "Erreur serveur" 
-        });
-    }
+// Middleware de logging pour toutes les requ√™tes
+app.use((req, res, next) => {
+  next();
 });
 
-// Endpoint pour vÈrifier le statut du serveur
-app.get("/status", (req, res) => {
-    res.json({
-        success: true,
-        websocket: {
-            connected: launchers.length,
-            port: 8080
-        },
-        api: {
-            port: 3001,
-            status: "running"
-        },
-        discord: {
-            connected: client.isReady(),
-            guilds: client.guilds.cache.size
-        }
-    });
-});
-
-// DÈmarrer le serveur Express
-app.listen(3001, '0.0.0.0', () => {
-    console.log("? API Express prÍte sur le port 3001 !");
-    console.log("?? WebSocket serveur prÍt sur le port 8080 !");
-});
-
-// ==================== …V…NEMENTS DISCORD ====================
-
-// Utiliser clientReady au lieu de ready pour Èviter l'avertissement de dÈprÈciation
-// (discord.js v14+ supporte dÈj‡ clientReady, ready sera supprimÈ dans v15)
-client.once('clientReady', () => {
-    console.log(`? Bot connectÈ en tant que ${client.user.tag}!`);
-});
-
-// Gestion des interactions
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isButton() && !interaction.isModalSubmit() && !interaction.isStringSelectMenu()) return;
-
-    // SystËme de suggestions
-    if (interaction.customId === 'create_suggestion') {
-        const modal = new ModalBuilder()
-            .setCustomId('suggestion_modal')
-            .setTitle('? CrÈer une suggestion de jeu');
-
-        const gameNameInput = new TextInputBuilder()
-            .setCustomId('game_name')
-            .setLabel('Nom du jeu')
-            .setStyle(TextInputStyle.Short)
-            .setRequired(true)
-            .setPlaceholder('Entrez le nom du jeu...');
-
-        const gameLinkInput = new TextInputBuilder()
-            .setCustomId('game_link')
-            .setLabel('Lien du jeu (Steam, Epic, etc.)')
-            .setStyle(TextInputStyle.Short)
-            .setRequired(true)
-            .setPlaceholder('https://store.steampowered.com/app/...');
-
-        modal.addComponents(
-            new ActionRowBuilder().addComponents(gameNameInput),
-            new ActionRowBuilder().addComponents(gameLinkInput)
-        );
-
-        await interaction.showModal(modal);
-    }
-
-    // Traitement du formulaire de suggestion
-    if (interaction.customId === 'suggestion_modal') {
-        await interaction.deferReply({ ephemeral: true });
-
-        const gameName = interaction.fields.getTextInputValue('game_name');
-        const gameLink = interaction.fields.getTextInputValue('game_link');
-
-        try {
-            let gameImage = null;
-            let gameDescription = 'Description non disponible';
-            
-            // RÈcupÈrer les infos du jeu si c'est un lien Steam
-            if (gameLink.includes('steampowered.com')) {
-                const gameInfo = await getGameInfo(gameLink);
-                if (gameInfo) {
-                    gameDescription = gameInfo.description;
-                    if (gameInfo.image) gameImage = gameInfo.image;
-                }
-            }
-
-            // Envoyer UNE SEULE suggestion
-            const embed = createSuggestionEmbed(gameName, gameDescription, gameLink, gameImage);
-            const viewChannel = client.channels.cache.get(config.VIEW_SUGGESTIONS_CHANNEL);
-            
-            if (viewChannel) {
-                const message = await viewChannel.send({ embeds: [embed] });
-                
-                // Ajouter les boutons d'action pour les admins
-                const actionRow = new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setCustomId(`accept_suggestion_${message.id}`)
-                            .setLabel('? Accepter')
-                            .setStyle(ButtonStyle.Success),
-                        new ButtonBuilder()
-                            .setCustomId(`reject_suggestion_${message.id}`)
-                            .setLabel('? Refuser')
-                            .setStyle(ButtonStyle.Danger)
-                    );
-                
-                await message.edit({ components: [actionRow] });
-            }
-
-            await interaction.editReply('? Votre suggestion a ÈtÈ envoyÈe avec succËs !');
-        } catch (error) {
-            console.error('Erreur lors de l\'envoi de la suggestion:', error);
-            await interaction.editReply('? Une erreur est survenue lors de l\'envoi de votre suggestion.');
-        }
-    }
-
-    // Gestion des boutons d'acceptation/refus
-    if (interaction.customId.startsWith('accept_suggestion_') || interaction.customId.startsWith('reject_suggestion_')) {
-        // VÈrifier si l'utilisateur a le rÙle admin
-        if (!interaction.member.roles.cache.has(config.ADMIN_ROLE_ID)) {
-            return await interaction.reply({ content: '? Vous n\'avez pas la permission d\'effectuer cette action.', ephemeral: true });
-        }
-
-        const messageId = interaction.customId.split('_')[2];
-        const isAccept = interaction.customId.startsWith('accept_suggestion_');
-        
-        try {
-            const message = await interaction.channel.messages.fetch(messageId);
-            const embed = message.embeds[0];
-            
-            if (isAccept) {
-                const newEmbed = createSuggestionEmbed(
-                    embed.data.fields[0].value,
-                    embed.data.fields[1].value,
-                    embed.data.fields[2].value,
-                    embed.data.image?.url,
-                    'accepted',
-                    interaction.user.tag
-                );
-                
-                await message.edit({ embeds: [newEmbed], components: [] });
-                await interaction.reply({ content: '? Suggestion acceptÈe !', ephemeral: true });
-            } else {
-                // Demander la raison du refus
-                const modal = new ModalBuilder()
-                    .setCustomId(`reject_reason_${messageId}`)
-                    .setTitle('Raison du refus');
-
-                const reasonInput = new TextInputBuilder()
-                    .setCustomId('reject_reason')
-                    .setLabel('Raison du refus')
-                    .setStyle(TextInputStyle.Paragraph)
-                    .setRequired(true)
-                    .setPlaceholder('Expliquez pourquoi cette suggestion est refusÈe...');
-
-                modal.addComponents(new ActionRowBuilder().addComponents(reasonInput));
-                await interaction.showModal(modal);
-            }
-        } catch (error) {
-            console.error('Erreur lors de la gestion de la suggestion:', error);
-            await interaction.reply({ content: '? Une erreur est survenue.', ephemeral: true });
-        }
-    }
-
-    // Traitement de la raison de refus
-    if (interaction.customId.startsWith('reject_reason_')) {
-        const messageId = interaction.customId.split('_')[2];
-        const reason = interaction.fields.getTextInputValue('reject_reason');
-        
-        try {
-            const message = await interaction.channel.messages.fetch(messageId);
-            const embed = message.embeds[0];
-            
-            const newEmbed = createSuggestionEmbed(
-                embed.data.fields[0].value,
-                embed.data.fields[1].value,
-                embed.data.fields[2].value,
-                embed.data.image?.url,
-                'rejected',
-                interaction.user.tag,
-                reason
-            );
-            
-            await message.edit({ embeds: [newEmbed], components: [] });
-            await interaction.reply({ content: '? Suggestion refusÈe !', ephemeral: true });
-        } catch (error) {
-            console.error('Erreur lors du refus de la suggestion:', error);
-            await interaction.reply({ content: '? Une erreur est survenue.', ephemeral: true });
-        }
-    }
-
-    // SystËme de tickets - CrÈer un ticket
-    if (interaction.customId === 'create_ticket') {
-        const selectMenu = new StringSelectMenuBuilder()
-            .setCustomId('ticket_category')
-            .setPlaceholder('SÈlectionnez une catÈgorie...')
-            .addOptions([
-                {
-                    label: 'Support',
-                    description: 'Pour toute demande d\'aide',
-                    value: 'support',
-                    emoji: '??'
-                },
-                {
-                    label: 'ProblËme de liens',
-                    description: 'Liens morts/corrompus',
-                    value: 'link_problem',
-                    emoji: '??'
-                },
-                {
-                    label: 'Partenariat',
-                    description: 'Demande de partenariat',
-                    value: 'partnership',
-                    emoji: '??'
-                },
-                {
-                    label: 'Autre',
-                    description: 'Autre sujet',
-                    value: 'other',
-                    emoji: '??'
-                },
-                {
-                    label: 'Candidature',
-                    description: 'Suite ‡ une rÈponse positive',
-                    value: 'application',
-                    emoji: '??'
-                }
-            ]);
-
-        const row = new ActionRowBuilder().addComponents(selectMenu);
-        
-        await interaction.reply({ 
-            content: 'Veuillez sÈlectionner une catÈgorie pour votre ticket :', 
-            components: [row], 
-            ephemeral: true 
-        });
-    }
-
-    // Gestion de la sÈlection de catÈgorie de ticket
-    if (interaction.customId === 'ticket_category') {
-        await interaction.deferReply({ ephemeral: true });
-        
-        const category = interaction.values[0];
-        const categoryNames = {
-            'support': 'Support',
-            'link_problem': 'ProblËme de liens',
-            'partnership': 'Partenariat',
-            'other': 'Autre',
-            'application': 'Candidature'
-        };
-
-        const categoryChannelIds = {
-            'support': config.TICKET_CATEGORIES.SUPPORT,
-            'link_problem': config.TICKET_CATEGORIES.LINK_PROBLEM,
-            'partnership': config.TICKET_CATEGORIES.PARTNERSHIP,
-            'other': config.TICKET_CATEGORIES.OTHER,
-            'application': config.TICKET_CATEGORIES.APPLICATION
-        };
-
-        try {
-            // Trouver la catÈgorie parent
-            const categoryChannelId = categoryChannelIds[category];
-            const parentCategory = client.channels.cache.get(categoryChannelId);
-            
-            if (!parentCategory) {
-                await interaction.editReply({ 
-                    content: `? Erreur : CatÈgorie "${categoryNames[category]}" introuvable.`, 
-                    components: [] 
-                });
-                return;
-            }
-
-            // CrÈer un salon privÈ pour le ticket
-            const ticketChannelName = `ticket-${interaction.user.username.toLowerCase()}-${Date.now().toString().slice(-4)}`;
-            
-            const ticketChannel = await interaction.guild.channels.create({
-                name: ticketChannelName,
-                type: 0, // GUILD_TEXT
-                parent: parentCategory.id,
-                permissionOverwrites: [
-                    {
-                        id: interaction.guild.roles.everyone.id,
-                        deny: ['ViewChannel']
-                    },
-                    {
-                        id: interaction.user.id,
-                        allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory']
-                    },
-                    {
-                        id: config.ADMIN_ROLE_ID,
-                        allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory', 'ManageMessages']
-                    }
-                ]
-            });
-
-            // Envoyer le message de bienvenue dans le ticket
-            const welcomeEmbed = new EmbedBuilder()
-                .setTitle(`?? Ticket - ${categoryNames[category]}`)
-                .setDescription(`**?? Utilisateur :** ${interaction.user}\n**?? CatÈgorie :** ${categoryNames[category]}\n**? CrÈÈ le :** <t:${Math.floor(Date.now() / 1000)}:F>\n\n**?? Instructions :**\nï DÈcrivez votre problËme ou votre demande en dÈtail\nï Un membre de l'Èquipe vous rÈpondra bientÙt\nï Utilisez le bouton ci-dessous pour fermer le ticket une fois rÈsolu`)
-                .setColor('#0099FF')
-                .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
-                .setFooter({ 
-                    text: 'SystËme de tickets Actoris v2', 
-                    iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
-                })
-                .setTimestamp();
-
-            const closeButton = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId(`close_ticket_${ticketChannel.id}`)
-                        .setLabel('?? Fermer le ticket')
-                        .setStyle(ButtonStyle.Danger)
-                );
-
-            await ticketChannel.send({ 
-                content: `Bonjour ${interaction.user} ! Votre ticket a ÈtÈ crÈÈ.`, 
-                embeds: [welcomeEmbed],
-                components: [closeButton]
-            });
-
-            await interaction.editReply({ 
-                content: `? Votre ticket a ÈtÈ crÈÈ : ${ticketChannel}`, 
-                components: [] 
-            });
-        } catch (error) {
-            console.error('Erreur lors de la crÈation du ticket:', error);
-            await interaction.editReply({ 
-                content: '? Une erreur est survenue lors de la crÈation de votre ticket.', 
-                components: [] 
-            });
-        }
-    }
-
-    // Gestion de la fermeture des tickets
-    if (interaction.customId.startsWith('close_ticket_')) {
-        // VÈrifier si l'utilisateur a le rÙle admin ou s'il est le crÈateur du ticket
-        const channelId = interaction.customId.split('_')[2];
-        const ticketChannel = interaction.channel;
-        
-        if (!interaction.member.roles.cache.has(config.ADMIN_ROLE_ID) && 
-            ticketChannel.name !== `ticket-${interaction.user.username.toLowerCase()}-${ticketChannel.name.split('-').pop()}`) {
-            return await interaction.reply({ 
-                content: '? Vous n\'avez pas la permission de fermer ce ticket.', 
-                ephemeral: true 
-            });
-        }
-
-        const closeEmbed = new EmbedBuilder()
-            .setTitle('?? Ticket fermÈ')
-            .setDescription(`**?? FermÈ par :** ${interaction.user}\n**? FermÈ le :** <t:${Math.floor(Date.now() / 1000)}:F>\n**?? Raison :** Ticket rÈsolu\n\n**?? Merci d'avoir utilisÈ notre systËme de tickets !**`)
-            .setColor('#FF0000')
-            .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
-            .setFooter({ 
-                text: 'Ce salon sera supprimÈ dans 5 secondes', 
-                iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
-            })
-            .setTimestamp();
-
-        await interaction.reply({ 
-            content: '?? Fermeture du ticket en cours...', 
-            ephemeral: true 
-        });
-
-        // Supprimer le salon aprËs 5 secondes
-        setTimeout(async () => {
-            try {
-                await ticketChannel.delete();
-            } catch (error) {
-                console.error('Erreur lors de la suppression du ticket:', error);
-            }
-        }, 5000);
-
-        await ticketChannel.send({ embeds: [closeEmbed] });
-    }
-});
-
-// Commandes pour initialiser les systËmes
-client.on('messageCreate', async message => {
-    if (message.content === '!setup') {
-        const suggestionsChannel = client.channels.cache.get(config.SUGGESTIONS_CHANNEL);
-        
-        if (suggestionsChannel) {
-            const embed = new EmbedBuilder()
-                .setTitle('? SystËme de Suggestions de Jeux')
-                .setDescription('**?? Comment suggÈrer un jeu :**\nï Cliquez sur le bouton ci-dessous\nï Remplissez le formulaire avec le nom et le lien du jeu\nï La description et l\'image seront rÈcupÈrÈes automatiquement depuis Steam\nï Votre suggestion sera examinÈe par l\'Èquipe de modÈration\n\n**?? Informations requises :**\nï Nom du jeu\nï Lien Steam (recommandÈ pour rÈcupÈration automatique)')
-                .setColor('#FFA500')
-                .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
-                .setFooter({ 
-                    text: 'Actoris v2 ï SystËme de suggestions', 
-                    iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
-                })
-                .setTimestamp();
-
-            const button = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('create_suggestion')
-                        .setLabel('? CrÈer une suggestion')
-                        .setStyle(ButtonStyle.Primary)
-                );
-
-            await suggestionsChannel.send({ embeds: [embed], components: [button] });
-            await message.reply('? SystËme de suggestions initialisÈ !');
-        }
-    }
-
-    if (message.content === '!setup-tickets') {
-        const ticketsChannel = client.channels.cache.get(config.TICKETS_CHANNEL);
-        
-        if (ticketsChannel) {
-            const embed = new EmbedBuilder()
-                .setTitle('?? SystËme de Tickets')
-                .setDescription('**?? Comment crÈer un ticket :**\nï Cliquez sur le bouton ci-dessous\nï SÈlectionnez la catÈgorie appropriÈe\nï Un salon privÈ sera crÈÈ pour vous\n\n**?? CatÈgories disponibles :**\nï ?? Support - Pour toute demande d\'aide\nï ?? ProblËme de liens - Liens morts/corrompus\nï ?? Partenariat - Demande de partenariat\nï ?? Autre - Autre sujet\nï ?? Candidature - Suite ‡ une rÈponse positive')
-                .setColor('#0099FF')
-                .setThumbnail('https://cdn.discordapp.com/emojis/1234567890123456789.png')
-                .setFooter({ 
-                    text: 'Actoris v2 ï SystËme de tickets', 
-                    iconURL: 'https://cdn.discordapp.com/emojis/1234567890123456789.png'
-                })
-                .setTimestamp();
-
-            const button = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('create_ticket')
-                        .setLabel('?? CrÈer un ticket')
-                        .setStyle(ButtonStyle.Primary)
-                );
-
-            await ticketsChannel.send({ embeds: [embed], components: [button] });
-            await message.reply('? SystËme de tickets initialisÈ !');
-        }
-    }
-
-    if (message.content === '!debug-channels') {
-        let debugInfo = '?? **Debug des salons :**\n\n';
-        
-        // VÈrifier les salons principaux
-        const suggestionsChannel = client.channels.cache.get(config.SUGGESTIONS_CHANNEL);
-        const viewSuggestionsChannel = client.channels.cache.get(config.VIEW_SUGGESTIONS_CHANNEL);
-        const ticketsChannel = client.channels.cache.get(config.TICKETS_CHANNEL);
-        
-        debugInfo += `**Salons principaux :**\n`;
-        debugInfo += `ï Suggestions: ${suggestionsChannel ? `? ${suggestionsChannel.name}` : '? Introuvable'}\n`;
-        debugInfo += `ï Voir suggestions: ${viewSuggestionsChannel ? `? ${viewSuggestionsChannel.name}` : '? Introuvable'}\n`;
-        debugInfo += `ï Tickets: ${ticketsChannel ? `? ${ticketsChannel.name}` : '? Introuvable'}\n\n`;
-        
-        // VÈrifier les salons de catÈgories
-        debugInfo += `**Salons de catÈgories :**\n`;
-        Object.entries(config.TICKET_CATEGORIES).forEach(([key, channelId]) => {
-            const channel = client.channels.cache.get(channelId);
-            debugInfo += `ï ${key}: ${channel ? `? ${channel.name}` : `? Introuvable (${channelId})`}\n`;
-        });
-        
-        await message.reply(debugInfo);
-    }
-
-    // Envoyer les messages Discord aux launchers connectÈs
-    if (!message.author.bot && message.channel.name.startsWith("ticket-")) {
-        const data = {
-            type: 'discord_message',
-            channel: message.channel.name,
-            author: message.author.username,
-            authorId: message.author.id,
-            content: message.content,
-            timestamp: message.createdTimestamp
-        };
-
-        // Envoyer ‡ tous les launchers connectÈs
-        launchers.forEach(ws => {
-            if (ws.readyState === WebSocket.OPEN) {
-                try {
-                    ws.send(JSON.stringify(data));
-                    console.log(`?? Message envoyÈ au launcher depuis ${message.channel.name}`);
-                } catch (error) {
-                    console.error("? Erreur lors de l'envoi au launcher:", error);
-                }
-            }
-        });
-    }
-});
-
-// Connexion Discord (seulement si le token est configurÈ)
-if (config.TOKEN && config.TOKEN.trim() !== '') {
-    client.login(config.TOKEN).catch(err => {
-        console.error('? Erreur de connexion Discord:', err);
-    });
+// ‚úÖ Enregistrer le router Discord (seulement si charg√© avec succ√®s)
+if (discordAuthRouter) {
+  app.use("/api/discord", discordAuthRouter);
 } else {
-    console.log('??  Token Discord non configurÈ. Le bot Discord ne sera pas connectÈ.');
-    console.log('??  Le serveur WebSocket fonctionne toujours sur le port 8080.');
+  console.error('[Backend] ‚ùå Router Discord non disponible - routes /api/discord d√©sactiv√©es');
 }
 
-// Gestion propre de l'arrÍt
-process.on('SIGINT', () => {
-    console.log('\n?? ArrÍt du serveur...');
+// Importer le router Rewards (r√©compenses)
+let rewardsRouter;
+try {
+  const routerModule = await import("./server/rewards-api.js");
+  rewardsRouter = routerModule.default || routerModule;
+} catch (err) {
+  try {
+    const routerModule = await import("../server/rewards-api.js");
+    rewardsRouter = routerModule.default || routerModule;
+  } catch (err2) {
+    console.error('[Backend] ‚ö†Ô∏è Impossible de charger rewards-api.js (optionnel)');
+    rewardsRouter = null;
+  }
+}
+
+// ‚úÖ Enregistrer le router Rewards (si charg√©)
+if (rewardsRouter) {
+  app.use("/api/rewards", rewardsRouter);
+}
+
+// Importer et initialiser le bot Discord pour les interactions et suggestions
+let discordSuggestionBot = null;
+
+// Fonction pour charger le module bot Discord
+async function loadDiscordBotModule() {
+  // Logs d sactiv s
+  // Logs d sactiv s
+  // Logs d√©sactiv√©s
+  
+  try {
+    // Logs d sactiv s
     
-    // Fermer toutes les connexions WebSocket
-    launchers.forEach(ws => {
-        if (ws.readyState === WebSocket.OPEN) {
-            ws.close();
-        }
-    });
+    // Essayer plusieurs chemins possibles
+    const possiblePaths = [
+      path.resolve(__dirname, "./server/discord-suggestion-bot.js"),
+      path.resolve(__dirname, "server/discord-suggestion-bot.js"),
+      path.join(__dirname, "server", "discord-suggestion-bot.js")
+    ];
     
-    // DÈconnecter le bot Discord
-    if (client.isReady()) {
-        client.destroy();
+    let botModulePath = null;
+    for (const testPath of possiblePaths) {
+      if (fs.existsSync(testPath)) {
+        botModulePath = testPath;
+        // Logs d sactiv s
+        break;
+      }
     }
     
-    process.exit(0);
+    if (!botModulePath) {
+      // Logs d sactiv s
+      // Logs d√©sactiv√©s
+      throw new Error(`Fichier discord-suggestion-bot.js non trouv√©`);
+    }
+    
+    // Logs d sactiv s
+    const fileUrl = pathToFileURL(botModulePath);
+    // Logs d sactiv s
+    
+    // Essayer l'import avec un timeout r√©duit (5s au lieu de 10s)
+    const importPromise = import(fileUrl);
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Timeout lors de l'import (5s)")), 5000)
+    );
+    
+    const botModule = await Promise.race([importPromise, timeoutPromise]);
+    
+    // V√©rifier que le module est bien charg√©
+    if (!botModule) {
+      throw new Error("Module retourn√© vide ou undefined");
+    }
+    
+    // Logs d sactiv s
+    // Logs d sactiv s
+      // Logs d√©sactiv√©s
+    // Logs d sactiv s
+    // Logs d sactiv s
+    // Logs d sactiv s
+    
+    // V√©rifier que les fonctions essentielles existent
+    if (typeof botModule.initDiscordBot !== 'function') {
+      throw new Error("initDiscordBot n'est pas une fonction dans le module");
+    }
+    
+    discordSuggestionBot = botModule;
+    // Logs d sactiv s
+    
+    // Initialiser le bot
+    // Logs d sactiv s
+    try {
+      const initResult = await botModule.initDiscordBot();
+      if (initResult) {
+        // Logs d sactiv s
+      } else {
+        // Logs d√©sactiv√©s
+        // Logs d sactiv s
+        // Logs d sactiv s
+      }
+    } catch (initErr) {
+      // Logs d sactiv s
+      // Logs d sactiv s
+      // Logs d sactiv s
+      // Ne pas retourner false ici, le module est charg√© m√™me si le bot n'est pas initialis√©
+    }
+    
+    return true;
+  } catch (err) {
+    // Logs d sactiv s
+    // Logs d sactiv s
+    // Logs d sactiv s
+    // Logs d sactiv s
+    if (err.stack) {
+      // Logs d sactiv s
+    }
+    // Logs d sactiv s
+    discordSuggestionBot = null;
+    return false;
+  }
+}
+
+// Charger le module bot Discord
+// Logs d sactiv s
+// Logs d sactiv s
+// Logs d sactiv s
+// Charger le bot en arri√®re-plan (non-bloquant pour d√©marrer le serveur plus vite)
+(async () => {
+  try {
+    const botModuleLoaded = await loadDiscordBotModule();
+    if (!botModuleLoaded) {
+    // Logs d sactiv s
+    // Logs d sactiv s
+    // Logs d sactiv s
+  } else {
+    // Logs d sactiv s
+    // Logs d sactiv s
+    if (discordSuggestionBot) {
+      // Logs d√©sactiv√©s
+    }
+  }
+} catch (err) {
+  // Logs d sactiv s
+  // Logs d sactiv s
+  // Logs d sactiv s
+    discordSuggestionBot = null;
+  }
+})();
+// Logs d sactiv s
+// Logs d sactiv s
+// Logs d sactiv s
+
+// Route pour v√©rifier l'√©tat du bot Discord
+app.get("/api/discord/bot-status", async (req, res) => {
+  try {
+    if (!discordSuggestionBot) {
+      // Logs d sactiv s
+      return res.json({
+        available: false,
+        status: 'not_loaded',
+        message: 'Module bot Discord non charg√©. V√©rifiez les logs du serveur pour plus de d√©tails.'
+      });
+    }
+    
+    // Logs d√©sactiv√©s
+    
+    // V√©rifier si le bot a une m√©thode pour v√©rifier l'√©tat
+    if (discordSuggestionBot.getBotStatus) {
+      const status = await discordSuggestionBot.getBotStatus();
+      // Logs d sactiv s
+      return res.json(status);
+    }
+    
+    // Fallback: v√©rifier si sendSuggestionWithBot existe
+    // Logs d sactiv s
+    return res.json({
+      available: !!discordSuggestionBot.sendSuggestionWithBot,
+      status: discordSuggestionBot.sendSuggestionWithBot ? 'unknown' : 'not_available',
+      message: discordSuggestionBot.sendSuggestionWithBot ? 'Bot disponible (√©tat inconnu)' : 'Bot non disponible'
+    });
+  } catch (error) {
+    // Logs d sactiv s
+    return res.status(500).json({
+      available: false,
+      status: 'error',
+      message: error.message
+    });
+  }
+});
+
+// Route pour envoyer une suggestion via le bot Discord (S√âCURIS√â - c√¥t√© serveur uniquement)
+app.post("/api/discord/send-suggestion", async (req, res) => {
+  try {
+    const { gameName, username, description, gameUrl, userId, timestamp } = req.body;
+    
+    // Validation des donn√©es
+    if (!gameName || !username || !description) {
+      return res.status(400).json({
+        success: false,
+        error: 'Donn√©es manquantes: gameName, username et description sont requis'
+      });
+    }
+
+    // Utiliser UNIQUEMENT le bot Discord (pas de fallback webhook)
+    if (!discordSuggestionBot || !discordSuggestionBot.sendSuggestionWithBot) {
+      // Logs d sactiv s
+      return res.status(503).json({
+        success: false,
+        error: 'Bot Discord non disponible. Le module bot n\'est pas charg√©. V√©rifiez les logs du serveur.'
+      });
+    }
+
+    const suggestionData = {
+      gameName: gameName.trim(),
+      username: username.trim(),
+      description: description.trim(),
+      gameUrl: gameUrl ? gameUrl.trim() : null,
+      userId: userId || null,
+      timestamp: timestamp || new Date().toISOString()
+    };
+    
+    const result = await discordSuggestionBot.sendSuggestionWithBot(suggestionData);
+    
+    if (result.success) {
+      // Logs d sactiv s
+      return res.json(result);
+    } else {
+      // Logs d sactiv s
+      return res.status(500).json({
+        success: false,
+        error: result.error || 'Erreur lors de l\'envoi de la suggestion via le bot Discord'
+      });
+    }
+  } catch (error) {
+    // Logs d sactiv s
+    return res.status(500).json({
+      success: false,
+      error: error.message || 'Erreur serveur'
+    });
+  }
+});
+
+// Route simplifi√©e pour les suggestions depuis le formulaire (nouveau endpoint)
+app.post("/api/discord/suggestion", async (req, res) => {
+  try {
+    const { userName, gameName, steamLink, timestamp } = req.body;
+    
+    // Validation des donn√©es
+    if (!gameName || !userName) {
+      return res.status(400).json({
+        success: false,
+        error: 'Donn√©es manquantes: gameName et userName sont requis'
+      });
+    }
+
+    // Utiliser UNIQUEMENT le bot Discord (pas de fallback webhook)
+    if (!discordSuggestionBot || !discordSuggestionBot.sendSuggestionWithBot) {
+      console.warn('[Discord] Bot Discord non disponible pour les suggestions');
+      return res.status(503).json({
+        success: false,
+        error: 'Bot Discord non disponible. Le module bot n\'est pas charg√©.'
+      });
+    }
+
+    // Pr√©parer les donn√©es pour le bot Discord
+    const suggestionData = {
+      gameName: gameName.trim(),
+      username: userName.trim(),
+      description: `Suggestion de jeu: ${gameName.trim()}${steamLink ? `\nLien Steam: ${steamLink.trim()}` : ''}`,
+      gameUrl: steamLink ? steamLink.trim() : null,
+      userId: null,
+      timestamp: timestamp || new Date().toISOString()
+    };
+    
+    console.log('[Discord] Envoi de suggestion:', {
+      gameName: suggestionData.gameName,
+      username: suggestionData.username,
+      hasSteamLink: !!suggestionData.gameUrl
+    });
+    
+    const result = await discordSuggestionBot.sendSuggestionWithBot(suggestionData);
+    
+    if (result.success) {
+      console.log('[Discord] ‚úÖ Suggestion envoy√©e avec succ√®s');
+      return res.json({
+        success: true,
+        message: 'Suggestion envoy√©e avec succ√®s √† Discord'
+      });
+    } else {
+      console.error('[Discord] ‚ùå Erreur lors de l\'envoi:', result.error);
+      return res.status(500).json({
+        success: false,
+        error: result.error || 'Erreur lors de l\'envoi de la suggestion via le bot Discord'
+      });
+    }
+  } catch (error) {
+    console.error('[Discord] ‚ùå Erreur lors de l\'envoi de suggestion:', error);
+    return res.status(500).json({
+      success: false,
+      error: error.message || 'Erreur serveur'
+    });
+  }
+});
+
+// üìÅ ENDPOINT : R√©cup√©rer la taille d'un fichier VikingFile
+app.post("/api/get-vikingfile-size", async (req, res) => {
+  try {
+    const { url } = req.body;
+    
+    if (!url || !url.includes('vik1ngfile.site')) {
+      return res.status(400).json({
+        success: false,
+        error: 'URL VikingFile invalide'
+      });
+    }
+    
+    console.log('[VikingFileAPI] üîç R√©cup√©ration taille pour:', url);
+    
+    // Importer axios dynamiquement
+    const axios = (await import('axios')).default;
+    
+    // R√©cup√©rer la page VikingFile
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+      },
+      timeout: 10000,
+      maxRedirects: 5
+    });
+    
+    const html = response.data;
+    
+    // Patterns pour extraire la taille depuis le HTML VikingFile
+    const sizePatterns = [
+      /(\d+(?:\.\d+)?)\s*(MB|GB|KB)/gi,
+      /Size[:\s]*(\d+(?:\.\d+)?)\s*(MB|GB|KB)/gi,
+      /Taille[:\s]*(\d+(?:\.\d+)?)\s*(MB|GB|KB)/gi,
+      /(\d+(?:\.\d+)?)\s*(Mo|Go|Ko)/gi,
+      /"size"[:\s]*"([^"]+)"/gi,
+      /class="size"[^>]*>([^<]+)</gi,
+      /id="size"[^>]*>([^<]+)</gi,
+      /<span[^>]*>(\d+(?:\.\d+)?)\s*(MB|GB|KB|Mo|Go|Ko)<\/span>/gi
+    ];
+    
+    for (const pattern of sizePatterns) {
+      const matches = [...html.matchAll(pattern)];
+      
+      for (const match of matches) {
+        const sizeValue = parseFloat(match[1]);
+        const unit = match[2] ? match[2].toUpperCase() : 'MB';
+        
+        if (sizeValue > 0) {
+          let sizeInBytes = 0;
+          
+          switch (unit) {
+            case 'KB':
+            case 'KO':
+              sizeInBytes = sizeValue * 1024;
+              break;
+            case 'MB':
+            case 'MO':
+              sizeInBytes = sizeValue * 1024 * 1024;
+              break;
+            case 'GB':
+            case 'GO':
+              sizeInBytes = sizeValue * 1024 * 1024 * 1024;
+              break;
+          }
+          
+          if (sizeInBytes > 0) {
+            console.log('[VikingFileAPI] ‚úÖ Taille trouv√©e:', sizeValue, unit, '=', sizeInBytes, 'bytes');
+            
+            return res.json({
+              success: true,
+              size: sizeInBytes,
+              sizeText: `${sizeValue} ${unit}`,
+              url: url
+            });
+          }
+        }
+      }
+    }
+    
+    // Si aucune taille trouv√©e, chercher dans le titre de la page
+    const titleMatch = html.match(/<title[^>]*>([^<]+)</i);
+    if (titleMatch) {
+      const title = titleMatch[1];
+      const titleSizeMatch = title.match(/(\d+(?:\.\d+)?)\s*(MB|GB|KB|Mo|Go|Ko)/i);
+      
+      if (titleSizeMatch) {
+        const sizeValue = parseFloat(titleSizeMatch[1]);
+        const unit = titleSizeMatch[2].toUpperCase();
+        
+        let sizeInBytes = 0;
+        switch (unit) {
+          case 'KB':
+          case 'KO':
+            sizeInBytes = sizeValue * 1024;
+            break;
+          case 'MB':
+          case 'MO':
+            sizeInBytes = sizeValue * 1024 * 1024;
+            break;
+          case 'GB':
+          case 'GO':
+            sizeInBytes = sizeValue * 1024 * 1024 * 1024;
+            break;
+        }
+        
+        if (sizeInBytes > 0) {
+          console.log('[VikingFileAPI] ‚úÖ Taille trouv√©e dans le titre:', sizeValue, unit);
+          
+          return res.json({
+            success: true,
+            size: sizeInBytes,
+            sizeText: `${sizeValue} ${unit}`,
+            url: url
+          });
+        }
+      }
+    }
+    
+    console.warn('[VikingFileAPI] ‚ö†Ô∏è Aucune taille trouv√©e dans la page');
+    return res.json({
+      success: false,
+      error: 'Taille non trouv√©e dans la page VikingFile'
+    });
+    
+  } catch (error) {
+    console.error('[VikingFileAPI] ‚ùå Erreur lors de la r√©cup√©ration:', error.message);
+    return res.status(500).json({
+      success: false,
+      error: error.message || 'Erreur lors de la r√©cup√©ration de la taille'
+    });
+  }
+});
+
+// ‚úÖ Routes de confirmation pour le launcher (depuis le site web)
+app.get("/get-locker-info", async (req, res) => {
+  try {
+    const lockerId = req.query.lockerId;
+    if (!lockerId) {
+      return res.status(400).json({ error: "lockerId manquant" });
+    }
+
+    // Importer le service Lockr de mani√®re dynamique
+    // Essayer d'abord avec un chemin relatif
+    let lockrService = null;
+    try {
+      lockrService = await import("./electron/lockr-service.js");
+    } catch (err) {
+      try {
+        // Si √ßa √©choue, essayer avec le chemin absolu converti en URL file://
+        const lockrPath = path.join(__dirname, "electron", "lockr-service.js");
+        const lockrUrl = pathToFileURL(lockrPath);
+        lockrService = await import(lockrUrl);
+      } catch (err2) {
+        // Logs d sactiv s
+        lockrService = null;
+      }
+    }
+    if (!lockrService) {
+      return res.status(500).json({ error: "Service Lockr non disponible" });
+    }
+
+    const result = await lockrService.getLockerInfo(lockerId);
+    if (result.success) {
+      res.json({ success: true, title: result.title, description: result.description });
+    } else {
+      res.status(404).json({ error: result.error || "Casier non trouv√©" });
+    }
+  } catch (err) {
+    // Logs d sactiv s
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.post("/confirm-download", async (req, res) => {
+  try {
+    const { gameId, gameName } = req.body;
+    
+    if (!gameId && !gameName) {
+      return res.status(400).json({ error: "gameId ou gameName requis" });
+    }
+
+    // Cette route est appel√©e depuis le site web
+    // Le launcher √©coute via IPC, donc on retourne juste un succ√®s
+    res.json({ success: true, message: "Confirmation re√ßue" });
+    
+    // Note: Le launcher doit √©couter les √©v√©nements IPC ou WebSocket
+    // pour recevoir cette confirmation. Cette route sert juste de confirmation HTTP.
+  } catch (err) {
+    // Logs d sactiv s
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// WebSocket Server
+const wss = new WebSocketServer({ server });
+
+wss.on("connection", (ws) => {
+  ws.on("message", (message) => {
+    try {
+      const data = JSON.parse(message.toString());
+      // √âcho pour les tests
+      if (data.type === "ping") {
+        ws.send(JSON.stringify({ type: "pong", timestamp: Date.now() }));
+      }
+    } catch (error) {
+      // Logs d sactiv s
+    }
+  });
+
+  ws.on("error", (error) => {
+    // Logs d sactiv s
+  });
+});
+
+// Route 404
+app.use((req, res) => {
+  res.status(404).json({ error: "Route non trouv√©e" });
+});
+
+// Les gestionnaires d'erreur sont d√©j√† d√©finis au d√©but du fichier
+
+// D√©marrer le serveur
+const PORT = process.env.PORT || 3001;
+
+// D√©marrer le serveur avec gestion d'erreur am√©lior√©e
+// FORCER IPv4 (127.0.0.1) pour √©viter les probl√®mes de connexion IPv6
+// Note: server est d√©j√† cr√©√© avec http.createServer(app) plus haut, on utilise server.listen() au lieu de app.listen()
+server.listen(PORT, '127.0.0.1', () => {
+  // Server started
+  console.log('  DISCORD_GUILD_ID:', process.env.DISCORD_GUILD_ID || '‚ùå MANQUANT');
+  console.log('  DISCORD_REDIRECT_URI:', process.env.DISCORD_REDIRECT_URI || '‚ùå MANQUANT');
+  // Logs d sactiv s
+  // Logs d sactiv s
+  // Logs d sactiv s
+  
+  // IMPORTANT : Notifier Electron que le serveur Express √©coute et est pr√™t
+  if (process.send) {
+    // Logs d sactiv s
+    process.send({ type: 'backend-ready', port: PORT });
+    // Logs d sactiv s
+  }
+  // Logs d√©sactiv√©s
+}).on('error', (error) => {
+  // Logs d sactiv s
+  // Logs d sactiv s
+  // Logs d sactiv s
+  if (error.code !== 'EADDRINUSE') {
+    // Logs d sactiv s
+  }
 });
 

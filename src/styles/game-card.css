@@ -1,0 +1,209 @@
+/**
+ * Styles modernes pour GameCard - CSS pur
+ */
+
+.game-card {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: var(--border-radius-xl);
+  background: linear-gradient(to bottom right, var(--bg-tertiary), var(--bg-secondary));
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-base);
+}
+
+.game-card:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 0 20px 40px rgba(6, 182, 212, 0.2);
+  transform: translateY(-12px) scale(1.03);
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(6, 182, 212, 0), rgba(6, 182, 212, 0.05), rgba(59, 130, 246, 0));
+  opacity: 0;
+  transition: opacity var(--transition-slow);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.game-card:hover::before {
+  opacity: 1;
+}
+
+.game-card-image-container {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom right, var(--bg-tertiary), var(--bg-secondary));
+  border-radius: var(--border-radius-xl);
+}
+
+.game-card-image-container.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.game-card-image-container.aspect-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.game-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--border-radius-xl);
+  transition: transform 0.7s ease-out;
+}
+
+.game-card:hover .game-card-image {
+  transform: scale(1.1);
+}
+
+.game-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.8), transparent);
+  border-radius: var(--border-radius-xl);
+  z-index: 2;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.game-card:hover .game-card-overlay {
+  opacity: 1;
+}
+
+.game-card-overlay-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem;
+  transform: translateY(1rem);
+  transition: transform var(--transition-base);
+}
+
+.game-card:hover .game-card-overlay-content {
+  transform: translateY(0);
+}
+
+.game-card-title {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.game-card-category {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  background: rgba(6, 182, 212, 0.3);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(6, 182, 212, 0.5);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+.game-card-badges {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 3;
+}
+
+.game-card-badge {
+  padding: 0.5rem;
+  backdrop-filter: blur(12px);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid;
+  transition: transform var(--transition-base);
+}
+
+.game-card-badge:hover {
+  transform: scale(1.1);
+}
+
+.game-card-badge-online {
+  background: rgba(16, 185, 129, 0.9);
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.game-card-badge-offline {
+  background: rgba(107, 114, 128, 0.9);
+  border-color: rgba(107, 114, 128, 0.5);
+}
+
+.game-card-badge-installed {
+  padding: 0.375rem 0.75rem;
+  background: linear-gradient(to right, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
+  backdrop-filter: blur(12px);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.game-card-favorite {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.625rem;
+  border-radius: var(--border-radius-md);
+  backdrop-filter: blur(12px);
+  transition: all var(--transition-base);
+  z-index: 3;
+  border: 1px solid;
+  opacity: 0;
+}
+
+.game-card:hover .game-card-favorite {
+  opacity: 1;
+}
+
+.game-card-favorite.active {
+  opacity: 1;
+  background: linear-gradient(to bottom right, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95));
+  color: var(--text-primary);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.game-card-favorite:not(.active) {
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.game-card-favorite:not(.active):hover {
+  background: rgba(239, 68, 68, 0.9);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.game-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-xl);
+  background: linear-gradient(to bottom right, var(--bg-tertiary), var(--bg-secondary));
+  font-size: 3rem;
+}
+

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion as Motion, AnimatePresence } from 'framer-motion'
+import { Motion, AnimatePresence } from './Motion'
 import { FiX, FiDownload, FiRefreshCw } from 'react-icons/fi'
 import { patchNotesService } from '../services/patchNotesService'
 
@@ -60,9 +60,28 @@ export function UpdateModal({ isOpen, onClose }) {
           throw new Error('Erreur lors de la recherche de mise à jour')
         } else {
           const data = await res.json()
+            tag_name: data.tag_name,
+            name: data.name,
+            assets_count: data.assets?.length || 0,
+            assets: data.assets?.map(a => a.name) || []
+          })
+          
           const remoteVersion = normalizeVersion(data.tag_name || data.name || '')
-          if (compareVersions(remoteVersion, CURRENT_VERSION) > 0) {
-            setRelease(data)
+          const currentVersion = CURRENT_VERSION
+            remote: remoteVersion,
+            current: currentVersion,
+            isNewer: compareVersions(remoteVersion, currentVersion) > 0
+          })
+          
+          if (compareVersions(remoteVersion, currentVersion) > 0) {
+            // Vérifier que la release a des assets
+            if (!data.assets || data.assets.length === 0) {
+              console.error('[UpdateModal] ❌ Release trouvée mais aucun asset disponible')
+              setError('La release est disponible mais aucun fichier de téléchargement n\'est présent.')
+              setRelease(null)
+            } else {
+              setRelease(data)
+            }
           } else {
             setRelease(null)
           }
@@ -87,73 +106,36 @@ export function UpdateModal({ isOpen, onClose }) {
 
   const handleDownload = async () => {
     if (!release) return
-    const asset = Array.isArray(release.assets) && release.assets.find(a => a.name.endsWith('.exe')) || release.assets[0]
+    
+      tag_name: release.tag_name,
+      assets_count: release.assets?.length || 0,
+      assets: release.assets?.map(a => ({ name: a.name, size: a.size })) || []
+    })
+    
+    // Chercher un fichier .exe dans les assets
+    let asset = null
+    if (Array.isArray(release.assets) && release.assets.length > 0) {
+      // Chercher d'abord un .exe
+      asset = release.assets.find(a => a.name && a.name.toLowerCase().endsWith('.exe'))
+      // Si pas de .exe, prendre le premier asset
+      if (!asset) {
+        asset = release.assets[0]
+        console.log('[UpdateModal] ⚠️ Aucun .exe trouvé, utilisation du premier asset:', asset.name)
+      } else {
+      }
+    }
+    
     if (!asset) {
+      console.error('[UpdateModal] ❌ Aucun asset disponible dans la release')
       setError("Aucun fichier à télécharger dans la dernière release")
       return
     }
-    try {
-      setDownloading(true)
-      setError('')
-      setDownloadMsg('Téléchargement en cours...')
-      if (window.electron?.updates?.downloadAsset) {
-        const result = await window.electron.updates.downloadAsset(asset.browser_download_url, asset.name)
-        if (result?.success) {
-          setDownloadMsg(`Téléchargé: ${result.filePath}`)
-          // Ouvrir l'écran de Patch Notes en plein écran avec vos notes custom
-          const version = release.tag_name || 'v1.0.1'
-          // Récupérer les notes depuis le service ou utiliser le body de la release
-          let notes = []
-          try {
-            // Vérifier que patchNotesService et getNotes existent
-            if (patchNotesService && typeof patchNotesService.getNotes === 'function') {
-              notes = await patchNotesService.getNotes(version)
-            } else {
-              console.warn('[UpdateModal] patchNotesService.getNotes n\'est pas disponible')
-            }
-            // Si pas de notes dans le service, utiliser le body de la release
-            if (!notes || notes.length === 0) {
-              if (release.body) {
-                notes = release.body.split('\n').filter(line => line.trim())
-              } else {
-                notes = []
-              }
-            }
-          } catch (err) {
-            console.warn('[UpdateModal] Erreur lors de la récupération des patch notes:', err)
-            // Fallback: utiliser le body de la release
-            if (release.body) {
-              notes = release.body.split('\n').filter(line => line.trim())
-            } else {
-              notes = []
-            }
-          }
-          window.dispatchEvent(new CustomEvent('show-patch-notes', { detail: { version, notes, installerPath: result.filePath } }))
-        } else {
-          const errorMsg = result?.error || 'Échec du téléchargement'
-          // Ne pas afficher "HTTP 302" car c'est normal (redirection)
-          if (!errorMsg.includes('HTTP 302')) {
-            setError(errorMsg)
-          } else {
-            setError('Erreur lors du téléchargement. Veuillez réessayer.')
-          }
-        }
-      } else {
-        // Fallback: ouvrir dans le navigateur
-        window.open(asset.browser_download_url, '_blank')
-        setDownloadMsg('Téléchargement démarré dans le navigateur')
-      }
-    } catch (e) {
-      const errorMsg = e.message || 'Erreur de téléchargement'
-      // Ne pas afficher "HTTP 302" car c'est normal (redirection)
-      if (!errorMsg.includes('HTTP 302')) {
-        setError(errorMsg)
-      } else {
-        setError('Erreur lors du téléchargement. Veuillez réessayer.')
-      }
-    } finally {
-      setDownloading(false)
-    }
+    
+    // Fermer le modal et naviguer vers la page de mise à jour
+    onClose()
+    
+    // Déclencher l'événement pour démarrer la mise à jour
+    window.dispatchEvent(new CustomEvent('start-update', { detail: { release } }))
   }
 
   return (

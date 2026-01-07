@@ -3,8 +3,8 @@
  * Usage: node scripts/check-supabase-usage.js
  */
 
-import { getGamesFromSupabase } from '../../electron/supabase-games-service.js'
-import { SUPABASE_CONFIG } from '../../electron/supabase-config.js'
+import { getGamesFromSupabase } from '../../electron/supabase-games-service.mjs'
+import { SUPABASE_CONFIG } from '../../electron/supabase-config.mjs'
 
 async function checkUsage() {
   try {

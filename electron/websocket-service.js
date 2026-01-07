@@ -46,19 +46,16 @@ let messageHandlers = []
 export function connectWebSocket(onMessage, onError, onConnect, onDisconnect, manualRetry = false) {
   // Si déjà connecté, ne rien faire
   if (ws && ws.readyState === WebSocket.OPEN) {
-    console.log('[WebSocket] Déjà connecté')
     return
   }
 
   // Si une connexion est en cours, ne rien faire
   if (isConnecting) {
-    console.log('[WebSocket] Connexion déjà en cours...')
     return
   }
 
   // Si c'est une tentative manuelle, réinitialiser les compteurs et flags
   if (manualRetry) {
-    console.log('[WebSocket] Tentative manuelle de connexion - réinitialisation des compteurs')
     consecutiveRefusedErrors = 0
     reconnectAttempts = 0
     hasReachedLimit = false
@@ -69,7 +66,6 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect, ma
     // (pas une reconnexion automatique programmée)
     if (hasReachedLimit && reconnectTimeout !== null) {
       // C'est une reconnexion automatique programmée, on l'annule
-      console.log('[WebSocket] Limite atteinte, reconnexion automatique désactivée. Utilisez une tentative manuelle.')
       return
     }
     // Si hasReachedLimit est true mais qu'il n'y a pas de reconnexion programmée,
@@ -99,13 +95,11 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect, ma
 
   isConnecting = true
   isManualDisconnect = false
-  console.log(`[WebSocket] Connexion à ${WS_URL}...`)
   
   try {
     ws = new WebSocket(WS_URL)
 
     ws.on('open', () => {
-      console.log('[WebSocket] ✅ Connecté au serveur')
       isConnecting = false
       reconnectAttempts = 0
       consecutiveRefusedErrors = 0 // Réinitialiser le compteur en cas de succès
@@ -118,7 +112,6 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect, ma
     ws.on('message', (data) => {
       try {
         const message = JSON.parse(data.toString())
-        console.log('[WebSocket] 📨 Message reçu:', message)
         
         if (onMessage) {
           onMessage(message)
@@ -169,7 +162,6 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect, ma
       
       // Ne pas reconnecter si c'est une déconnexion manuelle
       if (isManualDisconnect) {
-        console.log('[WebSocket] Déconnexion manuelle, pas de reconnexion automatique')
         return
       }
       
@@ -177,7 +169,6 @@ export function connectWebSocket(onMessage, onError, onConnect, onDisconnect, ma
       if (!hasReachedLimit && !isManualDisconnect && reconnectAttempts < MAX_RECONNECT_ATTEMPTS && consecutiveRefusedErrors < MAX_CONSECUTIVE_REFUSED) {
         reconnectAttempts++
         const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 10000) // Max 10s au lieu de 30s
-        console.log(`[WebSocket] Reconnexion dans ${delay}ms (tentative ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})...`)
         
         reconnectTimeout = setTimeout(() => {
           if (!hasReachedLimit && !isManualDisconnect && consecutiveRefusedErrors < MAX_CONSECUTIVE_REFUSED) {
@@ -246,7 +237,6 @@ export function sendWebSocketMessage(message) {
   try {
     const data = JSON.stringify(message)
     ws.send(data)
-    console.log('[WebSocket] 📤 Message envoyé:', message)
     return true
   } catch (error) {
     console.error('[WebSocket] ❌ Erreur lors de l\'envoi:', error)

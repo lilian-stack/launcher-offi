@@ -2,12 +2,11 @@
 import https from 'node:https'
 import http from 'node:http'
 import { promisify } from 'node:util'
+import { getRedirectUrl as getVercelRedirectUrlBase } from './vercel-config.js'
 
 // Configuration des URLs (à adapter selon vos besoins)
 const ADS_URL = process.env.ADS_URL || 'https://tonsite.com/pub'
 const ADS_VALIDATION_API = process.env.ADS_VALIDATION_API || 'https://tonsite.com/api/ads-status'
-// URL de redirection vers le site Vercel (ou local pour développement)
-const REDIRECT_URL = process.env.REDIRECT_URL || 'https://actoris-qneqonl9k-boyka47348-glitchs-projects.vercel.app'
 
 /**
  * Vérifier si l'utilisateur doit voir une publicité
@@ -59,46 +58,36 @@ export function getAdsUrl(gameName = null) {
 }
 
 /**
- * Obtenir l'URL de redirection après validation
+ * Obtenir l'URL de redirection après validation (avec token généré via API Vercel)
  * @param {string} gameName - Nom du jeu
  * @param {string} exePath - Chemin de l'exécutable (optionnel)
- * @param {string} gameId - ID du jeu (optionnel)
- * @returns {string} URL de redirection (utilise le protocole actoris:// pour ouvrir le launcher)
+ * @param {string} gameId - ID du jeu (requis)
+ * @param {string} userId - ID de l'utilisateur (optionnel)
+ * @returns {Promise<string>} URL de redirection avec token sécurisé
  */
-export function getRedirectUrl(gameName, exePath = null, gameId = null) {
-  // 🎯 PRIORITÉ : Utiliser le protocole personnalisé actoris:// directement
-  // Cela garantit que le launcher s'ouvre correctement avec les bons paramètres
-  let protocolUrl = `actoris://launch?game=${encodeURIComponent(gameName)}`
-  if (gameId) {
-    protocolUrl += `&gameId=${encodeURIComponent(gameId)}`
+export async function getRedirectUrl(gameName, exePath = null, gameId = null, userId = null) {
+  if (!gameId) {
+    console.error('[AdsService] ❌ gameId est requis pour générer un token')
+    // Fallback vers l'ancienne méthode si pas de gameId
+    return getVercelRedirectUrlBase(gameName, gameId)
   }
   
-  // Si REDIRECT_URL est un fichier local, construire l'URL avec les paramètres
-  if (REDIRECT_URL.startsWith('file://')) {
-    const url = new URL(REDIRECT_URL)
-    url.searchParams.append('game', encodeURIComponent(gameName))
-    if (gameId) {
-      url.searchParams.append('gameId', encodeURIComponent(gameId))
+  try {
+    // Générer un token via l'API Vercel pour un lien sécurisé et unique
+    const { generateRedirectToken } = await import('./vercel-token-service.js')
+    const tokenResult = await generateRedirectToken(gameId, gameName, userId)
+    
+    if (tokenResult.success && tokenResult.redirectUrl) {
+      return tokenResult.redirectUrl
+    } else {
+      console.error('[AdsService] ❌ Échec de la génération du token:', tokenResult.error)
+      // Fallback vers l'ancienne méthode
+      return getVercelRedirectUrlBase(gameName, gameId)
     }
-    if (exePath) {
-      url.searchParams.append('exePath', encodeURIComponent(exePath))
-    }
-    return url.toString()
-  } else if (REDIRECT_URL.startsWith('http://') || REDIRECT_URL.startsWith('https://')) {
-    // Pour les URLs HTTP/HTTPS (comme Vercel), construire l'URL avec les paramètres
-    // Le site web utilisera ensuite le protocole actoris://
-    const url = new URL(REDIRECT_URL.endsWith('/') ? REDIRECT_URL : REDIRECT_URL + '/')
-    url.searchParams.append('game', encodeURIComponent(gameName))
-    if (gameId) {
-      url.searchParams.append('gameId', encodeURIComponent(gameId))
-    }
-    if (exePath) {
-      url.searchParams.append('exePath', encodeURIComponent(exePath))
-    }
-    return url.toString()
-  } else {
-    // Pour les autres cas, utiliser le protocole personnalisé actoris:// directement
-    return protocolUrl
+  } catch (err) {
+    console.error('[AdsService] ❌ Erreur lors de la génération du token:', err)
+    // Fallback vers l'ancienne méthode
+    return getVercelRedirectUrlBase(gameName, gameId)
   }
 }
 
